@@ -25,7 +25,7 @@ class ProfileController: UIViewController {
         }
     }
     
-    var backgroundImages = [UIImage]() {
+    var backgroundImages = [BackgroundImage]() {
         didSet {
             pagerView.reloadData()
         }
@@ -158,29 +158,16 @@ class ProfileController: UIViewController {
     func fetchBackgroundImages(){
         guard let user = user else { return }
         BackgroundImageService.shared.fetchBackgroundImage(user: user) { (backgroundImages, errorString) in
-            LoadingShimmer.startCovering(self.view, with: nil)
             if let errorString = errorString {
                 self.popupDialog(title: "이용에 불편을 끼쳐드려 죄송합니다", message: errorString, image: #imageLiteral(resourceName: "loveOfMidterm"))
                 LoadingShimmer.stopCovering(self.view)
             }else {
                 guard let backgroundImages = backgroundImages else { return }
-                var images = [UIImage]()
-                for backgroundImage in backgroundImages {
-                    if let url = URL(string: backgroundImage.downloadUrl) {
-                        do {
-                            let data = try Data(contentsOf: url)
-                            let image = UIImage(data: data)
-                            guard let finalImage = image else { return }
-                            images.append(finalImage)
-                        }catch {
-                            
-                        }
-                        
-                    }
-                }
-                images.append(#imageLiteral(resourceName: "loveOfMidterm"))
-                self.backgroundImages = images
-                LoadingShimmer.stopCovering(self.view)
+                var backgroundImage = BackgroundImage(downloadUrl: "", id: "", referenceId: "", userId: "")
+                backgroundImage.image = #imageLiteral(resourceName: "loveOfMidterm")
+                var backgroundImagesTemp = backgroundImages
+                backgroundImagesTemp.append(backgroundImage)
+                self.backgroundImages = backgroundImagesTemp
             }
         }
     }
@@ -206,7 +193,7 @@ class ProfileController: UIViewController {
                 switch item {
                 case .photo(let photo):
                     if let modifiedImage = photo.modifiedImage {
-                        BackgroundImageService.shared.postBackgroundImage(image: modifiedImage) { (error, errorString) in
+                        BackgroundImageService.shared.postBackgroundImage(image: modifiedImage) { (error, errorString, backgroundImage) in
                             if let error = error {
                                 self.popupDialog(title: "업로드에 실패하였습니다", message: error.localizedDescription, image: modifiedImage)
                                 return
@@ -215,10 +202,10 @@ class ProfileController: UIViewController {
                                 self.popupDialog(title: "업로드에 실패하였습니다", message: errorString, image: modifiedImage)
                                 return
                             }
-                            self.backgroundImages.insert(modifiedImage, at: 0)
+                            self.backgroundImages.insert(backgroundImage!, at: 0)
                         }
                     }else {
-                        BackgroundImageService.shared.postBackgroundImage(image: photo.originalImage) { (error, errorString) in
+                        BackgroundImageService.shared.postBackgroundImage(image: photo.originalImage) { (error, errorString, backgroundImage) in
                             if let error = error {
                                 self.popupDialog(title: "업로드에 실패하였습니다", message: error.localizedDescription, image: photo.originalImage)
                                 return
@@ -227,7 +214,7 @@ class ProfileController: UIViewController {
                                 self.popupDialog(title: "업로드에 실패하였습니다", message: errorString, image: photo.originalImage)
                                 return
                             }
-                            self.backgroundImages.insert(photo.originalImage, at: 0)
+                            self.backgroundImages.insert(backgroundImage!, at: 0)
                         }
                         
                     }
@@ -284,7 +271,9 @@ class ProfileController: UIViewController {
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         pagerView.isInfinite = true
         pagerView.transformer = FSPagerViewTransformer(type: FSPagerViewTransformerType.crossFading)
-        backgroundImages.append(#imageLiteral(resourceName: "loveOfMidterm"))
+        var backgroundImage = BackgroundImage(downloadUrl: "", id: "", referenceId: "", userId: "")
+        backgroundImage.image = #imageLiteral(resourceName: "loveOfMidterm")
+        backgroundImages.append(backgroundImage)
         
         DispatchQueue.main.async {
             LoadingShimmer.startCovering(self.view, with: nil)
@@ -366,7 +355,14 @@ extension ProfileController:FSPagerViewDelegate, FSPagerViewDataSource {
     
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
         let cell = pagerView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, at: index)
-        cell.imageView?.image = self.backgroundImages[index]
+        var backgroundImage = self.backgroundImages[index]
+        if let image = backgroundImage.image {
+            cell.imageView?.image = image
+        }else {
+            if let url = URL(string: backgroundImage.downloadUrl) {
+                cell.imageView?.sd_setImage(with: url, completed: nil)
+            }
+        }
         cell.imageView?.contentMode = .scaleAspectFill
         return cell
     }

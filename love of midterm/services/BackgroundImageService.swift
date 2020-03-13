@@ -32,7 +32,7 @@ struct BackgroundImageService {
     }
     
     
-    func postBackgroundImage(image:UIImage, completion:@escaping(Error?, String?) -> Void){
+    func postBackgroundImage(image:UIImage, completion:@escaping(Error?, String?, BackgroundImage?) -> Void){
         guard let imageData = image.jpegData(compressionQuality: 1) else { return }
         guard let userId = Auth.auth().currentUser?.uid else { return }
         
@@ -41,11 +41,11 @@ struct BackgroundImageService {
         let backgroundImageRef = storage.child("background_images").child("\(uuid).jpg")
         let uploadTask = backgroundImageRef.putData(imageData, metadata: nil) { (metadata, error) in
             if let error = error {
-                completion(error, nil)
+                completion(error, nil, nil)
             }else {
                 backgroundImageRef.downloadURL { (url, error) in
                     if let error = error {
-                        completion(error, nil)
+                        completion(error, nil, nil)
                         return
                     }
                     let downloadUrl = url!.absoluteString
@@ -56,7 +56,7 @@ struct BackgroundImageService {
                         "referenceId": "background_images/\(uuid).jpg"
                         ], completion: { (error) in
                             if let error = error {
-                                completion(error, nil)
+                                completion(error, nil, nil)
                             }else {
                                 let backgroundImageUid = backgroundImageRef!.documentID
                                 self.db.collection("users").document(userId).updateData([
@@ -66,10 +66,11 @@ struct BackgroundImageService {
                                     "id": backgroundImageUid
                                 ]) { (error) in
                                     if let error = error {
-                                        completion(error, nil)
+                                        completion(error, nil, nil)
                                         return
                                     }
-                                    completion(nil, nil)
+                                    let backgroumdImage = BackgroundImage(downloadUrl: downloadUrl, id: backgroundImageUid, referenceId: "background_images/\(uuid).jpg", userId: userId)
+                                    completion(nil, nil, backgroumdImage)
                                 }
                             }
                     })
