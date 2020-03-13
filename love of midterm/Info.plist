@@ -59,6 +59,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>중간의 연애가 당신의 카메라에 접근하길 원합니다</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>중간의 연애가 당신의 사진첩에 접근하길 원합니다</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

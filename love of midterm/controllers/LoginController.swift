@@ -34,7 +34,7 @@ class LoginController: UIViewController {
         let bottomLine = UIView()
         let textField = UITextField()
         
-        iconView.image = #imageLiteral(resourceName: "ic_person_outline_white_2x")
+        iconView.image = #imageLiteral(resourceName: "mail")
         iconView.tintColor = .white
         view.addSubview(iconView)
         iconView.translatesAutoresizingMaskIntoConstraints = false
@@ -66,7 +66,7 @@ class LoginController: UIViewController {
         return view
     }()
     
-    lazy var passwordTextFieldContaineer:UIView = {
+    lazy var passwordTextFieldContainer:UIView = {
         let view = UIView()
         let iconView = UIImageView()
         let bottomLine = UIView()
@@ -182,17 +182,17 @@ class LoginController: UIViewController {
         emailTextFieldContainer.heightAnchor.constraint(equalToConstant: 60).isActive = true
         emailTextFieldContainer.widthAnchor.constraint(equalToConstant: view.frame.width * 0.8).isActive = true
         
-        view.addSubview(passwordTextFieldContaineer)
-        passwordTextFieldContaineer.translatesAutoresizingMaskIntoConstraints = false
-        passwordTextFieldContaineer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        passwordTextFieldContaineer.topAnchor.constraint(equalTo: emailTextFieldContainer.bottomAnchor, constant: 10).isActive = true
-        passwordTextFieldContaineer.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        passwordTextFieldContaineer.widthAnchor.constraint(equalToConstant: view.frame.width * 0.8).isActive = true
+        view.addSubview(passwordTextFieldContainer)
+        passwordTextFieldContainer.translatesAutoresizingMaskIntoConstraints = false
+        passwordTextFieldContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        passwordTextFieldContainer.topAnchor.constraint(equalTo: emailTextFieldContainer.bottomAnchor, constant: 10).isActive = true
+        passwordTextFieldContainer.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        passwordTextFieldContainer.widthAnchor.constraint(equalToConstant: view.frame.width * 0.8).isActive = true
         
         view.addSubview(loginButton)
         loginButton.translatesAutoresizingMaskIntoConstraints = false
         loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        loginButton.topAnchor.constraint(equalTo: passwordTextFieldContaineer.bottomAnchor, constant: 10).isActive = true
+        loginButton.topAnchor.constraint(equalTo: passwordTextFieldContainer.bottomAnchor, constant: 10).isActive = true
         loginButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         loginButton.widthAnchor.constraint(equalToConstant: view.frame.width * 0.8).isActive = true
         
