@@ -212,6 +212,8 @@ PODS:
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 6.0)
     - GTMSessionFetcher/Core (~> 1.1)
+  - FSPagerView (0.8.3)
+  - Fusuma (1.3.3)
   - GoogleDataTransport (4.0.1)
   - GoogleDataTransportCCTSupport (1.4.1):
     - GoogleDataTransport (~> 4.0)
@@ -248,6 +250,7 @@ PODS:
   - gRPC-Core/Interface (1.21.0)
   - GTMSessionFetcher/Core (1.3.1)
   - leveldb-library (1.22)
+  - LoadingShimmer (1.0.3)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
@@ -255,12 +258,27 @@ PODS:
   - nanopb/encode (0.3.9011)
   - PopupDialog (1.1.1):
     - DynamicBlurView (~> 4.0)
+  - PryntTrimmerView (4.0.0)
+  - SDWebImage (5.6.0):
+    - SDWebImage/Core (= 5.6.0)
+  - SDWebImage/Core (5.6.0)
+  - SteviaLayout (4.7.3)
+  - YPImagePicker (4.2.0):
+    - PryntTrimmerView (~> 4.0.0)
+    - SteviaLayout (~> 4.7.3)
+  - ZKCarousel (1.0.2)
 
 DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Firestore
   - Firebase/Storage
+  - FSPagerView
+  - Fusuma (~> 1.3.3)
+  - LoadingShimmer
   - PopupDialog (~> 1.1)
+  - SDWebImage (~> 5.0)
+  - YPImagePicker
+  - ZKCarousel
 
 SPEC REPOS:
   trunk:
@@ -275,6 +293,8 @@ SPEC REPOS:
     - FirebaseCoreDiagnosticsInterop
     - FirebaseFirestore
     - FirebaseStorage
+    - FSPagerView
+    - Fusuma
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
     - GoogleUtilities
@@ -282,8 +302,14 @@ SPEC REPOS:
     - gRPC-Core
     - GTMSessionFetcher
     - leveldb-library
+    - LoadingShimmer
     - nanopb
     - PopupDialog
+    - PryntTrimmerView
+    - SDWebImage
+    - SteviaLayout
+    - YPImagePicker
+    - ZKCarousel
 
 SPEC CHECKSUMS:
   abseil: 18063d773f5366ff8736a050fe035a28f635fd27
@@ -297,6 +323,8 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
   FirebaseFirestore: a23d596ae3a8c13d3b8353b565d2adfb690f9032
   FirebaseStorage: 6c5263796af3b1be82ed173598aade47535fe125
+  FSPagerView: 670405b2f18e2a87fa37f20b00de783e562c25a8
+  Fusuma: 3bd08c8c5341ec60c0074fa28570fea8765966f0
   GoogleDataTransport: 653963cf5be60fb59cf051e070f0836fdc305f81
   GoogleDataTransportCCTSupport: 84e4d4bbab642f2e9d83ee65d78aca2b5527d314
   GoogleUtilities: 06eb53bb579efe7099152735900dd04bf09e7275
@@ -304,9 +332,15 @@ SPEC CHECKSUMS:
   gRPC-Core: c9aef9a261a1247e881b18059b84d597293c9947
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
+  LoadingShimmer: dd681218498ec9648f572b845a7299b9c62e8e30
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   PopupDialog: 720c92befd8bc23c13442254945213db5612f149
+  PryntTrimmerView: 67e67573ffd4c073f1308effa66aefd0cfa667a0
+  SDWebImage: 21b19f56b4226cdfe3aefe4e6848dc43ed129a86
+  SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
+  YPImagePicker: accf310f9526641a84372c0ecf943547d9b1e52c
+  ZKCarousel: e54cdf2a5da6400c7e95bd6df5cbb001dc28883e
 
-PODFILE CHECKSUM: 036711175f585a90b8141697894b11e4700228c6
+PODFILE CHECKSUM: 399abb36bf70a46068d82b626aba1a6f5b7a8d4c
 
 COCOAPODS: 1.8.4

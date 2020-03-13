@@ -10,9 +10,10 @@ import Foundation
 import UIKit
 import PopupDialog
 
-
 extension UIColor {
     static let tinderColor = UIColor(red:1.00, green:0.24, blue:0.45, alpha:1.0)
+    static let tinderColor2 = UIColor(red:1.00, green:0.35, blue:0.39, alpha:1.0)
+    static let tinderColor3 = UIColor(red:1.00, green:0.40, blue:0.36, alpha:1.0)
 }
 
 extension UIViewController {
@@ -55,6 +56,12 @@ extension UINavigationController {
 
 extension UIViewController {
     
+    func makeNavigationBarTransparent(){
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default) //UIImage.init(named: "transparent.png")
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
+    }
     
     
     func popupDialog(title:String, message:String, image:UIImage){
@@ -102,5 +109,19 @@ extension UIViewController {
 
         // Present dialog
         self.present(popup, animated: true, completion: nil)
+    }
+}
+
+
+extension UIButton
+{
+    func applyGradient(colors: [CGColor])
+    {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = colors
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 0)
+        gradientLayer.frame = self.bounds
+        self.layer.insertSublayer(gradientLayer, at: 0)
     }
 }

@@ -16,9 +16,23 @@ struct UserService {
     
     static let shared = UserService()
     
+    func fetchUser(completion:@escaping(User) -> Void){
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        db.collection("users").document(uid).getDocument { (querySnapshot, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            guard let data = querySnapshot!.data() else { return }
+            let user = User(data: data)
+            completion(user)
+        }
+    }
+    
     func requestToNewUser(email:String, password:String, profileImage:UIImage, username:String, completion:@escaping(Error?, String?) -> Void){
         let profileImageUidString = UUID().uuidString
-        let profileImageRef = storage.reference().child("profile_images\(profileImageUidString).jpg")
+        let profileImageRef = storage.reference().child("profile_images").child("\(profileImageUidString).jpg")
         let dataOp:Data? = profileImage.jpegData(compressionQuality: 1)
         guard let data = dataOp else {
             completion(nil, "이용에 불편을 끼쳐드려 죄송합니다. 프로필 이미지를 서버에 업로드하는데 실패하였습니다. 개발자에게 에러에 관해서 알려주세요")
@@ -50,7 +64,7 @@ struct UserService {
                         "password": password,
                         "profileImageUrl": downloadUrl,
                         "username": username,
-                        "profileImageReference": "profile_images\(profileImageUidString).jpg"
+                        "profileImageReference": "profile_images/\(profileImageUidString).jpg"
                     ]) { (error) in
                         if let error = error {
                             completion(error, "")

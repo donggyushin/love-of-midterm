@@ -7,18 +7,27 @@
 //
 
 import UIKit
+import Firebase
 
 class MainTabBarController: UITabBarController {
-
     
-    // Life cycle
+    // MARK: properties
+    var user:User? {
+        didSet {
+            let profileNavigationVC = self.viewControllers?[0] as! UINavigationController
+            let profileVC = profileNavigationVC.viewControllers.first as! ProfileController
+            profileVC.user = self.user
+        }
+    }
+    
+    // MARK: Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         checkUserIsLoggedIn()
 
     }
     
-    // configure
+    // MARK: configure
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
@@ -36,17 +45,23 @@ class MainTabBarController: UITabBarController {
     }
     
     func checkUserIsLoggedIn(){
-        view.backgroundColor = UIColor.tinderColor
-        
-        // TODO: 여기서 유저가 로그인했는지 안했는지 체크해줘야함
-        // 로그인을 해주었다면 configure 함수 호출
         
         
-        let loginVC = UINavigationController(rootViewController: LoginController())
-        loginVC.modalPresentationStyle = .fullScreen
-        DispatchQueue.main.async {
-            self.present(loginVC, animated: true, completion: nil)
+        if(Auth.auth().currentUser == nil){
+            view.backgroundColor = UIColor.tinderColor
+            let loginVC = UINavigationController(rootViewController: LoginController())
+            loginVC.modalPresentationStyle = .fullScreen
+            DispatchQueue.main.async {
+                self.present(loginVC, animated: true, completion: nil)
+            }
+        }else {
+            configure()
+            UserService.shared.fetchUser { (user) in
+                self.user = user
+            }
         }
+        
+        
     }
     
     

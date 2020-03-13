@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import Photos
+import LoadingShimmer
 
 
 class SignUpController: UIViewController {
@@ -248,7 +249,10 @@ class SignUpController: UIViewController {
     }
     
     @objc func signUpButtonTapped(){
-        // TODO: custom modal 을 준비하고오는게 좋을듯 하오
+        
+        signUpButton.isEnabled = false
+        LoadingShimmer.startCovering(self.view, with: nil)
+        
         guard let profileImage = profileImage,
             let email = emailTextField.text,
             let username = usernameTextField.text,
@@ -257,12 +261,42 @@ class SignUpController: UIViewController {
         else {
             
             self.popupDialog(title: "입력에 빠진 부분이 있습니다!", message: "회원가입에 필요한 양식중 입력하지 않은 사항이 있지 않나요?", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            self.signUpButton.isEnabled = true
+            LoadingShimmer.stopCovering(self.view)
             return
         }
         
         if (email == "" || username == "" || password1 == "" || password2 == ""){
             self.popupDialog(title: "입력에 빠진 부분이 있습니다!", message: "회원가입에 필요한 양식중 입력하지 않은 사항이 있지 않나요?", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            self.signUpButton.isEnabled = true
+            LoadingShimmer.stopCovering(self.view)
             return
+        }
+        
+        if (password2 != password1) {
+            popupDialog(title: "비밀번호가 서로 다릅니다!", message: "비밀번호를 다시 한 번 확인해보세요", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            self.signUpButton.isEnabled = true
+            LoadingShimmer.stopCovering(self.view)
+            return
+        }
+        
+        UserService.shared.requestToNewUser(email: email, password: password2, profileImage: profileImage, username: username) { (error, errorString) in
+            if let error = error {
+                self.popupDialog(title: "이용에 불편을 끼쳐드려 죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+                LoadingShimmer.stopCovering(self.view)
+                return
+            }
+            if let errorString = errorString {
+                self.popupDialog(title: "이용에 불편을 끼쳐드려 죄송합니다", message: errorString, image: #imageLiteral(resourceName: "loveOfMidterm"))
+                LoadingShimmer.stopCovering(self.view)
+                return
+            }
+            
+            // 회원가입 성공!!
+            RootViewController.rootViewController.configure()
+            LoadingShimmer.stopCovering(self.view)
+            self.dismiss(animated: true, completion: nil)
+            
         }
         
     }
@@ -305,10 +339,7 @@ class SignUpController: UIViewController {
     }
     
     func configureNavigationBar(){
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default) //UIImage.init(named: "transparent.png")
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.view.backgroundColor = .clear
+        self.makeNavigationBarTransparent()
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
     
