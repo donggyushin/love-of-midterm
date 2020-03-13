@@ -107,7 +107,7 @@ class LoginController: UIViewController {
     
     lazy var loginButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("LOGIN", for: UIControl.State.normal)
+        button.setTitle("로그인", for: UIControl.State.normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 20)
         return button

@@ -67,6 +67,15 @@ extension UIViewController {
         pcv.shadowEnabled   = true
         pcv.shadowColor     = .black
         
+        
+        let ov = PopupDialogOverlayView.appearance()
+        ov.blurEnabled     = true
+        ov.blurRadius      = 30
+        ov.liveBlurEnabled = true
+        ov.opacity         = 0.7
+        ov.color           = .black
+        
+        
         let pv = PopupDialogDefaultView.appearance()
         
         

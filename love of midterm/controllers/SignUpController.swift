@@ -220,6 +220,7 @@ class SignUpController: UIViewController {
         button.backgroundColor = .white
         button.setTitleColor(UIColor.tinderColor, for: .normal)
         button.setTitle("회원가입", for: .normal)
+        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 17)
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         return button
@@ -255,12 +256,12 @@ class SignUpController: UIViewController {
             let password2 = password2TextField.text
         else {
             
-            self.popupDialog(title: "입력에 빠진 부분이 있습니다!", message: "회원가입에 필요한 양식중 입력하지 않은 사항이 있지 않나요?", image: #imageLiteral(resourceName: "colorful"))
+            self.popupDialog(title: "입력에 빠진 부분이 있습니다!", message: "회원가입에 필요한 양식중 입력하지 않은 사항이 있지 않나요?", image: #imageLiteral(resourceName: "loveOfMidterm"))
             return
         }
         
         if (email == "" || username == "" || password1 == "" || password2 == ""){
-            self.popupDialog(title: "입력에 빠진 부분이 있습니다!", message: "회원가입에 필요한 양식중 입력하지 않은 사항이 있지 않나요?", image: #imageLiteral(resourceName: "colorful"))
+            self.popupDialog(title: "입력에 빠진 부분이 있습니다!", message: "회원가입에 필요한 양식중 입력하지 않은 사항이 있지 않나요?", image: #imageLiteral(resourceName: "loveOfMidterm"))
             return
         }
         
