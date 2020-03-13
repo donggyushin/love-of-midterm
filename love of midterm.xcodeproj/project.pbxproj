@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34AD12C414FE01D34B7C27EF /* Pods_love_of_midterm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC85BE4CC903DD575CDB444 /* Pods_love_of_midterm.framework */; };
 		707490D2241B7CA50028497C /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707490D1241B7CA50028497C /* ImagePickerController.swift */; };
 		70D6D628241B3A8A0092BD99 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D6D627241B3A8A0092BD99 /* AppDelegate.swift */; };
 		70D6D62A241B3A8A0092BD99 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D6D629241B3A8A0092BD99 /* SceneDelegate.swift */; };
@@ -22,6 +23,9 @@
 		70D6D647241B42EE0092BD99 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D6D646241B42EE0092BD99 /* SignUpController.swift */; };
 		70D6D64A241B440C0092BD99 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D6D649241B440C0092BD99 /* extensions.swift */; };
 		70D6D64D241B47060092BD99 /* BMJUA_otf.otf in Resources */ = {isa = PBXBuildFile; fileRef = 70D6D64C241B47060092BD99 /* BMJUA_otf.otf */; };
+		70E51DA9241BAA6F00631E25 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E51DA8241BAA6F00631E25 /* UserService.swift */; };
+		70E51DAB241BAB1A00631E25 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70E51DAA241BAB1900631E25 /* GoogleService-Info.plist */; };
+		70E51DAE241BAFF700631E25 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E51DAD241BAFF700631E25 /* Errors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +46,12 @@
 		70D6D646241B42EE0092BD99 /* SignUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpController.swift; sourceTree = "<group>"; };
 		70D6D649241B440C0092BD99 /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		70D6D64C241B47060092BD99 /* BMJUA_otf.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BMJUA_otf.otf; sourceTree = "<group>"; };
+		70E51DA8241BAA6F00631E25 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		70E51DAA241BAB1900631E25 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		70E51DAD241BAFF700631E25 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		9775EB0CEA3BADABDBBDC611 /* Pods-love of midterm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-love of midterm.release.xcconfig"; path = "Target Support Files/Pods-love of midterm/Pods-love of midterm.release.xcconfig"; sourceTree = "<group>"; };
+		B2F83DE04E6BD6F7E2C66481 /* Pods-love of midterm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-love of midterm.debug.xcconfig"; path = "Target Support Files/Pods-love of midterm/Pods-love of midterm.debug.xcconfig"; sourceTree = "<group>"; };
+		DAC85BE4CC903DD575CDB444 /* Pods_love_of_midterm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_love_of_midterm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,17 +59,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34AD12C414FE01D34B7C27EF /* Pods_love_of_midterm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		45AB087BE25B1DCF5CF00BCC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DAC85BE4CC903DD575CDB444 /* Pods_love_of_midterm.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		70D6D61B241B3A8A0092BD99 = {
 			isa = PBXGroup;
 			children = (
 				70D6D626241B3A8A0092BD99 /* love of midterm */,
 				70D6D625241B3A8A0092BD99 /* Products */,
+				77ECE3A3A2B2D4C4826296D0 /* Pods */,
+				45AB087BE25B1DCF5CF00BCC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,6 +95,8 @@
 		70D6D626241B3A8A0092BD99 /* love of midterm */ = {
 			isa = PBXGroup;
 			children = (
+				70E51DAC241BAFEC00631E25 /* errors */,
+				70E51DA7241BAA5C00631E25 /* services */,
 				70D6D64B241B46F50092BD99 /* fonts */,
 				70D6D648241B43FF0092BD99 /* utils */,
 				70D6D63B241B3ADD0092BD99 /* controllers */,
@@ -84,6 +107,7 @@
 				70D6D630241B3A8E0092BD99 /* Assets.xcassets */,
 				70D6D632241B3A8E0092BD99 /* LaunchScreen.storyboard */,
 				70D6D635241B3A8E0092BD99 /* Info.plist */,
+				70E51DAA241BAB1900631E25 /* GoogleService-Info.plist */,
 			);
 			path = "love of midterm";
 			sourceTree = "<group>";
@@ -118,6 +142,31 @@
 			path = fonts;
 			sourceTree = "<group>";
 		};
+		70E51DA7241BAA5C00631E25 /* services */ = {
+			isa = PBXGroup;
+			children = (
+				70E51DA8241BAA6F00631E25 /* UserService.swift */,
+			);
+			path = services;
+			sourceTree = "<group>";
+		};
+		70E51DAC241BAFEC00631E25 /* errors */ = {
+			isa = PBXGroup;
+			children = (
+				70E51DAD241BAFF700631E25 /* Errors.swift */,
+			);
+			path = errors;
+			sourceTree = "<group>";
+		};
+		77ECE3A3A2B2D4C4826296D0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B2F83DE04E6BD6F7E2C66481 /* Pods-love of midterm.debug.xcconfig */,
+				9775EB0CEA3BADABDBBDC611 /* Pods-love of midterm.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -125,9 +174,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70D6D638241B3A8E0092BD99 /* Build configuration list for PBXNativeTarget "love of midterm" */;
 			buildPhases = (
+				B71EC456D2CF4A5CC5EB4245 /* [CP] Check Pods Manifest.lock */,
 				70D6D620241B3A8A0092BD99 /* Sources */,
 				70D6D621241B3A8A0092BD99 /* Frameworks */,
 				70D6D622241B3A8A0092BD99 /* Resources */,
+				B02D16C31D2C745B65FA1BCA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -179,11 +230,54 @@
 				70D6D634241B3A8E0092BD99 /* LaunchScreen.storyboard in Resources */,
 				70D6D631241B3A8E0092BD99 /* Assets.xcassets in Resources */,
 				70D6D62F241B3A8A0092BD99 /* Main.storyboard in Resources */,
+				70E51DAB241BAB1A00631E25 /* GoogleService-Info.plist in Resources */,
 				70D6D64D241B47060092BD99 /* BMJUA_otf.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B02D16C31D2C745B65FA1BCA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-love of midterm/Pods-love of midterm-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-love of midterm/Pods-love of midterm-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-love of midterm/Pods-love of midterm-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B71EC456D2CF4A5CC5EB4245 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-love of midterm-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		70D6D620241B3A8A0092BD99 /* Sources */ = {
@@ -197,7 +291,9 @@
 				70D6D62C241B3A8A0092BD99 /* ViewController.swift in Sources */,
 				70D6D64A241B440C0092BD99 /* extensions.swift in Sources */,
 				707490D2241B7CA50028497C /* ImagePickerController.swift in Sources */,
+				70E51DAE241BAFF700631E25 /* Errors.swift in Sources */,
 				70D6D628241B3A8A0092BD99 /* AppDelegate.swift in Sources */,
+				70E51DA9241BAA6F00631E25 /* UserService.swift in Sources */,
 				70D6D645241B42DF0092BD99 /* LoginController.swift in Sources */,
 				70D6D63D241B3B2C0092BD99 /* MainTabBarController.swift in Sources */,
 				70D6D62A241B3A8A0092BD99 /* SceneDelegate.swift in Sources */,
@@ -342,6 +438,7 @@
 		};
 		70D6D639241B3A8E0092BD99 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2F83DE04E6BD6F7E2C66481 /* Pods-love of midterm.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -360,6 +457,7 @@
 		};
 		70D6D63A241B3A8E0092BD99 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9775EB0CEA3BADABDBBDC611 /* Pods-love of midterm.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

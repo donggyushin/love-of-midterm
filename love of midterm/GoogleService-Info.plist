@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>472630557845-m5e0d8nqgi2ipag7d0aanrfh0l6e9kil.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.472630557845-m5e0d8nqgi2ipag7d0aanrfh0l6e9kil</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAIE3S72JwQy3_ldh2288cplmgCS6-Ppd4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>472630557845</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.maccircle.love-of-midterm</string>
+	<key>PROJECT_ID</key>
+	<string>love-of-midterm</string>
+	<key>STORAGE_BUCKET</key>
+	<string>love-of-midterm.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:472630557845:ios:722b7bf3d056bb88d22f9c</string>
+	<key>DATABASE_URL</key>
+	<string>https://love-of-midterm.firebaseio.com</string>
+</dict>
+</plist>

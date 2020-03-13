@@ -14,6 +14,9 @@ import Photos
 class SignUpController: UIViewController {
     
     // MARK: Properties
+    
+    var profileImage:UIImage?
+    
     lazy var backButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitleColor(.white, for: .normal)
@@ -33,7 +36,6 @@ class SignUpController: UIViewController {
         iv.layer.cornerRadius = 35
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        
         let tap = UITapGestureRecognizer(target: self, action: #selector(profileImageViewTapped))
         iv.isUserInteractionEnabled = true
         iv.addGestureRecognizer(tap)
@@ -41,11 +43,12 @@ class SignUpController: UIViewController {
         return iv
     }()
     
+    let emailTextField = UITextField()
+    
     lazy var emailTextFieldContainer:UIView = {
         let view = UIView()
         let iconView = UIImageView()
         let bottomLine = UIView()
-        let textField = UITextField()
         
         view.widthAnchor.constraint(equalToConstant: self.view.frame.width * 0.8).isActive = true
         view.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -69,25 +72,26 @@ class SignUpController: UIViewController {
         bottomLine.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         bottomLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
-        textField.attributedPlaceholder = NSAttributedString(string: "Email@gmail.com",
+        emailTextField.attributedPlaceholder = NSAttributedString(string: "Email@gmail.com",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        textField.font = UIFont(name: "BMJUAOTF", size: 17)
-        textField.textColor = .white
-        view.addSubview(textField)
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 1).isActive = true
-        textField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
-        textField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        textField.autocapitalizationType = .none
-        textField.autocorrectionType = .no
+        emailTextField.font = UIFont(name: "BMJUAOTF", size: 17)
+        emailTextField.textColor = .white
+        view.addSubview(emailTextField)
+        emailTextField.translatesAutoresizingMaskIntoConstraints = false
+        emailTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 1).isActive = true
+        emailTextField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
+        emailTextField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        emailTextField.autocapitalizationType = .none
+        emailTextField.autocorrectionType = .no
         return view
     }()
+    
+    let usernameTextField = UITextField()
     
     lazy var usernameTextFieldContainer:UIView = {
         let view = UIView()
         let iconView = UIImageView()
         let bottomLine = UIView()
-        let textField = UITextField()
         
         view.widthAnchor.constraint(equalToConstant: self.view.frame.width * 0.8).isActive = true
         view.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -110,25 +114,26 @@ class SignUpController: UIViewController {
         bottomLine.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         bottomLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
-        textField.attributedPlaceholder = NSAttributedString(string: "다른 유저들에게 보여지게 됩니다.",
+        usernameTextField.attributedPlaceholder = NSAttributedString(string: "다른 유저들에게 보여지게 됩니다.",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        textField.font = UIFont(name: "BMJUAOTF", size: 17)
-        textField.textColor = .white
-        view.addSubview(textField)
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 1).isActive = true
-        textField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
-        textField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        textField.autocapitalizationType = .none
-        textField.autocorrectionType = .no
+        usernameTextField.font = UIFont(name: "BMJUAOTF", size: 17)
+        usernameTextField.textColor = .white
+        view.addSubview(usernameTextField)
+        usernameTextField.translatesAutoresizingMaskIntoConstraints = false
+        usernameTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 1).isActive = true
+        usernameTextField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
+        usernameTextField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        usernameTextField.autocapitalizationType = .none
+        usernameTextField.autocorrectionType = .no
         return view
     }()
+    
+    let password1TextField = UITextField()
     
     lazy var passwordTextFieldContainer:UIView = {
         let view = UIView()
         let iconView = UIImageView()
         let bottomLine = UIView()
-        let textField = UITextField()
         
         view.widthAnchor.constraint(equalToConstant: self.view.frame.width * 0.8).isActive = true
         view.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -151,26 +156,27 @@ class SignUpController: UIViewController {
         bottomLine.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         bottomLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
-        textField.attributedPlaceholder = NSAttributedString(string: "Password를 입력해주세요.",
+        password1TextField.attributedPlaceholder = NSAttributedString(string: "Password를 입력해주세요.",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        textField.textColor = .white
-        view.addSubview(textField)
-        textField.isSecureTextEntry = true
-        textField.font = UIFont(name: "BMJUAOTF", size: 17)
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 3).isActive = true
-        textField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
-        textField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        textField.autocapitalizationType = .none
-        textField.autocorrectionType = .no
+        password1TextField.textColor = .white
+        view.addSubview(password1TextField)
+        password1TextField.isSecureTextEntry = true
+        password1TextField.font = UIFont(name: "BMJUAOTF", size: 17)
+        password1TextField.translatesAutoresizingMaskIntoConstraints = false
+        password1TextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 3).isActive = true
+        password1TextField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
+        password1TextField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        password1TextField.autocapitalizationType = .none
+        password1TextField.autocorrectionType = .no
         return view
     }()
+    
+    let password2TextField = UITextField()
     
     lazy var passwordTextFieldContainer2:UIView = {
         let view = UIView()
         let iconView = UIImageView()
         let bottomLine = UIView()
-        let textField = UITextField()
         
         view.widthAnchor.constraint(equalToConstant: self.view.frame.width * 0.8).isActive = true
         view.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -193,18 +199,18 @@ class SignUpController: UIViewController {
         bottomLine.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         bottomLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
-        textField.attributedPlaceholder = NSAttributedString(string: "Password를 확인해주세요.",
+        password2TextField.attributedPlaceholder = NSAttributedString(string: "Password를 확인해주세요.",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        textField.textColor = .white
-        view.addSubview(textField)
-        textField.isSecureTextEntry = true
-        textField.font = UIFont(name: "BMJUAOTF", size: 17)
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 3).isActive = true
-        textField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
-        textField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        textField.autocapitalizationType = .none
-        textField.autocorrectionType = .no
+        password2TextField.textColor = .white
+        view.addSubview(password2TextField)
+        password2TextField.isSecureTextEntry = true
+        password2TextField.font = UIFont(name: "BMJUAOTF", size: 17)
+        password2TextField.translatesAutoresizingMaskIntoConstraints = false
+        password2TextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 3).isActive = true
+        password2TextField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
+        password2TextField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        password2TextField.autocapitalizationType = .none
+        password2TextField.autocorrectionType = .no
         return view
     }()
     
@@ -215,6 +221,7 @@ class SignUpController: UIViewController {
         button.setTitleColor(UIColor.tinderColor, for: .normal)
         button.setTitle("회원가입", for: .normal)
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -237,6 +244,19 @@ class SignUpController: UIViewController {
     
     @objc func goBackToLoginView(){
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func signUpButtonTapped(){
+        // TODO: custom modal 을 준비하고오는게 좋을듯 하오
+        guard let profileImage = profileImage,
+            let email = emailTextField.text,
+            let username = usernameTextField.text,
+            let password1 = password1TextField.text,
+            let password2 = password2TextField.text
+        else {
+            print("입력이 빠진 부분이 있습니다.")
+            return
+        }
     }
     
     
@@ -325,6 +345,7 @@ class SignUpController: UIViewController {
 extension SignUpController:ImagePickerDelegate {
     func didSelect(image: UIImage?) {
         guard let image = image else { return }
-        print(image)
+        profileImageView.image = image
+        profileImage = image
     }
 }
