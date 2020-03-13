@@ -254,9 +254,16 @@ class SignUpController: UIViewController {
             let password1 = password1TextField.text,
             let password2 = password2TextField.text
         else {
-            print("입력이 빠진 부분이 있습니다.")
+            
+            self.popupDialog(title: "입력에 빠진 부분이 있습니다!", message: "회원가입에 필요한 양식중 입력하지 않은 사항이 있지 않나요?", image: #imageLiteral(resourceName: "colorful"))
             return
         }
+        
+        if (email == "" || username == "" || password1 == "" || password2 == ""){
+            self.popupDialog(title: "입력에 빠진 부분이 있습니다!", message: "회원가입에 필요한 양식중 입력하지 않은 사항이 있지 않나요?", image: #imageLiteral(resourceName: "colorful"))
+            return
+        }
+        
     }
     
     

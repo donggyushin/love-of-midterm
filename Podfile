@@ -9,4 +9,5 @@ target 'love of midterm' do
 pod 'Firebase/Auth'
 pod 'Firebase/Firestore'
 pod 'Firebase/Storage'
+pod 'PopupDialog', '~> 1.1'
 end
