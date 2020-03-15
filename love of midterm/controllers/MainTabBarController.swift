@@ -46,6 +46,7 @@ class MainTabBarController: UITabBarController {
     
     func checkUserIsLoggedIn(){
         
+        try! Auth.auth().signOut()
         
         if(Auth.auth().currentUser == nil){
             view.backgroundColor = UIColor.tinderColor

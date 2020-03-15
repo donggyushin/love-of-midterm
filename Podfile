@@ -16,4 +16,8 @@ pod 'Fusuma', '~>1.3.3'
 pod 'YPImagePicker'
 pod 'ZKCarousel'
 pod 'FSPagerView'
+pod 'MDatePickerView'
+pod 'GooglePlaces'
+pod 'DatePickerDialog'
+pod 'DatePicker'
 end

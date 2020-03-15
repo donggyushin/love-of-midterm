@@ -348,6 +348,7 @@ class ProfileController: UIViewController {
 
 }
 
+// MARK: FSPagetView Delegate and Datasource
 extension ProfileController:FSPagerViewDelegate, FSPagerViewDataSource {
     func numberOfItems(in pagerView: FSPagerView) -> Int {
         return self.backgroundImages.count
@@ -355,7 +356,7 @@ extension ProfileController:FSPagerViewDelegate, FSPagerViewDataSource {
     
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
         let cell = pagerView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, at: index)
-        var backgroundImage = self.backgroundImages[index]
+        let backgroundImage = self.backgroundImages[index]
         if let image = backgroundImage.image {
             cell.imageView?.image = image
         }else {

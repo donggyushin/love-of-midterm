@@ -162,12 +162,16 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/DatePicker/DatePicker.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/DatePickerDialog/DatePickerDialog.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DynamicBlurView/DynamicBlurView.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Extended/Extended.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Fusuma/Fusuma.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/LoadingShimmer/LoadingShimmer.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/MDatePickerView/MDatePickerView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PopupDialog/PopupDialog.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PryntTrimmerView/PryntTrimmerView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
@@ -182,12 +186,16 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/DatePicker/DatePicker.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/DatePickerDialog/DatePickerDialog.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DynamicBlurView/DynamicBlurView.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Extended/Extended.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Fusuma/Fusuma.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/LoadingShimmer/LoadingShimmer.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/MDatePickerView/MDatePickerView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PopupDialog/PopupDialog.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PryntTrimmerView/PryntTrimmerView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"

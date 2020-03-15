@@ -10,11 +10,25 @@ import UIKit
 import AVFoundation
 import Photos
 import LoadingShimmer
-
+import DatePicker
 
 class SignUpController: UIViewController {
     
     // MARK: Properties
+    
+    let simpleDatePicker = UIDatePicker()
+    
+    lazy var scrollView:UIScrollView = {
+        let sv = UIScrollView()
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.contentSize.height = 1000
+        return sv
+    }()
+    
+    lazy var viewInScrollView:UIView = {
+        let view = UIView()
+        return view
+    }()
     
     var profileImage:UIImage?
     
@@ -129,13 +143,145 @@ class SignUpController: UIViewController {
         return view
     }()
     
+    lazy var birthdayTextField:UITextField = {
+        let tf = UITextField()
+        return tf
+    }()
+    
+    
+    lazy var birthdayTextFieldContainer:UIView = {
+        let view = UIView()
+        let iconView = UIImageView()
+        let bottomLine = UIView()
+        
+        view.widthAnchor.constraint(equalToConstant: self.view.frame.width * 0.8).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        iconView.image = #imageLiteral(resourceName: "calendar")
+        iconView.image = iconView.image?.withRenderingMode(.alwaysTemplate)
+        iconView.tintColor = .white
+        view.addSubview(iconView)
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        iconView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        iconView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        iconView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        iconView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        iconView.contentMode = .scaleAspectFill
+        
+        bottomLine.backgroundColor = .white
+        view.addSubview(bottomLine)
+        bottomLine.translatesAutoresizingMaskIntoConstraints = false
+        bottomLine.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        bottomLine.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        bottomLine.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        bottomLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        
+        birthdayTextField.attributedPlaceholder = NSAttributedString(string: "생년월일을 입력해주세요.",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        birthdayTextField.font = UIFont(name: "BMJUAOTF", size: 17)
+        birthdayTextField.textColor = .white
+        view.addSubview(birthdayTextField)
+        birthdayTextField.translatesAutoresizingMaskIntoConstraints = false
+        birthdayTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 1).isActive = true
+        birthdayTextField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
+        birthdayTextField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        birthdayTextField.autocapitalizationType = .none
+        birthdayTextField.autocorrectionType = .no
+        
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(datePickerTapped))
+//        view.isUserInteractionEnabled = true
+//        view.addGestureRecognizer(tap)
+        
+        return view
+    }()
+    
+    var gender:String = "male"
+    lazy var genderSelectorContainer:UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        view.backgroundColor = .white
+        view.clipsToBounds = true
+        view.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        view.widthAnchor.constraint(equalToConstant: self.view.frame.width * 0.8).isActive = true
+        return view
+    }()
+    
+    lazy var maleButton:UIButton = {
+        let button = UIButton(type: UIButton.ButtonType.system)
+        button.setTitle("남자", for: .normal)
+        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 17)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .tinderColor
+        button.addTarget(self, action: #selector(maleButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var femailButton:UIButton = {
+        let button = UIButton(type: UIButton.ButtonType.system)
+        button.setTitle("여자", for: .normal)
+        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 17)
+        button.setTitleColor(.tinderColor, for: .normal)
+        button.backgroundColor = .white
+        button.addTarget(self, action: #selector(femaleButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    
+    
+    var addressTextField = UILabel()
+    
+    lazy var addressTextFieldContainer:UIView = {
+        let view = UIView()
+        let iconView = UIImageView()
+        let bottomLine = UIView()
+        
+        view.widthAnchor.constraint(equalToConstant: self.view.frame.width * 0.8).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        iconView.image = #imageLiteral(resourceName: "mail")
+        iconView.image = iconView.image?.withRenderingMode(.alwaysTemplate)
+        iconView.tintColor = .white
+        view.addSubview(iconView)
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        iconView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        iconView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        iconView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        iconView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        iconView.contentMode = .scaleAspectFill
+        
+        bottomLine.backgroundColor = .white
+        view.addSubview(bottomLine)
+        bottomLine.translatesAutoresizingMaskIntoConstraints = false
+        bottomLine.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        bottomLine.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        bottomLine.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        bottomLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        
+        addressTextField.text = "주소를 입력해주세요"
+        addressTextField.font = UIFont(name: "BMJUAOTF", size: 17)
+        addressTextField.textColor = .white
+        addressTextField.isUserInteractionEnabled = false
+        view.addSubview(addressTextField)
+        addressTextField.translatesAutoresizingMaskIntoConstraints = false
+        addressTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 1).isActive = true
+        addressTextField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
+        addressTextField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(addressTextFieldTapped))
+        view.isUserInteractionEnabled = true
+        view.addGestureRecognizer(tap)
+        
+        
+        return view
+    }()
+    
     let password1TextField = UITextField()
     
     lazy var passwordTextFieldContainer:UIView = {
         let view = UIView()
         let iconView = UIImageView()
         let bottomLine = UIView()
-        
         view.widthAnchor.constraint(equalToConstant: self.view.frame.width * 0.8).isActive = true
         view.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
@@ -237,7 +383,40 @@ class SignUpController: UIViewController {
         configure()
     }
     
+    
+    // MARK: helpers
+    
+    func setAddress(address:String){
+        addressTextField.text = address
+    }
+    
+    
     // MARK: selectors
+    
+    @objc func addressTextFieldTapped(){
+        let searchAddressVC = SearchAddressController(signUpVC: self)
+
+        navigationController?.pushViewController(searchAddressVC, animated: true)
+    }
+    
+    
+    @objc func maleButtonTapped(){
+        self.gender = "male"
+        self.maleButton.backgroundColor = .tinderColor
+        self.maleButton.setTitleColor(.white, for: .normal)
+        
+        self.femailButton.backgroundColor = .white
+        self.femailButton.setTitleColor(.tinderColor, for: .normal)
+    }
+    
+    @objc func femaleButtonTapped(){
+        self.gender = "female"
+        self.femailButton.backgroundColor = .tinderColor
+        self.femailButton.setTitleColor(.white, for: .normal)
+        
+        self.maleButton.backgroundColor = .white
+        self.maleButton.setTitleColor(.tinderColor, for: .normal)
+    }
     
     @objc func profileImageViewTapped(){
         
@@ -304,6 +483,39 @@ class SignUpController: UIViewController {
     
     // MARK: configure
     
+    @objc func datepickerDoneTapped(){
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        
+        birthdayTextField.text = formatter.string(from: simpleDatePicker.date)
+        self.view.endEditing(true)
+    }
+    
+    func createDatePicker(){
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        let customBtn = UIButton(type: UIButton.ButtonType.system)
+        customBtn.setTitle("선택", for: .normal)
+        customBtn.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
+        customBtn.setTitleColor(.black, for: .normal)
+        customBtn.addTarget(self, action: #selector(datepickerDoneTapped), for: .touchUpInside)
+        
+        let doneBtn = UIBarButtonItem(customView: customBtn)
+            
+//            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: nil, action: #selector(datepickerDoneTapped))
+        
+        toolbar.setItems([doneBtn], animated: true)
+        
+        birthdayTextField.inputAccessoryView = toolbar
+        
+        birthdayTextField.inputView = simpleDatePicker
+        birthdayTextField.inputView?.backgroundColor = .white
+        
+        simpleDatePicker.datePickerMode = .date
+    }
+    
     func requestPermission(){
         //Camera
         AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
@@ -330,6 +542,7 @@ class SignUpController: UIViewController {
     }
     
     func configure(){
+        createDatePicker()
         imagePicker = ImagePicker(presentationController: self, delegate: self)
         moveViewWithKeyboard()
         hideKeyboardWhenTappedAround()
@@ -344,38 +557,81 @@ class SignUpController: UIViewController {
     }
     
     func configureUI(){
-        view.addSubview(profileImageView)
+        
+        view.addSubview(scrollView)
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        
+        
+        scrollView.addSubview(profileImageView)
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        profileImageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        profileImageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20).isActive = true
         
-        view.addSubview(emailTextFieldContainer)
+        scrollView.addSubview(emailTextFieldContainer)
         emailTextFieldContainer.translatesAutoresizingMaskIntoConstraints = false
-        emailTextFieldContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emailTextFieldContainer.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         emailTextFieldContainer.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 20).isActive = true
-        
-        
-        view.addSubview(usernameTextFieldContainer)
+
+
+        scrollView.addSubview(usernameTextFieldContainer)
         usernameTextFieldContainer.translatesAutoresizingMaskIntoConstraints = false
-        usernameTextFieldContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        usernameTextFieldContainer.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         usernameTextFieldContainer.topAnchor.constraint(equalTo: emailTextFieldContainer.bottomAnchor, constant: 10).isActive = true
+
+        scrollView.addSubview(genderSelectorContainer)
+        genderSelectorContainer.translatesAutoresizingMaskIntoConstraints = false
+        genderSelectorContainer.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        genderSelectorContainer.topAnchor.constraint(equalTo: usernameTextFieldContainer.bottomAnchor, constant: 20).isActive = true
+
+        genderSelectorContainer.addSubview(maleButton)
+        maleButton.translatesAutoresizingMaskIntoConstraints = false
+        maleButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        maleButton.widthAnchor.constraint(equalToConstant: view.frame.width * 0.4).isActive = true
+        maleButton.leftAnchor.constraint(equalTo: genderSelectorContainer.leftAnchor).isActive = true
+        maleButton.topAnchor.constraint(equalTo: genderSelectorContainer.topAnchor).isActive = true
+
+        genderSelectorContainer.addSubview(femailButton)
+        femailButton.translatesAutoresizingMaskIntoConstraints = false
+        femailButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        femailButton.widthAnchor.constraint(equalToConstant: view.frame.width * 0.4).isActive = true
+        femailButton.rightAnchor.constraint(equalTo: genderSelectorContainer.rightAnchor).isActive = true
+        femailButton.topAnchor.constraint(equalTo: genderSelectorContainer.topAnchor).isActive = true
         
-        view.addSubview(passwordTextFieldContainer)
+        scrollView.addSubview(birthdayTextFieldContainer)
+        birthdayTextFieldContainer.translatesAutoresizingMaskIntoConstraints = false
+        birthdayTextFieldContainer.topAnchor.constraint(equalTo: genderSelectorContainer.bottomAnchor, constant: 20).isActive = true
+        birthdayTextFieldContainer.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        
+        
+        
+        scrollView.addSubview(addressTextFieldContainer)
+        addressTextFieldContainer.translatesAutoresizingMaskIntoConstraints = false
+        addressTextFieldContainer.topAnchor.constraint(equalTo: birthdayTextFieldContainer.bottomAnchor, constant: 20).isActive = true
+        addressTextFieldContainer.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+
+
+        scrollView.addSubview(passwordTextFieldContainer)
         passwordTextFieldContainer.translatesAutoresizingMaskIntoConstraints = false
-        passwordTextFieldContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        passwordTextFieldContainer.topAnchor.constraint(equalTo: usernameTextFieldContainer.bottomAnchor, constant: 20).isActive = true
-        
-        view.addSubview(passwordTextFieldContainer2)
+        passwordTextFieldContainer.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        passwordTextFieldContainer.topAnchor.constraint(equalTo: addressTextFieldContainer.bottomAnchor, constant: 20).isActive = true
+
+        scrollView.addSubview(passwordTextFieldContainer2)
         passwordTextFieldContainer2.translatesAutoresizingMaskIntoConstraints = false
-        passwordTextFieldContainer2.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        passwordTextFieldContainer2.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         passwordTextFieldContainer2.topAnchor.constraint(equalTo: passwordTextFieldContainer.bottomAnchor, constant: 20).isActive = true
-        
-        view.addSubview(signUpButton)
+
+        scrollView.addSubview(signUpButton)
         signUpButton.translatesAutoresizingMaskIntoConstraints = false
-        signUpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        signUpButton.topAnchor.constraint(equalTo: passwordTextFieldContainer2.bottomAnchor, constant: 20).isActive = true
+        signUpButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        signUpButton.topAnchor.constraint(equalTo: passwordTextFieldContainer2.bottomAnchor, constant: 10).isActive = true
         signUpButton.widthAnchor.constraint(equalToConstant: view.frame.width * 0.8).isActive = true
         signUpButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+
+        
     }
     
 
