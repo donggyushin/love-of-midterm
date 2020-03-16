@@ -14,9 +14,34 @@ import DatePicker
 
 class SignUpController: UIViewController {
     
-    // MARK: Properties
+    // MARK: properties
     
     let simpleDatePicker = UIDatePicker()
+    
+    var profileImage:UIImage?
+    
+    let emailTextField = UITextField()
+    
+    let usernameTextField = UITextField()
+    
+    lazy var birthdayTextField:UITextField = {
+        let tf = UITextField()
+        return tf
+    }()
+    
+    var gender:String = "male"
+    
+    var birthdayDateValue:Date?
+    
+    var addressTextField = UILabel()
+    
+    var addressValue:Address?
+    
+    let password1TextField = UITextField()
+    
+    let password2TextField = UITextField()
+    
+    // MARK: UIkits
     
     lazy var scrollView:UIScrollView = {
         let sv = UIScrollView()
@@ -29,8 +54,6 @@ class SignUpController: UIViewController {
         let view = UIView()
         return view
     }()
-    
-    var profileImage:UIImage?
     
     lazy var backButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
@@ -57,8 +80,6 @@ class SignUpController: UIViewController {
         
         return iv
     }()
-    
-    let emailTextField = UITextField()
     
     lazy var emailTextFieldContainer:UIView = {
         let view = UIView()
@@ -101,7 +122,7 @@ class SignUpController: UIViewController {
         return view
     }()
     
-    let usernameTextField = UITextField()
+    
     
     lazy var usernameTextFieldContainer:UIView = {
         let view = UIView()
@@ -143,10 +164,7 @@ class SignUpController: UIViewController {
         return view
     }()
     
-    lazy var birthdayTextField:UITextField = {
-        let tf = UITextField()
-        return tf
-    }()
+    
     
     
     lazy var birthdayTextFieldContainer:UIView = {
@@ -195,7 +213,7 @@ class SignUpController: UIViewController {
         return view
     }()
     
-    var gender:String = "male"
+    
     lazy var genderSelectorContainer:UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
@@ -226,9 +244,6 @@ class SignUpController: UIViewController {
         return button
     }()
     
-    
-    
-    var addressTextField = UILabel()
     
     lazy var addressTextFieldContainer:UIView = {
         let view = UIView()
@@ -276,7 +291,7 @@ class SignUpController: UIViewController {
         return view
     }()
     
-    let password1TextField = UITextField()
+    
     
     lazy var passwordTextFieldContainer:UIView = {
         let view = UIView()
@@ -318,7 +333,7 @@ class SignUpController: UIViewController {
         return view
     }()
     
-    let password2TextField = UITextField()
+    
     
     lazy var passwordTextFieldContainer2:UIView = {
         let view = UIView()
@@ -386,8 +401,9 @@ class SignUpController: UIViewController {
     
     // MARK: helpers
     
-    func setAddress(address:String){
-        addressTextField.text = address
+    func setAddress(address:Address){
+        addressTextField.text = address.roadAddress
+        addressValue = address
     }
     
     
@@ -459,7 +475,24 @@ class SignUpController: UIViewController {
             return
         }
         
-        UserService.shared.requestToNewUser(email: email, password: password2, profileImage: profileImage, username: username) { (error, errorString) in
+        // TODO:- 성별, 생년월일, 주소도 입력받은거를 확인해야함
+        
+        guard gender != "" else {
+            popupDialog(title: "성별이 선택되어져 있지 않습니다. ", message: "성별을 선택해주세요.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            LoadingShimmer.stopCovering(self.view)
+            return
+        }
+        guard let birthdayDateValue = birthdayDateValue else {
+            popupDialog(title: "생년월일이 선택되어져 있지 않습니다. ", message: "생년월일을 선택해주세요.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            LoadingShimmer.stopCovering(self.view)
+            return }
+        guard let addressValue = self.addressValue else {
+            popupDialog(title: "주소가 선택되어져 있지 않습니다. ", message: "주소를 선택해주세요.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            LoadingShimmer.stopCovering(self.view)
+            return
+        }
+        
+        UserService.shared.requestToNewUser(email: email, password: password2, profileImage: profileImage, username: username, gender: gender, birthdayDateValue: birthdayDateValue, addressValue: addressValue) { (error, errorString) in
             if let error = error {
                 self.popupDialog(title: "이용에 불편을 끼쳐드려 죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
                 LoadingShimmer.stopCovering(self.view)
@@ -487,7 +520,7 @@ class SignUpController: UIViewController {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .none
-        
+        birthdayDateValue = simpleDatePicker.date
         birthdayTextField.text = formatter.string(from: simpleDatePicker.date)
         self.view.endEditing(true)
     }
@@ -504,7 +537,6 @@ class SignUpController: UIViewController {
         
         let doneBtn = UIBarButtonItem(customView: customBtn)
             
-//            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: nil, action: #selector(datepickerDoneTapped))
         
         toolbar.setItems([doneBtn], animated: true)
         

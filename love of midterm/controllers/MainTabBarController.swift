@@ -17,6 +17,7 @@ class MainTabBarController: UITabBarController {
             let profileNavigationVC = self.viewControllers?[0] as! UINavigationController
             let profileVC = profileNavigationVC.viewControllers.first as! ProfileController
             profileVC.user = self.user
+            profileVC.me = self.user
         }
     }
     
@@ -42,11 +43,15 @@ class MainTabBarController: UITabBarController {
         messageVC.tabBarItem.image = #imageLiteral(resourceName: "ic_mail_outline_white_2x-1")
         
         viewControllers = [profileVC, searchVC, messageVC]
+        
+        UserService.shared.fetchUser { (user) in
+            self.user = user
+        }
     }
     
     func checkUserIsLoggedIn(){
         
-        try! Auth.auth().signOut()
+//        try! Auth.auth().signOut()
         
         if(Auth.auth().currentUser == nil){
             view.backgroundColor = UIColor.tinderColor
@@ -57,9 +62,7 @@ class MainTabBarController: UITabBarController {
             }
         }else {
             configure()
-            UserService.shared.fetchUser { (user) in
-                self.user = user
-            }
+            
         }
         
         

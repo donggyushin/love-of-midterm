@@ -7,10 +7,15 @@
 //
 
 import UIKit
+import LoadingShimmer
 
 class LoginController: UIViewController {
     
     // MARK: properties
+    
+    lazy var emailTextField = UITextField()
+    
+    // MARK: UIKits
 
     lazy var midtermLabel:UILabel = {
         let label = UILabel()
@@ -28,11 +33,13 @@ class LoginController: UIViewController {
         return label
     }()
     
+    
+    
     lazy var emailTextFieldContainer:UIView = {
         let view = UIView()
         let iconView = UIImageView()
         let bottomLine = UIView()
-        let textField = UITextField()
+        
         
         iconView.image = #imageLiteral(resourceName: "mail")
         iconView.tintColor = .white
@@ -52,25 +59,26 @@ class LoginController: UIViewController {
         bottomLine.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         bottomLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
-        textField.attributedPlaceholder = NSAttributedString(string: "Email@gmail.com",
+        emailTextField.attributedPlaceholder = NSAttributedString(string: "Email@gmail.com",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        textField.font = UIFont(name: "BMJUAOTF", size: 17)
-        textField.textColor = .white
-        view.addSubview(textField)
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 1).isActive = true
-        textField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
-        textField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        textField.autocapitalizationType = .none
-        textField.autocorrectionType = .no
+        emailTextField.font = UIFont(name: "BMJUAOTF", size: 17)
+        emailTextField.textColor = .white
+        view.addSubview(emailTextField)
+        emailTextField.translatesAutoresizingMaskIntoConstraints = false
+        emailTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 1).isActive = true
+        emailTextField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
+        emailTextField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        emailTextField.autocapitalizationType = .none
+        emailTextField.autocorrectionType = .no
         return view
     }()
+    
+    lazy var passwordTextField = UITextField()
     
     lazy var passwordTextFieldContainer:UIView = {
         let view = UIView()
         let iconView = UIImageView()
         let bottomLine = UIView()
-        let textField = UITextField()
         
         iconView.image = #imageLiteral(resourceName: "ic_lock_outline_white_2x")
         iconView.tintColor = .white
@@ -90,18 +98,18 @@ class LoginController: UIViewController {
         bottomLine.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         bottomLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
-        textField.attributedPlaceholder = NSAttributedString(string: "Password",
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        textField.textColor = .white
-        view.addSubview(textField)
-        textField.isSecureTextEntry = true
-        textField.font = UIFont(name: "BMJUAOTF", size: 17)
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 3).isActive = true
-        textField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
-        textField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        textField.autocapitalizationType = .none
-        textField.autocorrectionType = .no
+        passwordTextField.textColor = .white
+        view.addSubview(passwordTextField)
+        passwordTextField.isSecureTextEntry = true
+        passwordTextField.font = UIFont(name: "BMJUAOTF", size: 17)
+        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+        passwordTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 3).isActive = true
+        passwordTextField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
+        passwordTextField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        passwordTextField.autocapitalizationType = .none
+        passwordTextField.autocorrectionType = .no
         return view
     }()
     
@@ -110,6 +118,7 @@ class LoginController: UIViewController {
         button.setTitle("로그인", for: UIControl.State.normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 20)
+        button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -147,6 +156,33 @@ class LoginController: UIViewController {
     }
     
     // MARK: selectors
+    
+    @objc func loginButtonTapped(){
+        LoadingShimmer.startCovering(self.view, with: nil)
+        guard let email = emailTextField.text else {
+            LoadingShimmer.stopCovering(self.view)
+            self.popupDialog(title: "경고", message: "이메일을 입력해주세요", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            return
+        }
+        
+        guard let password = passwordTextField.text else {
+            LoadingShimmer.stopCovering(self.view)
+            self.popupDialog(title: "경고", message: "비밀번호을 입력해주세요", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            return
+        }
+        
+        UserService.shared.loginUser(email: email, password: password) { (error) in
+            if let error = error {
+                LoadingShimmer.stopCovering(self.view)
+                self.popupDialog(title: "경고", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+            }else {
+                // 로그인 성공!
+                RootViewController.rootViewController.configure()
+                LoadingShimmer.stopCovering(self.view)
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
     
     @objc func goToSignUpController(){
         let signUpVC = SignUpController()

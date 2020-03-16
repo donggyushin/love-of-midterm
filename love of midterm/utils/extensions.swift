@@ -14,6 +14,9 @@ extension UIColor {
     static let tinderColor = UIColor(red:1.00, green:0.24, blue:0.45, alpha:1.0)
     static let tinderColor2 = UIColor(red:1.00, green:0.35, blue:0.39, alpha:1.0)
     static let tinderColor3 = UIColor(red:1.00, green:0.40, blue:0.36, alpha:1.0)
+    
+    static let facebookBlue = UIColor(red:0.26, green:0.40, blue:0.70, alpha:1.0)
+    static let spaceGray = UIColor(red:0.18, green:0.20, blue:0.21, alpha:1.0)
 }
 
 extension UIViewController {

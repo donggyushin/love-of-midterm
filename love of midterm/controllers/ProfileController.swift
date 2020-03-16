@@ -22,8 +22,18 @@ class ProfileController: UIViewController {
         didSet {
             configureUser()
             fetchBackgroundImages()
+            fetchAddress()
         }
     }
+    
+    var me:User?
+    
+    var address:Address? {
+        didSet {
+            configureAddress()
+        }
+    }
+    
     
     var backgroundImages = [BackgroundImage]() {
         didSet {
@@ -33,7 +43,7 @@ class ProfileController: UIViewController {
     
     let pagerView = FSPagerView()
     
-    
+    // MARK: UIKits
     lazy var topCustomNavigationBar:UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.tinderColor
@@ -91,6 +101,32 @@ class ProfileController: UIViewController {
         return label
     }()
     
+    lazy var genderMarker:UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        iv.clipsToBounds = true
+        iv.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        iv.heightAnchor.constraint(equalToConstant: 20).isActive = true
+    
+        return iv
+    }()
+    
+    lazy var birthdayLabel:UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "BMJUAOTF", size: 13)
+        label.textColor = .lightGray
+        label.text = "94년생"
+        return label
+    }()
+    
+    lazy var addressLabel:UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.text = "?? km"
+        label.textColor = .darkGray
+        return label
+    }()
+    
     lazy var bioLabel:UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "BMJUAOTF", size: 20)
@@ -140,6 +176,8 @@ class ProfileController: UIViewController {
 
     
     // MARK: Life cycle
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
@@ -154,6 +192,17 @@ class ProfileController: UIViewController {
     }
     
     // MARK: APIs
+    
+    func fetchAddress(){
+        guard let user = self.user else { return }
+        AddressService.shared.fetchAddress(user: user) { (error, address) in
+            if let error = error {
+                self.popupDialog(title: "경고", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+            }else {
+                self.address = address
+            }
+        }
+    }
     
     func fetchBackgroundImages(){
         guard let user = user else { return }
@@ -230,11 +279,44 @@ class ProfileController: UIViewController {
     
     // MARK: configures
     
+    func configureAddress(){
+        guard let _ = self.address else { return }
+        guard let user = user else { return }
+        guard let me = me else { return }
+        if user.id == me.id {
+            addressLabel.text = "0 km"
+        }else {
+            addressLabel.text = "11.12 km"
+        }
+        
+    }
+    
     func configureUser(){
         guard let user = self.user else { return }
         if let url = URL(string: user.profileImageUrl) {
             profileImageView.sd_setImage(with: url, completed: nil)
         }
+        
+        if user.gender == "female" {
+            DispatchQueue.main.async {
+                self.genderMarker.image = #imageLiteral(resourceName: "female")
+                self.genderMarker.image = self.genderMarker.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+                self.genderMarker.tintColor = .tinderColor
+            }
+            
+        }else {
+            DispatchQueue.main.async {
+                self.genderMarker.image = #imageLiteral(resourceName: "male")
+                self.genderMarker.image = self.genderMarker.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+                self.genderMarker.tintColor = .facebookBlue
+                
+            }
+            
+        }
+        
+        
+        let birthdayYear = String(user.birthday.year())
+        birthdayLabel.text = String(birthdayYear.suffix(2))+"년생"
         
         
         if Auth.auth().currentUser?.uid != user.id {
@@ -327,9 +409,24 @@ class ProfileController: UIViewController {
         usernameLabel.topAnchor.constraint(equalTo: pagerView.bottomAnchor, constant: 10).isActive = true
         usernameLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         
+        view.addSubview(genderMarker)
+        genderMarker.translatesAutoresizingMaskIntoConstraints = false
+        genderMarker.topAnchor.constraint(equalTo: pagerView.bottomAnchor, constant: 10).isActive = true
+        genderMarker.leftAnchor.constraint(equalTo: usernameLabel.rightAnchor, constant: 8).isActive = true
+        
+        view.addSubview(birthdayLabel)
+        birthdayLabel.translatesAutoresizingMaskIntoConstraints = false
+        birthdayLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        birthdayLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 8).isActive = true
+        
+        view.addSubview(addressLabel)
+        addressLabel.translatesAutoresizingMaskIntoConstraints = false
+        addressLabel.topAnchor.constraint(equalTo: birthdayLabel.bottomAnchor, constant: 15).isActive = true
+        addressLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        
         view.addSubview(bioLabel)
         bioLabel.translatesAutoresizingMaskIntoConstraints = false
-        bioLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 45).isActive = true
+        bioLabel.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 45).isActive = true
         bioLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         
         view.addSubview(bioTextLabel)
@@ -373,7 +470,11 @@ extension ProfileController:FSPagerViewDelegate, FSPagerViewDataSource {
     }
     
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
-        print("pager view did selected")
+        guard let user = user, let me = me else { return }
+        guard backgroundImages.count != 0 else { return }
+        let backgroundViewVC = BackgroundViewController(backgroundImages: backgroundImages, index: index, me: me, user: user)
+        backgroundViewVC.modalPresentationStyle = .overFullScreen
+        present(backgroundViewVC, animated: true, completion: nil)
         pagerView.deselectItem(at: index, animated: true)
     }
     

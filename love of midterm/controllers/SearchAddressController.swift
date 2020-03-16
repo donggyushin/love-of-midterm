@@ -93,7 +93,7 @@ class SearchAddressController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("\(indexPath.row) 번째 선택됨")
-        signUpVC.setAddress(address: addresses[indexPath.row].roadAddress)
+        signUpVC.setAddress(address: addresses[indexPath.row])
         self.navigationController?.popViewController(animated: true)
     }
 
@@ -119,11 +119,15 @@ extension SearchAddressController:UICollectionViewDelegateFlowLayout {
 
 extension SearchAddressController:UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
+        print("1")
         guard let queryString = searchController.searchBar.text else { return }
+        print("2")
         let urlString = "https://openapi.naver.com/v1/search/local.json?query=\(queryString)"
         guard let encodedString = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else { return }
+        print("3")
         
         guard let url = URL(string: encodedString) else { return }
+        print("4")
         
         var request = URLRequest(url: url)
         request.setValue(Secrets.client_id, forHTTPHeaderField: "X-Naver-Client-Id")

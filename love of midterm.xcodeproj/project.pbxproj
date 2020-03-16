@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		34AD12C414FE01D34B7C27EF /* Pods_love_of_midterm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC85BE4CC903DD575CDB444 /* Pods_love_of_midterm.framework */; };
+		701930B1241FCD04005EDD4E /* AddressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701930B0241FCD04005EDD4E /* AddressService.swift */; };
+		701930B3241FD0EB005EDD4E /* BackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701930B2241FD0EB005EDD4E /* BackgroundViewController.swift */; };
 		70510208241E980B00C2ADFF /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510207241E980B00C2ADFF /* AddressCell.swift */; };
 		7051020B241EA34800C2ADFF /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051020A241EA34800C2ADFF /* Secrets.swift */; };
 		706B59B5241E518B00117106 /* SearchAddressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706B59B4241E518B00117106 /* SearchAddressController.swift */; };
@@ -37,6 +39,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		701930B0241FCD04005EDD4E /* AddressService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressService.swift; sourceTree = "<group>"; };
+		701930B2241FD0EB005EDD4E /* BackgroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundViewController.swift; sourceTree = "<group>"; };
 		70510207241E980B00C2ADFF /* AddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCell.swift; sourceTree = "<group>"; };
 		7051020A241EA34800C2ADFF /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		706B59B4241E518B00117106 /* SearchAddressController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAddressController.swift; sourceTree = "<group>"; };
@@ -168,6 +172,7 @@
 				70D6D646241B42EE0092BD99 /* SignUpController.swift */,
 				707490D1241B7CA50028497C /* ImagePickerController.swift */,
 				706B59B4241E518B00117106 /* SearchAddressController.swift */,
+				701930B2241FD0EB005EDD4E /* BackgroundViewController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -194,6 +199,7 @@
 			children = (
 				70E51DA8241BAA6F00631E25 /* UserService.swift */,
 				7086B82D241C290000E81084 /* BackgroundImageService.swift */,
+				701930B0241FCD04005EDD4E /* AddressService.swift */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -357,7 +363,9 @@
 				70D6D643241B3EAC0092BD99 /* MessageController.swift in Sources */,
 				706B59B7241E600B00117106 /* Address.swift in Sources */,
 				70510208241E980B00C2ADFF /* AddressCell.swift in Sources */,
+				701930B3241FD0EB005EDD4E /* BackgroundViewController.swift in Sources */,
 				70D6D62C241B3A8A0092BD99 /* ViewController.swift in Sources */,
+				701930B1241FCD04005EDD4E /* AddressService.swift in Sources */,
 				70D6D64A241B440C0092BD99 /* extensions.swift in Sources */,
 				707490D2241B7CA50028497C /* ImagePickerController.swift in Sources */,
 				70E51DAE241BAFF700631E25 /* Errors.swift in Sources */,

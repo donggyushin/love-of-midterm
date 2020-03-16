@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import FirebaseFirestore
 
 struct User {
     let email:String
@@ -17,6 +17,10 @@ struct User {
     let username:String
     let bio:String
     let backgroundImages:[String]
+    let addressId:String
+    let birthday:Date
+    let gender:String
+    
     
     init(data:[String:Any]) {
         let email = data["email"] as? String ?? ""
@@ -26,6 +30,10 @@ struct User {
         let username = data["username"] as? String ?? ""
         let bio = data["bio"] as? String ?? ""
         let backgroundImages = data["backgroundImages"] as? [String] ?? []
+        let addressId = data["addressId"] as? String ?? ""
+        let birthday = data["birthday"] as? Timestamp ?? Timestamp()
+        let gender = data["gender"] as? String ?? ""
+        
         
         self.email = email
         self.id = id
@@ -34,5 +42,8 @@ struct User {
         self.username = username
         self.bio = bio
         self.backgroundImages = backgroundImages
+        self.addressId = addressId
+        self.birthday = birthday.dateValue()
+        self.gender = gender
     }
 }

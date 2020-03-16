@@ -30,7 +30,19 @@ struct UserService {
         }
     }
     
-    func requestToNewUser(email:String, password:String, profileImage:UIImage, username:String, completion:@escaping(Error?, String?) -> Void){
+    func loginUser(email:String, password:String, completion:@escaping(Error?) -> Void){
+        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+            if let error = error {
+                completion(error)
+            }else {
+                completion(nil)
+            }
+        }
+    }
+    
+    func requestToNewUser(email:String, password:String, profileImage:UIImage, username:String, gender:String,
+                          birthdayDateValue:Date, addressValue:Address,
+                          completion:@escaping(Error?, String?) -> Void){
         let profileImageUidString = UUID().uuidString
         let profileImageRef = storage.reference().child("profile_images").child("\(profileImageUidString).jpg")
         let dataOp:Data? = profileImage.jpegData(compressionQuality: 1)
@@ -58,23 +70,48 @@ struct UserService {
                     }
                     // 유저 회원가입 성공.
                     let userUid = result.user.uid
-                    self.db.collection("users").document(userUid).setData([
-                        "id": userUid,
-                        "email": email,
-                        "password": password,
-                        "profileImageUrl": downloadUrl,
-                        "username": username,
-                        "profileImageReference": "profile_images/\(profileImageUidString).jpg"
+                    
+                    
+                    var addressRef:DocumentReference?
+                    addressRef = self.db.collection("addresses").addDocument(data: [
+                        "title":addressValue.title,
+                        "link":addressValue.link,
+                        "userId":userUid,
+                        "category":addressValue.category,
+                        "description":addressValue.description,
+                        "telephone":addressValue.telephone,
+                        "address":addressValue.address,
+                        "roadAddress":addressValue.roadAddress,
+                        "mapx":addressValue.mapx,
+                        "mapy":addressValue.mapy
                     ]) { (error) in
                         if let error = error {
-                            completion(error, "")
+                            print(error.localizedDescription)
+                            completion(error, nil)
+                        }else {
+                            let addressId = addressRef!.documentID
+                            self.db.collection("addresses").document(addressId).updateData(["id":addressId])
+                            
+                            self.db.collection("users").document(userUid).setData([
+                                "id": userUid,
+                                "email": email,
+                                "password": password,
+                                "profileImageUrl": downloadUrl,
+                                "username": username,
+                                "profileImageReference": "profile_images/\(profileImageUidString).jpg",
+                                "birthday":birthdayDateValue,
+                                "gender":gender,
+                                "addressId":addressId
+                            ]) { (error) in
+                                if let error = error {
+                                    completion(error, nil)
+                                }
+                                print("성공적으로 회원가입을 마쳤습니다. ")
+                                completion(nil, nil)
+                            }
                         }
-                        print("성공적으로 회원가입을 마쳤습니다. ")
-                        completion(nil, nil)
                     }
                 }
-                
-                
             }
         } // End of upload task
         uploadTask.resume()
