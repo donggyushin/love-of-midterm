@@ -20,6 +20,7 @@ struct User {
     let addressId:String
     let birthday:Date
     let gender:String
+    let testIds:[String]
     
     
     init(data:[String:Any]) {
@@ -33,6 +34,7 @@ struct User {
         let addressId = data["addressId"] as? String ?? ""
         let birthday = data["birthday"] as? Timestamp ?? Timestamp()
         let gender = data["gender"] as? String ?? ""
+        let testIds = data["testIds"] as? [String] ?? []
         
         
         self.email = email
@@ -45,5 +47,6 @@ struct User {
         self.addressId = addressId
         self.birthday = birthday.dateValue()
         self.gender = gender
+        self.testIds = testIds
     }
 }

@@ -12,12 +12,18 @@ import Firebase
 import LoadingShimmer
 import YPImagePicker
 import FSPagerView
+import SideMenu
 
 private let reuseIdentifier = "cell"
+
 
 class ProfileController: UIViewController {
     
     // MARK: properties
+    
+    let sideMenu = SideMenuNavigationController(rootViewController: SideMenuViewController())
+    
+    
     var user:User? {
         didSet {
             configureUser()
@@ -44,6 +50,8 @@ class ProfileController: UIViewController {
     let pagerView = FSPagerView()
     
     // MARK: UIKits
+    
+    
     lazy var topCustomNavigationBar:UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.tinderColor
@@ -60,7 +68,11 @@ class ProfileController: UIViewController {
         iv.clipsToBounds = true
         iv.layer.borderColor = UIColor.white.cgColor
         iv.layer.borderWidth = 3
+        iv.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
+        iv.addGestureRecognizer(tap)
         return iv
+        
     }()
     
     lazy var backgroundImageView:UIImageView = {
@@ -129,8 +141,8 @@ class ProfileController: UIViewController {
     
     lazy var bioLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 20)
-        label.text = "bio"
+        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.text = "자기소개"
         return label
     }()
     
@@ -191,6 +203,13 @@ class ProfileController: UIViewController {
         navigationController?.navigationBar.isHidden = false
     }
     
+    // MARK: Helpers
+    
+    func deleteBackgroundImage(index:Int){
+        self.backgroundImages.remove(at: index)
+        self.pagerView.reloadData()
+    }
+    
     // MARK: APIs
     
     func fetchAddress(){
@@ -223,6 +242,11 @@ class ProfileController: UIViewController {
     
     
     // MARK: selectors
+    
+    @objc func profileImageTapped(){
+        present(sideMenu, animated: true, completion: nil)
+    }
+    
     @objc func plusButtonTapped(){
         var config = YPImagePickerConfiguration()
         config.library.maxNumberOfItems = 7
@@ -357,6 +381,9 @@ class ProfileController: UIViewController {
         backgroundImage.image = #imageLiteral(resourceName: "loveOfMidterm")
         backgroundImages.append(backgroundImage)
         
+        sideMenu.statusBarEndAlpha = 0
+        sideMenu.menuWidth = view.frame.width * 0.73
+        
         DispatchQueue.main.async {
             LoadingShimmer.startCovering(self.view, with: nil)
         }
@@ -371,6 +398,12 @@ class ProfileController: UIViewController {
     }
     
     func configureUI(){
+        
+        navigationController?.navigationBar.barTintColor = .tinderColor
+        navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        
+        
         view.addSubview(topCustomNavigationBar)
         topCustomNavigationBar.translatesAutoresizingMaskIntoConstraints = false
         topCustomNavigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -472,7 +505,7 @@ extension ProfileController:FSPagerViewDelegate, FSPagerViewDataSource {
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         guard let user = user, let me = me else { return }
         guard backgroundImages.count != 0 else { return }
-        let backgroundViewVC = BackgroundViewController(backgroundImages: backgroundImages, index: index, me: me, user: user)
+        let backgroundViewVC = BackgroundViewController(backgroundImages: backgroundImages, index: index, me: me, user: user, profileVC: self)
         backgroundViewVC.modalPresentationStyle = .overFullScreen
         present(backgroundViewVC, animated: true, completion: nil)
         pagerView.deselectItem(at: index, animated: true)

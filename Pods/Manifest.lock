@@ -239,6 +239,7 @@ PODS:
   - "GoogleUtilities/NSData+zlib (6.5.1)"
   - GoogleUtilities/Reachability (6.5.1):
     - GoogleUtilities/Logger
+  - GrowingTextView (0.7.2)
   - "gRPC-C++ (0.0.9)":
     - "gRPC-C++/Implementation (= 0.0.9)"
     - "gRPC-C++/Interface (= 0.0.9)"
@@ -264,12 +265,14 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
+  - NextGrowingTextView (1.5.0)
   - PopupDialog (1.1.1):
     - DynamicBlurView (~> 4.0)
   - PryntTrimmerView (4.0.0)
   - SDWebImage (5.6.0):
     - SDWebImage/Core (= 5.6.0)
   - SDWebImage/Core (5.6.0)
+  - SideMenu (6.4.7)
   - SteviaLayout (4.7.3)
   - YPImagePicker (4.2.0):
     - PryntTrimmerView (~> 4.0.0)
@@ -285,10 +288,13 @@ DEPENDENCIES:
   - FSPagerView
   - Fusuma (~> 1.3.3)
   - GooglePlaces
+  - GrowingTextView (= 0.7.2)
   - LoadingShimmer
   - MDatePickerView
+  - NextGrowingTextView
   - PopupDialog (~> 1.1)
   - SDWebImage (~> 5.0)
+  - SideMenu (~> 6.0)
   - YPImagePicker
   - ZKCarousel
 
@@ -315,6 +321,7 @@ SPEC REPOS:
     - GoogleMaps
     - GooglePlaces
     - GoogleUtilities
+    - GrowingTextView
     - "gRPC-C++"
     - gRPC-Core
     - GTMSessionFetcher
@@ -322,9 +329,11 @@ SPEC REPOS:
     - LoadingShimmer
     - MDatePickerView
     - nanopb
+    - NextGrowingTextView
     - PopupDialog
     - PryntTrimmerView
     - SDWebImage
+    - SideMenu
     - SteviaLayout
     - YPImagePicker
     - ZKCarousel
@@ -351,6 +360,7 @@ SPEC CHECKSUMS:
   GoogleMaps: 7c8d66d70e4e8c300f43a7219d8fdaad7b325a9a
   GooglePlaces: d5f70c3e9e427964fdeca1301a665d276ccd8754
   GoogleUtilities: 06eb53bb579efe7099152735900dd04bf09e7275
+  GrowingTextView: 876bf42005b5e4a4fd740597db12caaf41f0fe6c
   "gRPC-C++": 9dfe7b44821e7b3e44aacad2af29d2c21f7cde83
   gRPC-Core: c9aef9a261a1247e881b18059b84d597293c9947
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
@@ -358,13 +368,15 @@ SPEC CHECKSUMS:
   LoadingShimmer: dd681218498ec9648f572b845a7299b9c62e8e30
   MDatePickerView: e26233885de2f13659c6101b3ed265eacf92c078
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  NextGrowingTextView: 0e267e80bc203e813dc637fd1b011111ad572d57
   PopupDialog: 720c92befd8bc23c13442254945213db5612f149
   PryntTrimmerView: 67e67573ffd4c073f1308effa66aefd0cfa667a0
   SDWebImage: 21b19f56b4226cdfe3aefe4e6848dc43ed129a86
+  SideMenu: 928a015669c3afc201e1fe3a87f1b0bc8993a664
   SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
   YPImagePicker: accf310f9526641a84372c0ecf943547d9b1e52c
   ZKCarousel: e54cdf2a5da6400c7e95bd6df5cbb001dc28883e
 
-PODFILE CHECKSUM: 2471ece75ccc47eb509c4704ec9aeb2646f7cedb
+PODFILE CHECKSUM: c41a38209811046fed66e57439726af562c4d84e
 
 COCOAPODS: 1.8.4

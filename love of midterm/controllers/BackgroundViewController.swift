@@ -13,10 +13,11 @@ import SDWebImage
 class BackgroundViewController: UIViewController {
     
     // MARK: properties
-    let backgroundImages:[BackgroundImage]
+    var backgroundImages:[BackgroundImage]
     var currentIndex:Int
     let user:User
     let me:User
+    let profileVC:ProfileController
     
     
     
@@ -47,11 +48,12 @@ class BackgroundViewController: UIViewController {
     
     // MARK: life cycles
     
-    init(backgroundImages:[BackgroundImage], index:Int, me:User, user:User) {
+    init(backgroundImages:[BackgroundImage], index:Int, me:User, user:User, profileVC:ProfileController) {
         self.backgroundImages = backgroundImages
         self.currentIndex = index
         self.me = me
         self.user = user
+        self.profileVC = profileVC
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -86,7 +88,23 @@ class BackgroundViewController: UIViewController {
         if pagerView.currentIndex == backgroundImages.count - 1 {
             return
         }
+        guard user.id == me.id else { return }
         print("delete button tapped")
+        print("current index of background image: ", pagerView.currentIndex)
+        let backgroundImageToDelete = backgroundImages[pagerView.currentIndex]
+        BackgroundImageService.shared.deleteBackgroundImage(user: user, backgroundImage: backgroundImageToDelete) { (error) in
+            if let error = error {
+                self.popupDialog(title: "경고", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+            }else {
+                
+                // TODO: 현재 뷰에서 해당 background image 없애주기
+                self.backgroundImages.remove(at: self.pagerView.currentIndex)
+                self.pagerView.reloadData()
+                // TODO: 이전 프로필 뷰에서 해당 background image 없애주기
+                self.profileVC.deleteBackgroundImage(index: self.pagerView.currentIndex)
+            }
+            
+        }
     }
     
     @objc func cancleButtonTapped(){

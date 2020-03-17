@@ -66,6 +66,52 @@ extension UIViewController {
         self.navigationController?.view.backgroundColor = .clear
     }
     
+    func dialogRedirectsToPostTestController(goToPostTestController:@escaping() -> Void){
+        let pcv = PopupDialogContainerView.appearance()
+        pcv.backgroundColor = UIColor(red:0.23, green:0.23, blue:0.27, alpha:1.00)
+        pcv.cornerRadius    = 2
+        pcv.shadowEnabled   = true
+        pcv.shadowColor     = .black
+        
+        
+        
+        let ov = PopupDialogOverlayView.appearance()
+        ov.blurEnabled     = true
+        ov.blurRadius      = 30
+        ov.liveBlurEnabled = true
+        ov.opacity         = 0.7
+        ov.color           = .black
+        
+        
+        let pv = PopupDialogDefaultView.appearance()
+        
+        
+        
+        pv.titleFont = UIFont(name: "BMJUAOTF", size: 15)!
+        pv.titleColor = .white
+        
+        pv.messageFont = UIFont(name: "BMJUAOTF", size: 14)!
+        pv.messageColor = .white
+        
+        let db = DefaultButton.appearance()
+        db.titleFont      = UIFont(name: "BMJUAOTF", size: 14)!
+        db.titleColor     = .white
+        db.buttonColor    = UIColor(red:0.25, green:0.25, blue:0.29, alpha:1.00)
+        db.separatorColor = UIColor(red:0.20, green:0.20, blue:0.25, alpha:1.00)
+        
+        
+        let popup = PopupDialog(title: "반갑습니다 '중간의 연애'입니다", message: "'중간의 연애'는 상대방에게 말을 걸기 전에 상대방이 출제한 시험 문제를 모두 풀어야 상대방에게 말을 걸 수 있습니다. 본인에 대한 문제를 출제해주세요!", image: #imageLiteral(resourceName: "loveOfMidterm"), tapGestureDismissal: false, panGestureDismissal: false)
+        
+        let buttonThree = DefaultButton(title: "확인", height: 60) {
+            goToPostTestController()
+        }
+        
+        popup.addButtons([ buttonThree])
+
+        // Present dialog
+        self.present(popup, animated: true)
+    }
+    
     
     func popupDialog(title:String, message:String, image:UIImage){
         

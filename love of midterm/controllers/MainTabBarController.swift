@@ -12,12 +12,14 @@ import Firebase
 class MainTabBarController: UITabBarController {
     
     // MARK: properties
+    
     var user:User? {
         didSet {
             let profileNavigationVC = self.viewControllers?[0] as! UINavigationController
             let profileVC = profileNavigationVC.viewControllers.first as! ProfileController
             profileVC.user = self.user
             profileVC.me = self.user
+            checkUserHasTest()
         }
     }
     
@@ -33,10 +35,24 @@ class MainTabBarController: UITabBarController {
         .lightContent
     }
     
+    func checkUserHasTest(){
+        guard let user = user else { return }
+        if user.testIds.count != 10 {
+            self.dialogRedirectsToPostTestController(goToPostTestController: goToPostTestController)
+        }
+    }
+    
+    func goToPostTestController(){
+        let postTestVC = PostTestController()
+        postTestVC.modalPresentationStyle = .fullScreen
+        present(postTestVC, animated: true, completion: nil)
+    }
+    
     func configure(){
         let profileVC = UINavigationController(rootViewController: ProfileController())
         let searchVC = UINavigationController(rootViewController: SearchController())
         let messageVC = UINavigationController(rootViewController: MessageController())
+        
         
         profileVC.tabBarItem.image = #imageLiteral(resourceName: "home_unselected")
         searchVC.tabBarItem.image = #imageLiteral(resourceName: "search_unselected")
@@ -47,6 +63,16 @@ class MainTabBarController: UITabBarController {
         UserService.shared.fetchUser { (user) in
             self.user = user
         }
+        
+    }
+    
+    func logoutFunction(){
+        view.backgroundColor = UIColor.tinderColor
+        let loginVC = UINavigationController(rootViewController: LoginController())
+        loginVC.modalPresentationStyle = .fullScreen
+        DispatchQueue.main.async {
+            self.present(loginVC, animated: true, completion: nil)
+        }
     }
     
     func checkUserIsLoggedIn(){
@@ -54,12 +80,7 @@ class MainTabBarController: UITabBarController {
 //        try! Auth.auth().signOut()
         
         if(Auth.auth().currentUser == nil){
-            view.backgroundColor = UIColor.tinderColor
-            let loginVC = UINavigationController(rootViewController: LoginController())
-            loginVC.modalPresentationStyle = .fullScreen
-            DispatchQueue.main.async {
-                self.present(loginVC, animated: true, completion: nil)
-            }
+            logoutFunction()
         }else {
             configure()
             
@@ -67,8 +88,5 @@ class MainTabBarController: UITabBarController {
         
         
     }
-    
-    
-    
-    
 }
+
