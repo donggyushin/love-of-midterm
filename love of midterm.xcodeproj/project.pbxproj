@@ -33,6 +33,9 @@
 		70D6D647241B42EE0092BD99 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D6D646241B42EE0092BD99 /* SignUpController.swift */; };
 		70D6D64A241B440C0092BD99 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D6D649241B440C0092BD99 /* extensions.swift */; };
 		70D6D64D241B47060092BD99 /* BMJUA_otf.otf in Resources */ = {isa = PBXBuildFile; fileRef = 70D6D64C241B47060092BD99 /* BMJUA_otf.otf */; };
+		70DB0B5E24221DDC004AF0C5 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DB0B5D24221DDC004AF0C5 /* Test.swift */; };
+		70DB0B6024221F57004AF0C5 /* TestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DB0B5F24221F57004AF0C5 /* TestService.swift */; };
+		70DB0B6224222746004AF0C5 /* PostBioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DB0B6124222746004AF0C5 /* PostBioController.swift */; };
 		70E51DA9241BAA6F00631E25 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E51DA8241BAA6F00631E25 /* UserService.swift */; };
 		70E51DAB241BAB1A00631E25 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70E51DAA241BAB1900631E25 /* GoogleService-Info.plist */; };
 		70E51DAE241BAFF700631E25 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E51DAD241BAFF700631E25 /* Errors.swift */; };
@@ -68,6 +71,9 @@
 		70D6D646241B42EE0092BD99 /* SignUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpController.swift; sourceTree = "<group>"; };
 		70D6D649241B440C0092BD99 /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 		70D6D64C241B47060092BD99 /* BMJUA_otf.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BMJUA_otf.otf; sourceTree = "<group>"; };
+		70DB0B5D24221DDC004AF0C5 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
+		70DB0B5F24221F57004AF0C5 /* TestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestService.swift; sourceTree = "<group>"; };
+		70DB0B6124222746004AF0C5 /* PostBioController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostBioController.swift; sourceTree = "<group>"; };
 		70E51DA8241BAA6F00631E25 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		70E51DAA241BAB1900631E25 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70E51DAD241BAFF700631E25 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
@@ -112,6 +118,7 @@
 				7086B81E241BED2400E81084 /* User.swift */,
 				7086B82F241C33A100E81084 /* BackgroundImage.swift */,
 				706B59B6241E600B00117106 /* Address.swift */,
+				70DB0B5D24221DDC004AF0C5 /* Test.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -147,8 +154,8 @@
 			children = (
 				70510209241EA32D00C2ADFF /* secrets */,
 				7086B820241C0B9300E81084 /* Views */,
-				7086B81D241BED1800E81084 /* Model */,
 				70E51DAC241BAFEC00631E25 /* errors */,
+				7086B81D241BED1800E81084 /* Model */,
 				70E51DA7241BAA5C00631E25 /* services */,
 				70D6D64B241B46F50092BD99 /* fonts */,
 				70D6D648241B43FF0092BD99 /* utils */,
@@ -179,6 +186,7 @@
 				701930B2241FD0EB005EDD4E /* BackgroundViewController.swift */,
 				70E8F6392420D72D0025615B /* SideMenuViewController.swift */,
 				70E8F63B2420E2D00025615B /* PostTestController.swift */,
+				70DB0B6124222746004AF0C5 /* PostBioController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -206,6 +214,7 @@
 				70E51DA8241BAA6F00631E25 /* UserService.swift */,
 				7086B82D241C290000E81084 /* BackgroundImageService.swift */,
 				701930B0241FCD04005EDD4E /* AddressService.swift */,
+				70DB0B5F24221F57004AF0C5 /* TestService.swift */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -362,6 +371,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70DB0B6024221F57004AF0C5 /* TestService.swift in Sources */,
 				70D6D63F241B3E7A0092BD99 /* ProfileController.swift in Sources */,
 				70D6D641241B3E8C0092BD99 /* SearchController.swift in Sources */,
 				70D6D647241B42EE0092BD99 /* SignUpController.swift in Sources */,
@@ -371,6 +381,7 @@
 				70510208241E980B00C2ADFF /* AddressCell.swift in Sources */,
 				701930B3241FD0EB005EDD4E /* BackgroundViewController.swift in Sources */,
 				70D6D62C241B3A8A0092BD99 /* ViewController.swift in Sources */,
+				70DB0B6224222746004AF0C5 /* PostBioController.swift in Sources */,
 				701930B1241FCD04005EDD4E /* AddressService.swift in Sources */,
 				70E8F63C2420E2D00025615B /* PostTestController.swift in Sources */,
 				70D6D64A241B440C0092BD99 /* extensions.swift in Sources */,
@@ -381,6 +392,7 @@
 				70E51DA9241BAA6F00631E25 /* UserService.swift in Sources */,
 				70E8F63A2420D72D0025615B /* SideMenuViewController.swift in Sources */,
 				7086B82E241C290000E81084 /* BackgroundImageService.swift in Sources */,
+				70DB0B5E24221DDC004AF0C5 /* Test.swift in Sources */,
 				70D6D645241B42DF0092BD99 /* LoginController.swift in Sources */,
 				7051020B241EA34800C2ADFF /* Secrets.swift in Sources */,
 				70D6D63D241B3B2C0092BD99 /* MainTabBarController.swift in Sources */,

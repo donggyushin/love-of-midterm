@@ -26,6 +26,7 @@ struct UserService {
             
             guard let data = querySnapshot!.data() else { return }
             let user = User(data: data)
+            
             completion(user)
         }
     }
