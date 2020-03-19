@@ -19,6 +19,11 @@ class MainTabBarController: UITabBarController {
             let profileVC = profileNavigationVC.viewControllers.first as! ProfileController
             profileVC.user = self.user
             profileVC.me = self.user
+            
+            let searchControllerNavigation = self.viewControllers?[1] as! UINavigationController
+            let searchVC = searchControllerNavigation.viewControllers.first as! SearchController
+            searchVC.me = self.user 
+            
             checkUserHasTest()
         }
     }

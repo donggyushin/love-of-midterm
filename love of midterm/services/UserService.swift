@@ -16,6 +16,23 @@ struct UserService {
     
     static let shared = UserService()
     
+    func fetchUsers(completion:@escaping(Error?, [User]?) -> Void){
+        var users = [User]()
+        db.collection("users").getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(error, nil)
+            }else {
+                let documents = querySnapshot!.documents
+                for document in documents {
+                    let data = document.data()
+                    let user = User(data: data)
+                    users.append(user)
+                }
+                completion(nil, users)
+            }
+        }
+    }
+    
     func postBio(bio:String, completion:@escaping(Error?) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         db.collection("users").document(uid).updateData([

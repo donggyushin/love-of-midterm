@@ -22,6 +22,14 @@ class SideMenuViewController: UIViewController {
         return button
     }()
     
+    lazy var editProfileButton:UIButton = {
+        let button = UIButton(type: UIButton.ButtonType.system)
+        button.setTitle("프로필 변경", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
+        return button
+    }()
+    
     // MARK: life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,9 +55,16 @@ class SideMenuViewController: UIViewController {
     }
     
     func configureUI(){
+        view.addSubview(editProfileButton)
+        editProfileButton.translatesAutoresizingMaskIntoConstraints = false
+        editProfileButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+        editProfileButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        editProfileButton.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        
+        
         view.addSubview(logoutButton)
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
-        logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+        logoutButton.topAnchor.constraint(equalTo: editProfileButton.bottomAnchor, constant: 20).isActive = true
         logoutButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         logoutButton.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
     }

@@ -8,6 +8,7 @@
 
 import Foundation
 import FirebaseFirestore
+import Firebase
 
 struct User {
     let email:String
@@ -21,7 +22,6 @@ struct User {
     let birthday:Date
     let gender:String
     let testIds:[String]
-    
     
     init(data:[String:Any]) {
         let email = data["email"] as? String ?? ""
@@ -48,5 +48,9 @@ struct User {
         self.birthday = birthday.dateValue()
         self.gender = gender
         self.testIds = testIds
+        
+        
+        
     }
+    
 }

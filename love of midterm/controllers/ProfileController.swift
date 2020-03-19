@@ -139,25 +139,19 @@ class ProfileController: UIViewController {
         return label
     }()
     
-    lazy var bioLabel:UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
-        label.text = "자기소개"
-        return label
-    }()
     
     lazy var bioTextLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.font = UIFont(name: "BMJUAOTF", size: 13)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
-        
+        label.textColor = .darkText
         
         let attributedString = NSMutableAttributedString(string: "")
         // *** Create instance of `NSMutableParagraphStyle`
         let paragraphStyle = NSMutableParagraphStyle()
         // *** set LineSpacing property in points ***
-        paragraphStyle.lineSpacing = 8 // Whatever line spacing you want in points
+        paragraphStyle.lineSpacing = 1 // Whatever line spacing you want in points
         // *** Apply attribute to string ***
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
         // *** Set Attributed String to your label ***
@@ -169,21 +163,27 @@ class ProfileController: UIViewController {
     }()
     
     
-    lazy var editOrChallengeButton:UIButton = {
-        let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("시험보기", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        button.layer.cornerRadius = 15
-        button.backgroundColor = .tinderColor2
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 17)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.shadowOpacity = 0.7
-        button.layer.shadowOffset = CGSize(width: 2, height: 2)
-        button.layer.shadowRadius = 2.0
-        button.layer.shadowColor = UIColor.darkGray.cgColor
-        return button
+    lazy var challengeButton:UIImageView = {
+        let iv = UIImageView()
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.widthAnchor.constraint(equalToConstant: 56).isActive = true
+        iv.heightAnchor.constraint(equalToConstant: 56).isActive = true
+        iv.layer.cornerRadius = 28
+        iv.image = #imageLiteral(resourceName: "comment")
+        iv.image = iv.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        iv.tintColor = .white
+        iv.backgroundColor = .tinderColor
+        iv.contentMode = .center
+        iv.clipsToBounds = true
+        
+        iv.layer.shadowRadius = 2
+        iv.layer.shadowColor = UIColor.black.cgColor
+        iv.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+        iv.layer.shadowOpacity = 0.7
+        iv.layer.masksToBounds = false
+        
+        
+        return iv
     }()
 
     
@@ -322,19 +322,17 @@ class ProfileController: UIViewController {
         }
         
         if user.gender == "female" {
-            DispatchQueue.main.async {
-                self.genderMarker.image = #imageLiteral(resourceName: "female")
-                self.genderMarker.image = self.genderMarker.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-                self.genderMarker.tintColor = .tinderColor
-            }
+            
+            self.genderMarker.image = #imageLiteral(resourceName: "female")
+            self.genderMarker.image = self.genderMarker.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            self.genderMarker.tintColor = UIColor.tinderColor
+        
             
         }else {
-            DispatchQueue.main.async {
-                self.genderMarker.image = #imageLiteral(resourceName: "male")
-                self.genderMarker.image = self.genderMarker.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-                self.genderMarker.tintColor = .facebookBlue
-                
-            }
+        
+            self.genderMarker.image = #imageLiteral(resourceName: "male")
+            self.genderMarker.image = self.genderMarker.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            self.genderMarker.tintColor = UIColor.facebookBlue
             
         }
         
@@ -344,7 +342,7 @@ class ProfileController: UIViewController {
         
         
         if Auth.auth().currentUser?.uid == user.id {
-            self.editOrChallengeButton.isHidden = true
+//            self.editOrChallengeButton.isHidden = true
         }
         
         usernameLabel.text = user.username
@@ -361,8 +359,9 @@ class ProfileController: UIViewController {
         bioTextLabel.attributedText = attributedString
         
         
-        
         LoadingShimmer.stopCovering(self.view)
+        
+        
     }
     
     func configure(){
@@ -419,7 +418,7 @@ class ProfileController: UIViewController {
         pagerView.topAnchor.constraint(equalTo: topCustomNavigationBar.bottomAnchor).isActive = true
         pagerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         pagerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        pagerView.heightAnchor.constraint(equalToConstant: view.frame.width * 0.65).isActive = true
+        pagerView.heightAnchor.constraint(equalToConstant: view.frame.width * 1).isActive = true
         
         view.addSubview(profileImageView)
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -450,22 +449,18 @@ class ProfileController: UIViewController {
         addressLabel.translatesAutoresizingMaskIntoConstraints = false
         addressLabel.topAnchor.constraint(equalTo: birthdayLabel.bottomAnchor, constant: 15).isActive = true
         addressLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-        
-        view.addSubview(bioLabel)
-        bioLabel.translatesAutoresizingMaskIntoConstraints = false
-        bioLabel.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 45).isActive = true
-        bioLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+
         
         view.addSubview(bioTextLabel)
         bioTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        bioTextLabel.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 10).isActive = true
+        bioTextLabel.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 40).isActive = true
         bioTextLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         bioTextLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         
-        view.addSubview(editOrChallengeButton)
-        editOrChallengeButton.translatesAutoresizingMaskIntoConstraints = false
-        editOrChallengeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        editOrChallengeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -60).isActive = true
+        view.addSubview(challengeButton)
+        challengeButton.translatesAutoresizingMaskIntoConstraints = false
+        challengeButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
+        challengeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
         
     }
     
