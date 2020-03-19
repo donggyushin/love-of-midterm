@@ -30,10 +30,15 @@ class MainTabBarController: UITabBarController {
 
     }
     
-    // MARK: configure
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
+    // MARK: APIs
+    
+    func fetchUser(){
+        UserService.shared.fetchUser { (user) in
+            self.user = user
+        }
     }
+    
+    // MARK: helpers
     
     func checkUserHasTest(){
         guard let user = user else { return }
@@ -41,6 +46,35 @@ class MainTabBarController: UITabBarController {
             self.dialogRedirectsToPostTestController(goToPostTestController: goToPostTestController)
         }
     }
+    
+    func logoutFunction(){
+            view.backgroundColor = UIColor.tinderColor
+            let loginVC = UINavigationController(rootViewController: LoginController())
+            loginVC.modalPresentationStyle = .fullScreen
+            DispatchQueue.main.async {
+                self.present(loginVC, animated: true, completion: nil)
+            }
+        }
+        
+        func checkUserIsLoggedIn(){
+            
+    //        try! Auth.auth().signOut()
+            
+            if(Auth.auth().currentUser == nil){
+                logoutFunction()
+            }else {
+                configure()
+                
+            }
+            
+        }
+    
+    // MARK: configure
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
+    
+    
     
     func goToPostTestController(){
         let postTestVC = PostTestController()
@@ -60,33 +94,9 @@ class MainTabBarController: UITabBarController {
         
         viewControllers = [profileVC, searchVC, messageVC]
         
-        UserService.shared.fetchUser { (user) in
-            self.user = user
-        }
+        fetchUser()
         
     }
     
-    func logoutFunction(){
-        view.backgroundColor = UIColor.tinderColor
-        let loginVC = UINavigationController(rootViewController: LoginController())
-        loginVC.modalPresentationStyle = .fullScreen
-        DispatchQueue.main.async {
-            self.present(loginVC, animated: true, completion: nil)
-        }
-    }
-    
-    func checkUserIsLoggedIn(){
-        
-//        try! Auth.auth().signOut()
-        
-        if(Auth.auth().currentUser == nil){
-            logoutFunction()
-        }else {
-            configure()
-            
-        }
-        
-        
-    }
 }
 

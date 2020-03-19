@@ -176,6 +176,7 @@ class PostTestController: UIViewController {
         tf.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tf.keyboardType = .numberPad
         tf.textAlignment = .center
+        tf.font = UIFont(name: "BMJUAOTF", size: 17)
         return tf
     }()
     
@@ -207,7 +208,10 @@ class PostTestController: UIViewController {
     // MARK: helpers
     
     func popPostBioController(){
-        let popup = PopupDialog(viewController: PostBioController())
+        let postBioVC = PostBioController()
+        postBioVC.delegate = self
+        let popup = PopupDialog(viewController: postBioVC, preferredWidth: 400, tapGestureDismissal: false, panGestureDismissal: false)
+        
         self.present(popup, animated: true, completion: nil)
     }
     
@@ -394,4 +398,11 @@ class PostTestController: UIViewController {
         
     }
     
+}
+
+
+extension PostTestController:PostBioControllerDelgate {
+    func redirectToMainApplication(VC: PostBioController) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }

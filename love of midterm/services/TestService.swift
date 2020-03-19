@@ -27,7 +27,8 @@ struct TestService {
                         if let error = error {
                             completion(error, nil)
                         }else {
-                            let data = querySnapshot!.data()!
+                            guard let data = querySnapshot!.data() else { return }
+                            
                             let testNum = data["num"] as? Int ?? 0
                             if testNum == num {
                                 let test = Test(data: data)
@@ -43,30 +44,6 @@ struct TestService {
     func postNewTest(num:Int, title:String, questionOne:String, questionTwo:String, questionThree:String, questionFour:String, answer:Int, completion:@escaping(Error?) -> Void){
         guard let userId = Auth.auth().currentUser?.uid else { return }
         var testRef:DocumentReference?
-        
-        // 먼저 유저가 num 번째 test을 가지고 있는지 확인한 후 만약에 num 번째 test을 가지고 있다면 해당 test를 지워주고 시작한다.
-        db.collection("users").document(userId).getDocument { (querySnapshot, error) in
-            if let error = error {
-                completion(error)
-            }else {
-                let data = querySnapshot!.data()!
-                let testIds = data["testIds"] as? [String] ?? []
-                for testId in testIds {
-                    self.db.collection("tests").document(testId).getDocument { (querySnapshot, error) in
-                        if let error = error {
-                            completion(error)
-                        }else {
-                            let data = querySnapshot!.data()!
-                            let testNum = data["num"] as? Int ?? 0
-                            if num == testNum {
-                                self.db.collection("users").document(userId).updateData(["testIds" : FieldValue.arrayRemove([testId])])
-                                self.db.collection("tests").document(testId).delete()
-                            }
-                        }
-                    }
-                }
-            }
-        }
         
         
         // START posting test
@@ -84,14 +61,47 @@ struct TestService {
                     completion(error)
                 }else {
                     let testId = testRef!.documentID
-                    self.db.collection("users").document(userId).updateData(["testIds":FieldValue.arrayUnion([testId])])
-                    self.db.collection("tests").document(testId).updateData(["id":testId]) { (error) in
+                    
+                    
+                    self.db.collection("tests").document(testId).updateData(["id": testId]) { (error) in
                         if let error = error {
                             completion(error)
                         }else {
-                            completion(nil)
+                            self.db.collection("users").document(userId).updateData(["testIds":FieldValue.arrayUnion([testId])]) { (error) in
+                                if let error = error {
+                                    completion(error)
+                                }else {
+                                    
+                                    completion(nil)
+                                    
+                                    print("after completion")
+                                    
+                                    self.db.collection("tests").whereField("userId", isEqualTo: userId).getDocuments { (querySnapshot, error) in
+                                        if let error = error {
+                                            completion(error)
+                                        }else {
+                                            let documents = querySnapshot!.documents
+                                            for document in documents {
+                                                let data = document.data()
+                                                guard let documentId = data["id"] as? String else { return }
+                                                guard let documentNum = data["num"] as? Int else { return }
+                                                
+                                                if num == documentNum && documentId != testId {
+                                                    self.db.collection("tests").document(documentId).delete()
+                                                    self.db.collection("users").document(userId).updateData(["testIds" : FieldValue.arrayRemove([documentId])])
+                                                }
+                                                
+                                            }
+                                        }
+                                    }
+                                    
+                                    
+                                    
+                                }
+                            }
                         }
                     }
+                    
                 }
         }) // END posting test
     }

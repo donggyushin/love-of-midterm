@@ -171,7 +171,7 @@ class ProfileController: UIViewController {
     
     lazy var editOrChallengeButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("", for: .normal)
+        button.setTitle("시험보기", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.widthAnchor.constraint(equalToConstant: 200).isActive = true
         button.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -343,14 +343,8 @@ class ProfileController: UIViewController {
         birthdayLabel.text = String(birthdayYear.suffix(2))+"년생"
         
         
-        if Auth.auth().currentUser?.uid != user.id {
-            
-            self.plusButton.isHidden = true
-            self.editOrChallengeButton.setTitle("도전하기", for: .normal)
-            
-            
-        }else {
-            self.editOrChallengeButton.setTitle("프로필 변경", for: .normal)
+        if Auth.auth().currentUser?.uid == user.id {
+            self.editOrChallengeButton.isHidden = true
         }
         
         usernameLabel.text = user.username
