@@ -103,6 +103,8 @@ class SearchController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let profileVCTypeTwo = ProfileControllerTypeTwo()
+        profileVCTypeTwo.user = self.users[indexPath.row]
+        profileVCTypeTwo.me = self.me
         navigationController?.pushViewController(profileVCTypeTwo, animated: true)
         
     }

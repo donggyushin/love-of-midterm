@@ -15,6 +15,18 @@ struct BackgroundImageService {
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
     
+    func fetchBackgroundImageWithId(id:String, completion:@escaping(Error?, BackgroundImage?) -> Void){
+        db.collection("backgroundImages").document(id).getDocument { (querySnapshot, error) in
+            if let error = error {
+                completion(error, nil)
+            }else {
+                guard let data = querySnapshot!.data() else { return }
+                let backgroundImage = BackgroundImage(data: data)
+                completion(nil, backgroundImage)
+            }
+        }
+    }
+    
     func deleteBackgroundImage(user:User, backgroundImage:BackgroundImage, completion:@escaping(Error?) -> Void){
         // 유저의 백그라운드 이미지에서 이미지를 지운다.
         db.collection("users").document(user.id).updateData([

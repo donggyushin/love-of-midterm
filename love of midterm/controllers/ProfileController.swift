@@ -109,7 +109,7 @@ class ProfileController: UIViewController {
     
     lazy var usernameLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 20)
+        label.font = UIFont(name: "BMJUAOTF", size: 15)
         return label
     }()
     
@@ -117,8 +117,8 @@ class ProfileController: UIViewController {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
-        iv.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        iv.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        iv.widthAnchor.constraint(equalToConstant: 15).isActive = true
+        iv.heightAnchor.constraint(equalToConstant: 15).isActive = true
     
         return iv
     }()
@@ -133,18 +133,18 @@ class ProfileController: UIViewController {
     
     lazy var addressLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.font = UIFont(name: "BMJUAOTF", size: 13)
         label.text = "?? km"
-        label.textColor = .darkGray
+        label.textColor = .lightGray
         return label
     }()
     
     
     lazy var bioTextLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 13)
+        label.font = UIFont(name: "BMJUAOTF", size: 14)
         label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
+        label.numberOfLines = 5
         label.textColor = .darkText
         
         let attributedString = NSMutableAttributedString(string: "")
@@ -162,30 +162,7 @@ class ProfileController: UIViewController {
         return label
     }()
     
-    
-    lazy var challengeButton:UIImageView = {
-        let iv = UIImageView()
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.widthAnchor.constraint(equalToConstant: 56).isActive = true
-        iv.heightAnchor.constraint(equalToConstant: 56).isActive = true
-        iv.layer.cornerRadius = 28
-        iv.image = #imageLiteral(resourceName: "comment")
-        iv.image = iv.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        iv.tintColor = .white
-        iv.backgroundColor = .tinderColor
-        iv.contentMode = .center
-        iv.clipsToBounds = true
-        
-        iv.layer.shadowRadius = 2
-        iv.layer.shadowColor = UIColor.black.cgColor
-        iv.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
-        iv.layer.shadowOpacity = 0.7
-        iv.layer.masksToBounds = false
-        
-        
-        return iv
-    }()
-
+   
     
     // MARK: Life cycle
     
@@ -304,14 +281,10 @@ class ProfileController: UIViewController {
     // MARK: configures
     
     func configureAddress(){
-        guard let _ = self.address else { return }
-        guard let user = user else { return }
-        guard let me = me else { return }
-        if user.id == me.id {
-            addressLabel.text = "0 km"
-        }else {
-            addressLabel.text = "11.12 km"
-        }
+        guard let address = self.address else { return }
+        
+        addressLabel.text = address.roadAddress
+        
         
     }
     
@@ -443,11 +416,11 @@ class ProfileController: UIViewController {
         view.addSubview(birthdayLabel)
         birthdayLabel.translatesAutoresizingMaskIntoConstraints = false
         birthdayLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-        birthdayLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 8).isActive = true
+        birthdayLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 10).isActive = true
         
         view.addSubview(addressLabel)
         addressLabel.translatesAutoresizingMaskIntoConstraints = false
-        addressLabel.topAnchor.constraint(equalTo: birthdayLabel.bottomAnchor, constant: 15).isActive = true
+        addressLabel.topAnchor.constraint(equalTo: birthdayLabel.bottomAnchor, constant: 10).isActive = true
         addressLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
 
         
@@ -456,11 +429,6 @@ class ProfileController: UIViewController {
         bioTextLabel.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 40).isActive = true
         bioTextLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         bioTextLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
-        
-        view.addSubview(challengeButton)
-        challengeButton.translatesAutoresizingMaskIntoConstraints = false
-        challengeButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
-        challengeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
         
     }
     
