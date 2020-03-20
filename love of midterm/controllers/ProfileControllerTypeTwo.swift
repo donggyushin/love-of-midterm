@@ -8,6 +8,7 @@
 
 import UIKit
 import SDWebImage
+import PopupDialog
 
 class ProfileControllerTypeTwo: UIViewController {
     
@@ -116,6 +117,7 @@ class ProfileControllerTypeTwo: UIViewController {
         button.setTitle("대화하기", for: .normal)
         button.setTitleColor(.tinderColor, for: .normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
+        button.addTarget(self, action: #selector(conversationButtonTapped), for: .touchUpInside)
         return button
     }()
 
@@ -129,6 +131,15 @@ class ProfileControllerTypeTwo: UIViewController {
     // MARK: selectors
     @objc func backbuttonTapped(){
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func conversationButtonTapped(){
+        let testVC = TestController()
+        
+        let popup = PopupDialog(viewController: testVC, preferredWidth: 400, tapGestureDismissal: false, panGestureDismissal: false)
+        
+        self.present(popup, animated: true, completion: nil)
+        
     }
     
     @objc func moreButtonTapped(){

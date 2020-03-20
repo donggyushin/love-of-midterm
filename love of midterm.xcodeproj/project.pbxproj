@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		34AD12C414FE01D34B7C27EF /* Pods_love_of_midterm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC85BE4CC903DD575CDB444 /* Pods_love_of_midterm.framework */; };
 		701930B1241FCD04005EDD4E /* AddressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701930B0241FCD04005EDD4E /* AddressService.swift */; };
+		703851DB24252E11005ABE28 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703851DA24252E11005ABE28 /* TestController.swift */; };
 		70510208241E980B00C2ADFF /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510207241E980B00C2ADFF /* AddressCell.swift */; };
 		7051020B241EA34800C2ADFF /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051020A241EA34800C2ADFF /* Secrets.swift */; };
 		706B59B7241E600B00117106 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706B59B6241E600B00117106 /* Address.swift */; };
@@ -50,6 +51,7 @@
 
 /* Begin PBXFileReference section */
 		701930B0241FCD04005EDD4E /* AddressService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressService.swift; sourceTree = "<group>"; };
+		703851DA24252E11005ABE28 /* TestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
 		70510207241E980B00C2ADFF /* AddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCell.swift; sourceTree = "<group>"; };
 		7051020A241EA34800C2ADFF /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		706B59B6241E600B00117106 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				709F9FF32424FFE300F46C12 /* SearchController.swift */,
 				709F9FF92424FFE400F46C12 /* SideMenuViewController.swift */,
 				709F9FF72424FFE400F46C12 /* SignUpController.swift */,
+				703851DA24252E11005ABE28 /* TestController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 				709F9FFB2424FFE500F46C12 /* OneUserBackgroundImageController.swift in Sources */,
 				7086B81C241BE7BD00E81084 /* RootViewController.swift in Sources */,
 				709F9FFC2424FFE500F46C12 /* ProfileControllerTypeTwo.swift in Sources */,
+				703851DB24252E11005ABE28 /* TestController.swift in Sources */,
 				709F9FFD2424FFE500F46C12 /* ImagePickerController.swift in Sources */,
 				709F9FFE2424FFE500F46C12 /* PostBioController.swift in Sources */,
 				709FA0032424FFE500F46C12 /* MoreUserImageController.swift in Sources */,
