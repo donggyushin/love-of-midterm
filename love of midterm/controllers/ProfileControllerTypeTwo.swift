@@ -68,9 +68,6 @@ class ProfileControllerTypeTwo: UIViewController {
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.widthAnchor.constraint(equalToConstant: 15).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 15).isActive = true
-        iv.image = #imageLiteral(resourceName: "female")
-        iv.image = iv.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        iv.tintColor = UIColor.tinderColor
         return iv
     }()
     
@@ -134,7 +131,8 @@ class ProfileControllerTypeTwo: UIViewController {
     }
     
     @objc func conversationButtonTapped(){
-        let testVC = TestController()
+        guard let user = user else { return }
+        let testVC = TestController(user:user)
         
         let popup = PopupDialog(viewController: testVC, preferredWidth: 400, tapGestureDismissal: false, panGestureDismissal: false)
         
@@ -179,6 +177,17 @@ class ProfileControllerTypeTwo: UIViewController {
         
         let birthdayYear = String(user.birthday.year())
         birthdayLabel.text = String(birthdayYear.suffix(2))+"년생"
+        
+        if user.gender == "female" {
+            genderIcon.image = #imageLiteral(resourceName: "female")
+            genderIcon.image = genderIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            genderIcon.tintColor = .tinderColor
+        }else {
+            genderIcon.image = #imageLiteral(resourceName: "male")
+            genderIcon.image = genderIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            genderIcon.tintColor = .facebookBlue
+        }
+        
     }
     
     func configure(){

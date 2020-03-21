@@ -117,6 +117,16 @@ class UserCell: UICollectionViewCell {
         }
         usernameLabel.text = user.username
         bioTextLabel.text = user.bio
+        
+        if user.gender == "female" {
+            genderMark.image = #imageLiteral(resourceName: "female")
+            genderMark.image = genderMark.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            genderMark.tintColor = .tinderColor
+        }else {
+            genderMark.image = #imageLiteral(resourceName: "male")
+            genderMark.image = genderMark.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            genderMark.tintColor = .facebookBlue
+        }
     }
     
     

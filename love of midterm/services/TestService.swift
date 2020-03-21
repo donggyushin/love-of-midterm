@@ -13,6 +13,35 @@ struct TestService {
     static let shared = TestService()
     let db = Firestore.firestore()
     
+    func fetchTestWithNumAndUserId(userId:String, num:Int, completion:@escaping(Error?, Test?) -> Void){
+        db.collection("users").document(userId).getDocument { (querySnapshot, error) in
+            if let error = error {
+                completion(error, nil)
+            }else {
+                guard let data = querySnapshot!.data() else { return }
+                let user = User(data: data)
+                
+                let testIds = user.testIds
+                
+                for testId in testIds {
+                    self.db.collection("tests").document(testId).getDocument { (querySnapshot, error) in
+                        if let error = error {
+                            completion(error, nil)
+                        }else {
+                            guard let data = querySnapshot!.data() else { return }
+                            let test = Test(data: data)
+                            if test.num == num {
+                                completion(nil, test)
+                                return
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+    
     func fetchTestWithNum(num:Int, completion:@escaping(Error?,Test?) -> Void){
         guard let userId = Auth.auth().currentUser?.uid else { return }
         db.collection("users").document(userId).getDocument { (querySnapshot, error) in

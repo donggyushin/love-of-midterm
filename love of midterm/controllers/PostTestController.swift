@@ -79,15 +79,16 @@ class PostTestController: UIViewController {
         return iv
     }()
     
-    lazy var optionOneGrowingLabel:GrowingTextView = {
-        let tv = GrowingTextView()
+    lazy var optionOneGrowingLabel:TextField = {
+        let tv = TextField()
         tv.font = UIFont(name: "BMJUAOTF", size: 15)
         tv.backgroundColor = .systemGroupedBackground
         tv.layer.cornerRadius = 8
         tv.placeholder = "1번 보기를 입력해주세요."
+//        tv.attributedPlaceholder = NSAttributedString(string: "1번 보기를 입력해주세요",
+//        attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
-        tv.minHeight = 30
-        tv.maxLength = 150
+        tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tv.autocorrectionType = .no
         return tv
     }()
@@ -102,15 +103,14 @@ class PostTestController: UIViewController {
         return iv
     }()
     
-    lazy var optionTwoGrowingLabel:GrowingTextView = {
-        let tv = GrowingTextView()
+    lazy var optionTwoGrowingLabel:TextField = {
+        let tv = TextField()
         tv.font = UIFont(name: "BMJUAOTF", size: 15)
         tv.backgroundColor = .systemGroupedBackground
         tv.layer.cornerRadius = 8
         tv.placeholder = "2번 보기를 입력해주세요."
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
-        tv.minHeight = 30
-        tv.maxLength = 150
+        tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tv.autocorrectionType = .no
         return tv
     }()
@@ -125,15 +125,14 @@ class PostTestController: UIViewController {
         return iv
     }()
     
-    lazy var optionThreeGrowingLabel:GrowingTextView = {
-        let tv = GrowingTextView()
+    lazy var optionThreeGrowingLabel:TextField = {
+        let tv = TextField()
         tv.font = UIFont(name: "BMJUAOTF", size: 15)
         tv.backgroundColor = .systemGroupedBackground
         tv.layer.cornerRadius = 8
         tv.placeholder = "3번 보기를 입력해주세요."
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
-        tv.minHeight = 30
-        tv.maxLength = 150
+        tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tv.autocorrectionType = .no
         return tv
     }()
@@ -148,15 +147,27 @@ class PostTestController: UIViewController {
         return iv
     }()
     
-    lazy var optionFourGrowingLabel:GrowingTextView = {
-        let tv = GrowingTextView()
+//    lazy var optionFourGrowingLabel:GrowingTextView = {
+//        let tv = GrowingTextView()
+//        tv.font = UIFont(name: "BMJUAOTF", size: 15)
+//        tv.backgroundColor = .systemGroupedBackground
+//        tv.layer.cornerRadius = 8
+//        tv.placeholder = "4번 보기를 입력해주세요."
+//        tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
+//        tv.minHeight = 30
+//        tv.maxLength = 150
+//        tv.autocorrectionType = .no
+//        return tv
+//    }()
+    
+    lazy var optionFourGrowingLabel:TextField = {
+        let tv = TextField()
         tv.font = UIFont(name: "BMJUAOTF", size: 15)
         tv.backgroundColor = .systemGroupedBackground
         tv.layer.cornerRadius = 8
         tv.placeholder = "4번 보기를 입력해주세요."
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
-        tv.minHeight = 30
-        tv.maxLength = 150
+        tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tv.autocorrectionType = .no
         return tv
     }()
