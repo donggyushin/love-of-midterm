@@ -23,6 +23,7 @@ class ProfileControllerTypeTwo: UIViewController {
     var me:User? {
         didSet {
             calculateDistanceFromMe()
+            checkThisIsMyProfile()
         }
     }
     
@@ -109,13 +110,42 @@ class ProfileControllerTypeTwo: UIViewController {
         return label
     }()
     
-    lazy var challengeButton:UIButton = {
+    lazy var challengeButtonTypeTwo:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("대화하기", for: .normal)
         button.setTitleColor(.tinderColor, for: .normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
         button.addTarget(self, action: #selector(conversationButtonTapped), for: .touchUpInside)
         return button
+    }()
+    
+    lazy var challengeButton:UIView = {
+        let view = UIView()
+        let iv = UIImageView()
+        view.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        view.layer.cornerRadius = 25
+        view.backgroundColor = .tinderColor
+        view.addSubview(iv)
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        iv.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        iv.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        iv.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        iv.image = #imageLiteral(resourceName: "mail")
+        iv.image = iv.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        iv.tintColor = .white
+        
+        view.layer.shadowOpacity = 0.7
+        view.layer.shadowOffset = CGSize(width: 1, height: 1)
+        view.layer.shadowRadius = 1.0
+        view.layer.shadowColor = UIColor.darkGray.cgColor
+        
+        view.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(conversationButtonTapped))
+        view.addGestureRecognizer(tap)
+        
+        return view
     }()
 
     // MARK: life cycles
@@ -132,11 +162,30 @@ class ProfileControllerTypeTwo: UIViewController {
     
     @objc func conversationButtonTapped(){
         guard let user = user else { return }
-        let testVC = TestController(user:user)
+        guard let me = me else { return }
         
-        let popup = PopupDialog(viewController: testVC, preferredWidth: 400, tapGestureDismissal: false, panGestureDismissal: false)
+        if user.id == me.id {
+            self.popupDialog(title: "죄송합니다", message: "본인에게는 도전할 수 없습니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            return
+        }
         
-        self.present(popup, animated: true, completion: nil)
+        // 내가 이 유저한테 당일날 말을 걸었는지 안걸었는지를 알아야함. 
+        TryService.shared.checkWhetherUserCanTry(userId: user.id) { (error, bool) in
+            if let error = error {
+                self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+            }else {
+                guard let bool = bool else { return }
+                if bool == true {
+                    let testVC = TestController(user:user)
+                    testVC.delegate = self
+                    let popup = PopupDialog(viewController: testVC, preferredWidth: 400, tapGestureDismissal: false, panGestureDismissal: false)
+                    
+                    self.present(popup, animated: true, completion: nil)
+                }else {
+                    self.popupDialog(title: "죄송합니다", message: "하루에 같은 유저에게 두 번 이상 도전하실 수 없습니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+                }
+            }
+        }
         
     }
     
@@ -164,6 +213,13 @@ class ProfileControllerTypeTwo: UIViewController {
     
     
     // MARK: configure
+    func checkThisIsMyProfile(){
+        guard let user = user else { return }
+        guard let me = me else { return }
+        if user.id == me.id {
+            self.challengeButton.isHidden = true
+        }
+    }
     
     func configureUser(){
         guard let user = user else { return }
@@ -186,6 +242,18 @@ class ProfileControllerTypeTwo: UIViewController {
             genderIcon.image = #imageLiteral(resourceName: "male")
             genderIcon.image = genderIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
             genderIcon.tintColor = .facebookBlue
+        }
+        
+        
+        TryService.shared.checkWhetherUserCanTry(userId: user.id) { (error, bool) in
+            if let error = error {
+                self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+            }else {
+                guard let bool = bool else { return }
+                if bool == false {
+                    self.challengeButton.isHidden = true 
+                }
+            }
         }
         
     }
@@ -242,10 +310,37 @@ class ProfileControllerTypeTwo: UIViewController {
         bioLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
         bioLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -12).isActive = true
         
+//        view.addSubview(challengeButton)
+//        challengeButton.translatesAutoresizingMaskIntoConstraints = false
+//        challengeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40).isActive = true
+//        challengeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
         view.addSubview(challengeButton)
         challengeButton.translatesAutoresizingMaskIntoConstraints = false
-        challengeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40).isActive = true
-        challengeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        challengeButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        challengeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
     }
     
+}
+
+// MARK: TestController Delegate
+
+extension ProfileControllerTypeTwo:TestControllerDelegate {
+    func popupResultControllerTypeTwo(view: TestController) {
+        let resultVC = ResultControllerTypeTwo()
+        let popup = PopupDialog(viewController: resultVC)
+        
+        self.present(popup, animated: true, completion: nil)
+    }
+    
+    func popupResultController(view: TestController) {
+        
+        
+        let resultVC = ResultController()
+        let popup = PopupDialog(viewController: resultVC)
+        
+//        let popup = PopupDialog(viewController: testVC, preferredWidth: 400, tapGestureDismissal: false, panGestureDismissal: false)
+        
+        self.present(popup, animated: true, completion: nil)
+    }
 }

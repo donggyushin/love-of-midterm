@@ -22,6 +22,8 @@ struct User {
     let birthday:Date
     let gender:String
     let testIds:[String]
+    let tryFrom:[String]
+    let tryTo:[String]
     
     init(data:[String:Any]) {
         let email = data["email"] as? String ?? ""
@@ -35,6 +37,8 @@ struct User {
         let birthday = data["birthday"] as? Timestamp ?? Timestamp()
         let gender = data["gender"] as? String ?? ""
         let testIds = data["testIds"] as? [String] ?? []
+        let tryFrom = data["tryFrom"] as? [String] ?? []
+        let tryTo = data["tryTo"] as? [String] ?? []
         
         
         self.email = email
@@ -48,8 +52,8 @@ struct User {
         self.birthday = birthday.dateValue()
         self.gender = gender
         self.testIds = testIds
-        
-        
+        self.tryTo = tryTo
+        self.tryFrom = tryFrom
         
     }
     

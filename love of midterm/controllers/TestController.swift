@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol TestControllerDelegate:class {
+    func popupResultController(view:TestController)
+    func popupResultControllerTypeTwo(view:TestController)
+}
+
 class TestController: UIViewController {
     
     // MARK: properties
@@ -19,6 +24,9 @@ class TestController: UIViewController {
             configureTest()
         }
     }
+    var correctCount = 0
+    
+    weak var delegate:TestControllerDelegate?
     
     // MARK: UIKits
     
@@ -133,6 +141,7 @@ class TestController: UIViewController {
         button.setTitle("제출하기", for: .normal)
         button.setTitleColor(.tinderColor, for: .normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
+        button.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -169,13 +178,21 @@ class TestController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        updateTry()
         
     }
     
     // MARK: APIs
     
+    func updateTry(){
+        TryService.shared.tryToHaveAConversation(to: user.id)
+    }
+    
     func fetchTest(){
         TestService.shared.fetchTestWithNumAndUserId(userId: user.id, num: currentIndex) { (error, test) in
+            self.submitButton.isEnabled = true
+            self.answerMark.isHidden = true
+            self.wrongMark.isHidden = true
             if let error = error {
                 self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
             }else {
@@ -185,6 +202,62 @@ class TestController: UIViewController {
     }
     
     // MARK: selectors
+    
+    @objc func submitButtonTapped(){
+        guard let selectedAnswer = self.selectedAnswer else { return }
+        guard let test = self.test else { return }
+        self.submitButton.isEnabled = false
+        self.currentIndex += 1
+        
+        if selectedAnswer == test.answer {
+            // 정답일때
+            self.answerMark.isHidden = false
+            self.correctCount += 1
+            
+            if self.currentIndex == 11 {
+                print("맞춘 정답 수: ", self.correctCount)
+                
+                if self.correctCount > 6 {
+                    self.dismiss(animated: true, completion: nil)
+                    self.delegate?.popupResultController(view: self)
+                }else {
+                    self.dismiss(animated: true, completion: nil)
+                    self.delegate?.popupResultControllerTypeTwo(view: self)
+                }
+                
+            }else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { 
+                    // 다음 문제 호출
+                    self.fetchTest()
+                    
+                }
+            }
+            
+        }else {
+            // 오답일때
+            self.wrongMark.isHidden = false
+            
+            if self.currentIndex == 11 {
+                print("맞춘 정답 수: ", self.correctCount)
+                if self.correctCount > 6 {
+                    self.dismiss(animated: true, completion: nil)
+                    self.delegate?.popupResultController(view: self)
+                }else {
+                    self.dismiss(animated: true, completion: nil)
+                    self.delegate?.popupResultControllerTypeTwo(view: self)
+                }
+            }else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    
+                    // 다음 문제 호출
+                    self.fetchTest()
+                }
+            }
+            
+        }
+        
+    }
+    
     @objc func closeButtonTapped(){
         dismiss(animated: true, completion: nil)
     }
@@ -312,7 +385,7 @@ class TestController: UIViewController {
     func configure(){
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: 560).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 480).isActive = true
         
         configureUI()
         fetchTest()

@@ -14,6 +14,10 @@
 		7051020B241EA34800C2ADFF /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051020A241EA34800C2ADFF /* Secrets.swift */; };
 		706B59B7241E600B00117106 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706B59B6241E600B00117106 /* Address.swift */; };
 		70733FD12424083C006A545F /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70733FD02424083C006A545F /* UserCell.swift */; };
+		70790FCA2428245900B08D40 /* ResultController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70790FC92428245900B08D40 /* ResultController.swift */; };
+		70790FCC2428283300B08D40 /* ResultControllerTypeTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70790FCB2428283300B08D40 /* ResultControllerTypeTwo.swift */; };
+		70790FCE24282CA600B08D40 /* TryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70790FCD24282CA600B08D40 /* TryService.swift */; };
+		70790FD024282EEB00B08D40 /* Try.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70790FCF24282EEB00B08D40 /* Try.swift */; };
 		7086B81C241BE7BD00E81084 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7086B81B241BE7BD00E81084 /* RootViewController.swift */; };
 		7086B81F241BED2400E81084 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7086B81E241BED2400E81084 /* User.swift */; };
 		7086B82E241C290000E81084 /* BackgroundImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7086B82D241C290000E81084 /* BackgroundImageService.swift */; };
@@ -56,6 +60,10 @@
 		7051020A241EA34800C2ADFF /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		706B59B6241E600B00117106 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		70733FD02424083C006A545F /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		70790FC92428245900B08D40 /* ResultController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultController.swift; sourceTree = "<group>"; };
+		70790FCB2428283300B08D40 /* ResultControllerTypeTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultControllerTypeTwo.swift; sourceTree = "<group>"; };
+		70790FCD24282CA600B08D40 /* TryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TryService.swift; sourceTree = "<group>"; };
+		70790FCF24282EEB00B08D40 /* Try.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Try.swift; sourceTree = "<group>"; };
 		7086B81B241BE7BD00E81084 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		7086B81E241BED2400E81084 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7086B82D241C290000E81084 /* BackgroundImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundImageService.swift; sourceTree = "<group>"; };
@@ -131,6 +139,7 @@
 				7086B82F241C33A100E81084 /* BackgroundImage.swift */,
 				706B59B6241E600B00117106 /* Address.swift */,
 				70DB0B5D24221DDC004AF0C5 /* Test.swift */,
+				70790FCF24282EEB00B08D40 /* Try.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -205,6 +214,8 @@
 				709F9FF92424FFE400F46C12 /* SideMenuViewController.swift */,
 				709F9FF72424FFE400F46C12 /* SignUpController.swift */,
 				703851DA24252E11005ABE28 /* TestController.swift */,
+				70790FC92428245900B08D40 /* ResultController.swift */,
+				70790FCB2428283300B08D40 /* ResultControllerTypeTwo.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -233,6 +244,7 @@
 				7086B82D241C290000E81084 /* BackgroundImageService.swift */,
 				701930B0241FCD04005EDD4E /* AddressService.swift */,
 				70DB0B5F24221F57004AF0C5 /* TestService.swift */,
+				70790FCD24282CA600B08D40 /* TryService.swift */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -391,16 +403,20 @@
 			files = (
 				709FA0072424FFE500F46C12 /* LoginController.swift in Sources */,
 				709FA0052424FFE500F46C12 /* MainTabBarController.swift in Sources */,
+				70790FCE24282CA600B08D40 /* TryService.swift in Sources */,
 				709FA0002424FFE500F46C12 /* SearchAddressController.swift in Sources */,
+				70790FCC2428283300B08D40 /* ResultControllerTypeTwo.swift in Sources */,
 				70DB0B6024221F57004AF0C5 /* TestService.swift in Sources */,
 				706B59B7241E600B00117106 /* Address.swift in Sources */,
 				709FA0022424FFE500F46C12 /* SearchController.swift in Sources */,
 				709FA0062424FFE500F46C12 /* SignUpController.swift in Sources */,
 				70510208241E980B00C2ADFF /* AddressCell.swift in Sources */,
 				70D6D62C241B3A8A0092BD99 /* ViewController.swift in Sources */,
+				70790FD024282EEB00B08D40 /* Try.swift in Sources */,
 				701930B1241FCD04005EDD4E /* AddressService.swift in Sources */,
 				709FA0042424FFE500F46C12 /* ProfileController.swift in Sources */,
 				70D6D64A241B440C0092BD99 /* extensions.swift in Sources */,
+				70790FCA2428245900B08D40 /* ResultController.swift in Sources */,
 				70E51DAE241BAFF700631E25 /* Errors.swift in Sources */,
 				709F9FFF2424FFE500F46C12 /* BackgroundViewController.swift in Sources */,
 				70733FD12424083C006A545F /* UserCell.swift in Sources */,
