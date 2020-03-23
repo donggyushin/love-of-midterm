@@ -335,8 +335,10 @@ extension ProfileControllerTypeTwo:TestControllerDelegate {
     
     func popupResultController(view: TestController) {
         
+        let user = view.user
+        let correctCount = view.correctCount
         
-        let resultVC = ResultController()
+        let resultVC = ResultController(user: user, correctCount: correctCount)
         let popup = PopupDialog(viewController: resultVC)
         
 //        let popup = PopupDialog(viewController: testVC, preferredWidth: 400, tapGestureDismissal: false, panGestureDismissal: false)

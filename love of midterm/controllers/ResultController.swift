@@ -10,6 +10,11 @@ import UIKit
 
 class ResultController: UIViewController {
     
+    // MARK: properties
+    let user:User
+    
+    let correctCount:Int
+    
     // MARK: UIKits
     lazy var titleLabel:UILabel = {
         let label = UILabel()
@@ -21,7 +26,7 @@ class ResultController: UIViewController {
     
     lazy var infoLabel:UILabel = {
         let label = UILabel()
-        label.text = "총 10문제중 7문제를 맞추셨습니다."
+        label.text = "총 10문제중 \(self.correctCount)문제를 맞추셨습니다."
         label.font = UIFont(name: "BMJUAOTF", size: 15)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
@@ -30,7 +35,7 @@ class ResultController: UIViewController {
     
     lazy var resultLabel:UILabel = {
         let label = UILabel()
-        label.text = "이제 신동규님으로부터 앞으로의 대화 여부에 관한 동의를 얻으면 대화를 시작하실 수 있습니다."
+        label.text = "이제 \(self.user.username)님으로부터 앞으로의 대화 여부에 관한 동의를 얻으면 대화를 시작하실 수 있습니다."
         label.font = UIFont(name: "BMJUAOTF", size: 15)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
@@ -47,9 +52,33 @@ class ResultController: UIViewController {
     }()
 
     // MARK: Life cycle
+    
+    init(user:User, correctCount:Int) {
+        self.user = user
+        self.correctCount = correctCount
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        createNewRequest()
+    }
+    
+    // MARK: APIs
+    
+    func createNewRequest(){
+        RequestService.shared.createRequest(to: user.id) { (error) in
+            if let error = error {
+                self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+            }else {
+                print("\(self.user.username)에게 request 성공")
+            }
+        }
     }
     
     // MARK: Selectors

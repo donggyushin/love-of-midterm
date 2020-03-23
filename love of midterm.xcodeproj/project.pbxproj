@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		34AD12C414FE01D34B7C27EF /* Pods_love_of_midterm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAC85BE4CC903DD575CDB444 /* Pods_love_of_midterm.framework */; };
+		700EC93524284BFA008BBC73 /* RequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700EC93424284BFA008BBC73 /* RequestService.swift */; };
+		700EC93724284F77008BBC73 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700EC93624284F77008BBC73 /* Request.swift */; };
+		700EC939242850E0008BBC73 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700EC938242850E0008BBC73 /* NotificationController.swift */; };
 		701930B1241FCD04005EDD4E /* AddressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701930B0241FCD04005EDD4E /* AddressService.swift */; };
 		703851DB24252E11005ABE28 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703851DA24252E11005ABE28 /* TestController.swift */; };
 		70510208241E980B00C2ADFF /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510207241E980B00C2ADFF /* AddressCell.swift */; };
@@ -54,6 +57,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		700EC93424284BFA008BBC73 /* RequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestService.swift; sourceTree = "<group>"; };
+		700EC93624284F77008BBC73 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		700EC938242850E0008BBC73 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		701930B0241FCD04005EDD4E /* AddressService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressService.swift; sourceTree = "<group>"; };
 		703851DA24252E11005ABE28 /* TestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
 		70510207241E980B00C2ADFF /* AddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCell.swift; sourceTree = "<group>"; };
@@ -140,6 +146,7 @@
 				706B59B6241E600B00117106 /* Address.swift */,
 				70DB0B5D24221DDC004AF0C5 /* Test.swift */,
 				70790FCF24282EEB00B08D40 /* Try.swift */,
+				700EC93624284F77008BBC73 /* Request.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -216,6 +223,7 @@
 				703851DA24252E11005ABE28 /* TestController.swift */,
 				70790FC92428245900B08D40 /* ResultController.swift */,
 				70790FCB2428283300B08D40 /* ResultControllerTypeTwo.swift */,
+				700EC938242850E0008BBC73 /* NotificationController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -245,6 +253,7 @@
 				701930B0241FCD04005EDD4E /* AddressService.swift */,
 				70DB0B5F24221F57004AF0C5 /* TestService.swift */,
 				70790FCD24282CA600B08D40 /* TryService.swift */,
+				700EC93424284BFA008BBC73 /* RequestService.swift */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -411,12 +420,14 @@
 				709FA0022424FFE500F46C12 /* SearchController.swift in Sources */,
 				709FA0062424FFE500F46C12 /* SignUpController.swift in Sources */,
 				70510208241E980B00C2ADFF /* AddressCell.swift in Sources */,
+				700EC93524284BFA008BBC73 /* RequestService.swift in Sources */,
 				70D6D62C241B3A8A0092BD99 /* ViewController.swift in Sources */,
 				70790FD024282EEB00B08D40 /* Try.swift in Sources */,
 				701930B1241FCD04005EDD4E /* AddressService.swift in Sources */,
 				709FA0042424FFE500F46C12 /* ProfileController.swift in Sources */,
 				70D6D64A241B440C0092BD99 /* extensions.swift in Sources */,
 				70790FCA2428245900B08D40 /* ResultController.swift in Sources */,
+				700EC93724284F77008BBC73 /* Request.swift in Sources */,
 				70E51DAE241BAFF700631E25 /* Errors.swift in Sources */,
 				709F9FFF2424FFE500F46C12 /* BackgroundViewController.swift in Sources */,
 				70733FD12424083C006A545F /* UserCell.swift in Sources */,
@@ -427,6 +438,7 @@
 				7086B82E241C290000E81084 /* BackgroundImageService.swift in Sources */,
 				70DB0B5E24221DDC004AF0C5 /* Test.swift in Sources */,
 				709F9FE52424F8B200F46C12 /* UserBackgroundImageCell.swift in Sources */,
+				700EC939242850E0008BBC73 /* NotificationController.swift in Sources */,
 				7051020B241EA34800C2ADFF /* Secrets.swift in Sources */,
 				709FA0012424FFE500F46C12 /* MessageController.swift in Sources */,
 				7086B830241C33A100E81084 /* BackgroundImage.swift in Sources */,

@@ -24,6 +24,8 @@ struct User {
     let testIds:[String]
     let tryFrom:[String]
     let tryTo:[String]
+    let requestsISend:[String]
+    let requestsIReceived:[String]
     
     init(data:[String:Any]) {
         let email = data["email"] as? String ?? ""
@@ -39,6 +41,8 @@ struct User {
         let testIds = data["testIds"] as? [String] ?? []
         let tryFrom = data["tryFrom"] as? [String] ?? []
         let tryTo = data["tryTo"] as? [String] ?? []
+        let requestsISend = data["requestsISend"] as? [String] ?? []
+        let requestsIReceived = data["requestsIReceived"] as? [String] ?? []
         
         
         self.email = email
@@ -54,6 +58,8 @@ struct User {
         self.testIds = testIds
         self.tryTo = tryTo
         self.tryFrom = tryFrom
+        self.requestsISend = requestsISend
+        self.requestsIReceived = requestsIReceived
         
     }
     
