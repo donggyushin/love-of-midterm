@@ -410,8 +410,8 @@ class SignUpController: UIViewController {
     // MARK: selectors
     
     @objc func addressTextFieldTapped(){
-        let searchAddressVC = SearchAddressController(signUpVC: self)
-
+        let searchAddressVC = SearchAddressController()
+        searchAddressVC.delegate = self
         navigationController?.pushViewController(searchAddressVC, animated: true)
     }
     
@@ -674,5 +674,11 @@ extension SignUpController:ImagePickerDelegate {
         guard let image = image else { return }
         profileImageView.image = image
         profileImage = image
+    }
+}
+
+extension SignUpController:SearchAddressControllerDelegate {
+    func addressDidSelected(address: Address) {
+        setAddress(address: address)
     }
 }

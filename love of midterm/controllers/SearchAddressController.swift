@@ -10,10 +10,16 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
+protocol SearchAddressControllerDelegate:class {
+    func addressDidSelected(address:Address)
+}
+
 class SearchAddressController: UICollectionViewController {
     
     // MARK: properties
-    let signUpVC:SignUpController
+    
+    
+    var delegate:SearchAddressControllerDelegate?
     
     var addresses = [Address]() {
         didSet {
@@ -38,8 +44,8 @@ class SearchAddressController: UICollectionViewController {
 
     // MARK: Life cycles
     
-    init(signUpVC:SignUpController) {
-        self.signUpVC = signUpVC
+    init() {
+        
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
     
@@ -93,7 +99,8 @@ class SearchAddressController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("\(indexPath.row) 번째 선택됨")
-        signUpVC.setAddress(address: addresses[indexPath.row])
+        delegate?.addressDidSelected(address: addresses[indexPath.row])
+//        signUpVC.setAddress(address: addresses[indexPath.row])
         self.navigationController?.popViewController(animated: true)
     }
 
