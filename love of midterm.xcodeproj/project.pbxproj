@@ -11,6 +11,8 @@
 		700EC93524284BFA008BBC73 /* RequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700EC93424284BFA008BBC73 /* RequestService.swift */; };
 		700EC93724284F77008BBC73 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700EC93624284F77008BBC73 /* Request.swift */; };
 		700EC939242850E0008BBC73 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700EC938242850E0008BBC73 /* NotificationController.swift */; };
+		70109D132428DCD80020C144 /* RequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70109D122428DCD80020C144 /* RequestCell.swift */; };
+		70109D152428E77F0020C144 /* ChoiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70109D142428E77F0020C144 /* ChoiceController.swift */; };
 		701930B1241FCD04005EDD4E /* AddressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701930B0241FCD04005EDD4E /* AddressService.swift */; };
 		703851DB24252E11005ABE28 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703851DA24252E11005ABE28 /* TestController.swift */; };
 		70510208241E980B00C2ADFF /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510207241E980B00C2ADFF /* AddressCell.swift */; };
@@ -60,6 +62,8 @@
 		700EC93424284BFA008BBC73 /* RequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestService.swift; sourceTree = "<group>"; };
 		700EC93624284F77008BBC73 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		700EC938242850E0008BBC73 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		70109D122428DCD80020C144 /* RequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestCell.swift; sourceTree = "<group>"; };
+		70109D142428E77F0020C144 /* ChoiceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceController.swift; sourceTree = "<group>"; };
 		701930B0241FCD04005EDD4E /* AddressService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressService.swift; sourceTree = "<group>"; };
 		703851DA24252E11005ABE28 /* TestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
 		70510207241E980B00C2ADFF /* AddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCell.swift; sourceTree = "<group>"; };
@@ -157,6 +161,7 @@
 				70510207241E980B00C2ADFF /* AddressCell.swift */,
 				70733FD02424083C006A545F /* UserCell.swift */,
 				709F9FE42424F8B200F46C12 /* UserBackgroundImageCell.swift */,
+				70109D122428DCD80020C144 /* RequestCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -224,6 +229,7 @@
 				70790FC92428245900B08D40 /* ResultController.swift */,
 				70790FCB2428283300B08D40 /* ResultControllerTypeTwo.swift */,
 				700EC938242850E0008BBC73 /* NotificationController.swift */,
+				70109D142428E77F0020C144 /* ChoiceController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -411,6 +417,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				709FA0072424FFE500F46C12 /* LoginController.swift in Sources */,
+				70109D132428DCD80020C144 /* RequestCell.swift in Sources */,
 				709FA0052424FFE500F46C12 /* MainTabBarController.swift in Sources */,
 				70790FCE24282CA600B08D40 /* TryService.swift in Sources */,
 				709FA0002424FFE500F46C12 /* SearchAddressController.swift in Sources */,
@@ -449,6 +456,7 @@
 				703851DB24252E11005ABE28 /* TestController.swift in Sources */,
 				709F9FFD2424FFE500F46C12 /* ImagePickerController.swift in Sources */,
 				709F9FFE2424FFE500F46C12 /* PostBioController.swift in Sources */,
+				70109D152428E77F0020C144 /* ChoiceController.swift in Sources */,
 				709FA0032424FFE500F46C12 /* MoreUserImageController.swift in Sources */,
 				70D6D62A241B3A8A0092BD99 /* SceneDelegate.swift in Sources */,
 			);

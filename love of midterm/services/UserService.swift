@@ -16,6 +16,18 @@ struct UserService {
     
     static let shared = UserService()
     
+    func fetchUserWithId(id:String, completion:@escaping(Error?, User?) -> Void) {
+        db.collection("users").document(id).getDocument { (querySnapshot, error) in
+            if let error = error {
+                completion(error, nil)
+            }else {
+                guard let data = querySnapshot!.data() else { return }
+                let user = User(data: data)
+                completion(nil, user)
+            }
+        }
+    }
+    
     
     func fetchUsers(completion:@escaping(Error?, [User]?) -> Void){
         var users = [User]()

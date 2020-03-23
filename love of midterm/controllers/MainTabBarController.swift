@@ -24,6 +24,10 @@ class MainTabBarController: UITabBarController {
             let searchVC = searchControllerNavigation.viewControllers.first as! SearchController
             searchVC.me = self.user
             
+            let notificationNavigation = self.viewControllers?[2] as! UINavigationController
+            let notificationVC = notificationNavigation.viewControllers.first as! NotificationController
+            notificationVC.me = self.user
+            
             
             checkUserHasTest()
             listenRequestsCount()

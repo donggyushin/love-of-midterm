@@ -14,6 +14,10 @@ struct RequestService {
     
     let db = Firestore.firestore()
     
+    func updateRequestCheckedStatus(id:String){
+        db.collection("requests").document(id).updateData(["checked" : true])
+    }
+    
     func listenRequests(completion:@escaping(Error?, [Request]?) -> Void){
         guard let myId = Auth.auth().currentUser?.uid else { return }
         var requests = [Request]()
@@ -25,7 +29,6 @@ struct RequestService {
                 for document in documents {
                     let data = document.data()
                     let request = Request(data: data)
-                    print(request)
                     requests.append(request)
                 }
                 completion(nil, requests)

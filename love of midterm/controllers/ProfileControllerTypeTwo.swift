@@ -49,7 +49,7 @@ class ProfileControllerTypeTwo: UIViewController {
     
     lazy var moreProfileImageButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("이용자의 더 많은 사진 보러가기", for: .normal)
+        button.setTitle("더 많은 사진 보러가기", for: .normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 13)
         button.setTitleColor(UIColor.tinderColor, for: .normal)
         button.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
