@@ -15,10 +15,13 @@ struct AddressService {
     
     
     func calculateTwoDistance(id1:String, id2:String, completion:@escaping(Error?, String?) -> Void){
+        
         db.collection("addresses").document(id1).getDocument { (querySnapshot, error) in
+            
             if let error = error {
                 completion(error, nil)
             }else {
+                
                 guard let data = querySnapshot!.data() else { return }
                 let address1 = Address(data: data)
                 
@@ -26,6 +29,7 @@ struct AddressService {
                     if let error = error {
                         completion(error, nil)
                     }else {
+                        
                         guard let data = querySnapshot!.data() else { return }
                         let address2 = Address(data: data)
                         

@@ -102,7 +102,7 @@ class ProfileControllerTypeTwo: UIViewController {
     lazy var bioLabel:UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "ui 짜는게 제일 힘드로~~"
+        label.text = ""
         label.font = UIFont(name: "BMJUAOTF", size: 14)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 5
@@ -164,28 +164,38 @@ class ProfileControllerTypeTwo: UIViewController {
         guard let user = user else { return }
         guard let me = me else { return }
         
-        if user.id == me.id {
-            self.popupDialog(title: "죄송합니다", message: "본인에게는 도전할 수 없습니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))
-            return
-        }
+        let alert = UIAlertController(title: "\(user.username)님과 대화하시겠습니까?", message: "다른 유저와 대화하기 위해서는 해당 유저가 출제한 문제를 7문제 이상 맞추셔야 합니다. 그리고 한 유저에게는 하루에 한 번만 도전가능합니다.", preferredStyle: UIAlertController.Style.actionSheet)
         
-        // 내가 이 유저한테 당일날 말을 걸었는지 안걸었는지를 알아야함. 
-        TryService.shared.checkWhetherUserCanTry(userId: user.id) { (error, bool) in
-            if let error = error {
-                self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
-            }else {
-                guard let bool = bool else { return }
-                if bool == true {
-                    let testVC = TestController(user:user)
-                    testVC.delegate = self
-                    let popup = PopupDialog(viewController: testVC, preferredWidth: 400, tapGestureDismissal: false, panGestureDismissal: false)
-                    
-                    self.present(popup, animated: true, completion: nil)
+        let agreeAction = UIAlertAction(title: "도전해볼래요", style: UIAlertAction.Style.default) { (action) in
+            if user.id == me.id {
+                self.popupDialog(title: "죄송합니다", message: "본인에게는 도전할 수 없습니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+                return
+            }
+            
+            // 내가 이 유저한테 당일날 말을 걸었는지 안걸었는지를 알아야함.
+            TryService.shared.checkWhetherUserCanTry(userId: user.id) { (error, bool) in
+                if let error = error {
+                    self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
                 }else {
-                    self.popupDialog(title: "죄송합니다", message: "하루에 같은 유저에게 두 번 이상 도전하실 수 없습니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+                    guard let bool = bool else { return }
+                    if bool == true {
+                        let testVC = TestController(user:user)
+                        testVC.delegate = self
+                        let popup = PopupDialog(viewController: testVC, preferredWidth: 400, tapGestureDismissal: false, panGestureDismissal: false)
+                        
+                        self.present(popup, animated: true, completion: nil)
+                    }else {
+                        self.popupDialog(title: "죄송합니다", message: "하루에 같은 유저에게 두 번 이상 도전하실 수 없습니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+                    }
                 }
             }
         }
+        
+        let disagreeAction = UIAlertAction(title: "조금 더 생각해볼래요", style: UIAlertAction.Style.cancel, handler: nil)
+        
+        alert.addAction(agreeAction)
+        alert.addAction(disagreeAction)
+        present(alert, animated: true, completion: nil)
         
     }
     
@@ -203,7 +213,7 @@ class ProfileControllerTypeTwo: UIViewController {
         
         AddressService.shared.calculateTwoDistance(id1: user.addressId, id2: me.addressId) { (error, distanceString) in
             if let error = error {
-                self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+                self.popupDialog(title: "죄송해요", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
             }else {
                 self.distanceLabel.text = "나와의 거리 \(distanceString!)km"
             }

@@ -30,8 +30,20 @@ class MessageController: UICollectionViewController {
     // MARK: configures
     
     func configure(){
-        navigationItem.title = "Message"
+        collectionView.backgroundColor = .white
+        configureNavigationBar()
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+    }
+    
+    func configureNavigationBar(){
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "BMJUAOTF", size: 18)!,
+                                                                        NSAttributedString.Key.foregroundColor:UIColor.tinderColor
+        ]
+        self.navigationItem.title = "대화"
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        
     }
 
 

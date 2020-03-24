@@ -49,9 +49,11 @@ class RequestCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        let attribute = [NSAttributedString.Key.font: UIFont(name: "BMJUAOTF", size: 16)]
+        let attribute = [NSAttributedString.Key.font: UIFont(name: "BMJUAOTF", size: 15)]
         let string = NSMutableAttributedString(string: "", attributes: attribute as [NSAttributedString.Key : Any])
-        let attrString = NSAttributedString(string: "", attributes: [NSAttributedString.Key.font : UIFont(name: "BMJUAOTF", size: 14) as Any])
+        let attrString = NSAttributedString(string: "", attributes: [NSAttributedString.Key.font : UIFont(name: "BMJUAOTF", size: 15) as Any,
+                                                                     NSAttributedString.Key.foregroundColor: UIColor.lightGray
+        ])
         string.append(attrString)
         label.attributedText = string
         return label
@@ -105,7 +107,7 @@ class RequestCell: UICollectionViewCell {
         
         
         let attribute = [NSAttributedString.Key.font: UIFont(name: "BMJUAOTF", size: 16)]
-        let string = NSMutableAttributedString(string: "\(user.username)", attributes: attribute as [NSAttributedString.Key : Any])
+        let string = NSMutableAttributedString(string: "\(user.username) ", attributes: attribute as [NSAttributedString.Key : Any])
         let attrString = NSAttributedString(string: "님이 \(request.tryCount)번의 시도 후에 시험을 통과하였습니다.", attributes: [NSAttributedString.Key.font : UIFont(name: "BMJUAOTF", size: 14) as Any])
         string.append(attrString)
         contentLabel.attributedText = string

@@ -75,7 +75,7 @@ class UserCell: UICollectionViewCell {
         label.font = UIFont(name: "BMJUAOTF", size: 13)
         label.textColor = .darkGray
         label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         return label
     }()
     

@@ -283,7 +283,7 @@ class ProfileController: UIViewController {
     func configureAddress(){
         guard let address = self.address else { return }
         
-        addressLabel.text = address.roadAddress
+        addressLabel.text = address.title
         
         
     }

@@ -20,11 +20,12 @@ struct RequestService {
     
     func listenRequests(completion:@escaping(Error?, [Request]?) -> Void){
         guard let myId = Auth.auth().currentUser?.uid else { return }
-        var requests = [Request]()
-        db.collection("requests").whereField("to", isEqualTo: myId).addSnapshotListener { (querySnapshot, error) in
+        
+        db.collection("requests").whereField("to", isEqualTo: myId).order(by: "date", descending: true).addSnapshotListener { (querySnapshot, error) in
             if let error = error {
                 completion(error, nil)
             }else {
+                var requests = [Request]()
                 let documents = querySnapshot!.documents
                 for document in documents {
                     let data = document.data()
@@ -48,6 +49,39 @@ struct RequestService {
         }
     }
     
+    func createDenyRequest(to:String, completion:@escaping(Error?) -> Void){
+        guard let myId = Auth.auth().currentUser?.uid else { return }
+        var requestReference:DocumentReference?
+        
+        requestReference = db.collection("requests").addDocument(data: [
+            "from":myId,
+            "to":to,
+            "tryCount":0,
+            "checked":false,
+            "date":FieldValue.serverTimestamp(),
+            "dateInt": Int(Date().timeIntervalSince1970),
+            "type": "DENY"
+        ]) { (error) in
+            if let error = error {
+                completion(error)
+            }else {
+                let requestId = requestReference!.documentID
+                self.db.collection("requests").document(requestId).updateData(["id" : requestId]) { (error) in
+                    if let error = error {
+                        completion(error)
+                    }else {
+                        completion(nil)
+                    }
+                }
+                self.db.collection("users").document(myId).updateData(["requestsISend" : FieldValue.arrayUnion([requestId])])
+                
+                self.db.collection("users").document(to).updateData(["requestsIReceived" : FieldValue.arrayUnion([requestId])])
+                
+                
+            }
+        }
+    }
+    
     func createRequest(to:String, completion:@escaping(Error?) -> Void){
         guard let myId = Auth.auth().currentUser?.uid else { return }
         var tryCount = 0
@@ -64,7 +98,8 @@ struct RequestService {
                     "tryCount":tryCount,
                     "checked":false,
                     "date":FieldValue.serverTimestamp(),
-                    "dateInt": Int(Date().timeIntervalSince1970)
+                    "dateInt": Int(Date().timeIntervalSince1970),
+                    "type": "PASS"
                 ]) { (error) in
                     if let error = error {
                         completion(error)

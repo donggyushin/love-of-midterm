@@ -9,6 +9,7 @@
 import UIKit
 
 private let reuseIdentifier = "Cell"
+private let reuseIdentifierForDenyRequest = "Cell2"
 
 class NotificationController: UICollectionViewController {
     
@@ -41,6 +42,7 @@ class NotificationController: UICollectionViewController {
     func configure(){
         self.collectionView.backgroundColor = .white
         self.collectionView!.register(RequestCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(DenyRequestCell.self, forCellWithReuseIdentifier: reuseIdentifierForDenyRequest)
         configureNavigationBar()
     }
 
@@ -71,12 +73,26 @@ class NotificationController: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! RequestCell
-    
-        // Configure the cell
-        cell.request = requests[indexPath.row]
-        cell.delegate = self
-        return cell
+        
+        
+        let request = requests[indexPath.row]
+        if request.type == "PASS" {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! RequestCell
+            
+                // Configure the cell
+                cell.request = request
+                cell.delegate = self
+                return cell
+        } else if request.type == "DENY" {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierForDenyRequest, for: indexPath) as! DenyRequestCell
+            cell.request = request
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! RequestCell
+            
+                return cell
+        }
+        
     }
     
 }

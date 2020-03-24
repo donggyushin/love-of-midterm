@@ -16,6 +16,7 @@ struct Request {
     let id:String
     let date:Date
     let dateInt:Int
+    let type:String
     
     init(data:[String:Any]) {
         let from = data["from"] as? String ?? ""
@@ -25,6 +26,7 @@ struct Request {
         let id = data["id"] as? String ?? ""
         let date = data["date"] as? Timestamp ?? Timestamp()
         let dateInt = data["dateInt"] as? Int ?? 0
+        let type = data["type"] as? String ?? ""
         
         self.from = from
         self.to = to
@@ -33,5 +35,6 @@ struct Request {
         self.id = id
         self.date = date.dateValue()
         self.dateInt = dateInt
+        self.type = type
     }
 }
