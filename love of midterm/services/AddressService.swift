@@ -40,7 +40,7 @@ struct AddressService {
                         
                         
                         
-                        let distance = (((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2))).squareRoot() / 100
+                        let distance = (((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2))).squareRoot() / 1000
                         let formattedDistance = String(format: "%.1f", distance)
                         
                         completion(nil, formattedDistance)

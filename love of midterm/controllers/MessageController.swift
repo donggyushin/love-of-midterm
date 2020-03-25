@@ -78,6 +78,13 @@ class MessageController: UICollectionViewController {
     
         return cell
     }
+    
+    // MARK: Collectionview Delegate
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let chat = chats[indexPath.row]
+        let chatVC = ChatController(chat: chat)
+        navigationController?.pushViewController(chatVC, animated: true)
+    }
 
  
 

@@ -320,10 +320,7 @@ class ProfileControllerTypeTwo: UIViewController {
         bioLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
         bioLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -12).isActive = true
         
-//        view.addSubview(challengeButton)
-//        challengeButton.translatesAutoresizingMaskIntoConstraints = false
-//        challengeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40).isActive = true
-//        challengeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+
         
         view.addSubview(challengeButton)
         challengeButton.translatesAutoresizingMaskIntoConstraints = false
