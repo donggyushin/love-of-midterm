@@ -283,7 +283,7 @@ class ProfileController: UIViewController {
     func configureAddress(){
         guard let address = self.address else { return }
         
-        addressLabel.text = address.title
+        addressLabel.text = address.title.replacingOccurrences(of: "<b>", with: "").replacingOccurrences(of: "</b>", with: " ")
         
         
     }

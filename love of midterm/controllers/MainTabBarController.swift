@@ -32,11 +32,20 @@ class MainTabBarController: UITabBarController {
             checkUserHasTest()
             listenRequestsCount()
             listenRequests()
+            fetchChats()
         }
     }
     
     var requestCount = 0
     var requests:[Request]?
+    var chats:[Chat]? {
+        didSet {
+            let messageNavigationController = self.viewControllers?[3] as? UINavigationController
+            let messageController = messageNavigationController?.viewControllers.first as! MessageController
+            messageController.chats = self.chats!
+            
+        }
+    }
     
     // MARK: Life cycle
     override func viewDidLoad() {
@@ -50,6 +59,16 @@ class MainTabBarController: UITabBarController {
     func fetchUser(){
         UserService.shared.fetchUser { (user) in
             self.user = user
+        }
+    }
+    
+    func fetchChats(){
+        ChatService.shared.listenChats { (error, chats) in
+            if let error = error {
+                self.popupDialog(title: "죄송해요", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+            }else {
+                self.chats = chats
+            }
         }
     }
     

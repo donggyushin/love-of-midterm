@@ -89,6 +89,7 @@ class ResultController: UIViewController {
     // MARK: configures
     func configure(){
         self.view.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        self.view.backgroundColor = .white
         configureUI()
     }
     
@@ -111,7 +112,7 @@ class ResultController: UIViewController {
         
         view.addSubview(okayButton)
         okayButton.translatesAutoresizingMaskIntoConstraints = false
-        okayButton.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 20).isActive = true
+        okayButton.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 50).isActive = true
         okayButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
     }

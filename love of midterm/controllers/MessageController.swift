@@ -12,6 +12,16 @@ private let reuseIdentifier = "Cell"
 
 class MessageController: UICollectionViewController {
     
+    // MARK: properties
+    var chats = [Chat]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
+    
+    // MARK: life cycles
+    
     init(){
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
@@ -32,7 +42,7 @@ class MessageController: UICollectionViewController {
     func configure(){
         collectionView.backgroundColor = .white
         configureNavigationBar()
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(ChatCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     }
     
     func configureNavigationBar(){
@@ -51,23 +61,35 @@ class MessageController: UICollectionViewController {
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 0
+        return chats.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ChatCell
     
         // Configure the cell
+        cell.chat = chats[indexPath.row]
     
         return cell
     }
 
  
 
+}
+
+// MARK: set size and interspace of cell
+extension MessageController:UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: 90)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
 }

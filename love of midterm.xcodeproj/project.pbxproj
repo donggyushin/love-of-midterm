@@ -14,6 +14,10 @@
 		70109D132428DCD80020C144 /* RequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70109D122428DCD80020C144 /* RequestCell.swift */; };
 		70109D152428E77F0020C144 /* ChoiceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70109D142428E77F0020C144 /* ChoiceController.swift */; };
 		701930B1241FCD04005EDD4E /* AddressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701930B0241FCD04005EDD4E /* AddressService.swift */; };
+		70202E90242AEFB3009A6E9A /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70202E8F242AEFB3009A6E9A /* ChatController.swift */; };
+		70202E92242AF052009A6E9A /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70202E91242AF052009A6E9A /* ChatService.swift */; };
+		70202E94242AF174009A6E9A /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70202E93242AF174009A6E9A /* Chat.swift */; };
+		70202E96242AFEA7009A6E9A /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70202E95242AFEA7009A6E9A /* ChatCell.swift */; };
 		703851DB24252E11005ABE28 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703851DA24252E11005ABE28 /* TestController.swift */; };
 		70510208241E980B00C2ADFF /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510207241E980B00C2ADFF /* AddressCell.swift */; };
 		7051020B241EA34800C2ADFF /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051020A241EA34800C2ADFF /* Secrets.swift */; };
@@ -66,6 +70,10 @@
 		70109D122428DCD80020C144 /* RequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestCell.swift; sourceTree = "<group>"; };
 		70109D142428E77F0020C144 /* ChoiceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceController.swift; sourceTree = "<group>"; };
 		701930B0241FCD04005EDD4E /* AddressService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressService.swift; sourceTree = "<group>"; };
+		70202E8F242AEFB3009A6E9A /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
+		70202E91242AF052009A6E9A /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
+		70202E93242AF174009A6E9A /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		70202E95242AFEA7009A6E9A /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		703851DA24252E11005ABE28 /* TestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
 		70510207241E980B00C2ADFF /* AddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCell.swift; sourceTree = "<group>"; };
 		7051020A241EA34800C2ADFF /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
@@ -153,6 +161,7 @@
 				70DB0B5D24221DDC004AF0C5 /* Test.swift */,
 				70790FCF24282EEB00B08D40 /* Try.swift */,
 				700EC93624284F77008BBC73 /* Request.swift */,
+				70202E93242AF174009A6E9A /* Chat.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -165,6 +174,7 @@
 				709F9FE42424F8B200F46C12 /* UserBackgroundImageCell.swift */,
 				70109D122428DCD80020C144 /* RequestCell.swift */,
 				705395552429872D00126726 /* DenyRequestCell.swift */,
+				70202E95242AFEA7009A6E9A /* ChatCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -233,6 +243,7 @@
 				70790FCB2428283300B08D40 /* ResultControllerTypeTwo.swift */,
 				700EC938242850E0008BBC73 /* NotificationController.swift */,
 				70109D142428E77F0020C144 /* ChoiceController.swift */,
+				70202E8F242AEFB3009A6E9A /* ChatController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -263,6 +274,7 @@
 				70DB0B5F24221F57004AF0C5 /* TestService.swift */,
 				70790FCD24282CA600B08D40 /* TryService.swift */,
 				700EC93424284BFA008BBC73 /* RequestService.swift */,
+				70202E91242AF052009A6E9A /* ChatService.swift */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -427,6 +439,7 @@
 				705395562429872D00126726 /* DenyRequestCell.swift in Sources */,
 				70790FCC2428283300B08D40 /* ResultControllerTypeTwo.swift in Sources */,
 				70DB0B6024221F57004AF0C5 /* TestService.swift in Sources */,
+				70202E90242AEFB3009A6E9A /* ChatController.swift in Sources */,
 				706B59B7241E600B00117106 /* Address.swift in Sources */,
 				709FA0022424FFE500F46C12 /* SearchController.swift in Sources */,
 				709FA0062424FFE500F46C12 /* SignUpController.swift in Sources */,
@@ -448,6 +461,7 @@
 				70E51DA9241BAA6F00631E25 /* UserService.swift in Sources */,
 				7086B82E241C290000E81084 /* BackgroundImageService.swift in Sources */,
 				70DB0B5E24221DDC004AF0C5 /* Test.swift in Sources */,
+				70202E94242AF174009A6E9A /* Chat.swift in Sources */,
 				709F9FE52424F8B200F46C12 /* UserBackgroundImageCell.swift in Sources */,
 				700EC939242850E0008BBC73 /* NotificationController.swift in Sources */,
 				7051020B241EA34800C2ADFF /* Secrets.swift in Sources */,
@@ -457,6 +471,8 @@
 				709F9FFB2424FFE500F46C12 /* OneUserBackgroundImageController.swift in Sources */,
 				7086B81C241BE7BD00E81084 /* RootViewController.swift in Sources */,
 				709F9FFC2424FFE500F46C12 /* ProfileControllerTypeTwo.swift in Sources */,
+				70202E92242AF052009A6E9A /* ChatService.swift in Sources */,
+				70202E96242AFEA7009A6E9A /* ChatCell.swift in Sources */,
 				703851DB24252E11005ABE28 /* TestController.swift in Sources */,
 				709F9FFD2424FFE500F46C12 /* ImagePickerController.swift in Sources */,
 				709F9FFE2424FFE500F46C12 /* PostBioController.swift in Sources */,

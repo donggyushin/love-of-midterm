@@ -115,6 +115,7 @@ class ChoiceController: UIViewController {
         label.setTitle("대화 시작하기", for: .normal)
         label.setTitleColor(.facebookBlue, for: .normal)
         label.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.addTarget(self, action: #selector(startConversationButtonTapped), for: .touchUpInside)
         return label
     }()
 
@@ -137,6 +138,25 @@ class ChoiceController: UIViewController {
     }
     
     // MARK: Selectors
+    
+    @objc func startConversationButtonTapped(){
+        
+        
+        
+        RequestService.shared.updateRequestCheckedStatus(id: self.request.id)
+        ChatService.shared.createNewChat(userId: self.user.id) { (error, chat) in
+            if let error = error {
+                self.popupDialog(title: "죄송해요", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+            }else {
+                self.disableButtons()
+                guard let chat = chat else { return }
+                let chatVC = ChatController(chat: chat)
+                self.navigationController?.pushViewController(chatVC, animated: true)
+                
+            }
+        }
+        
+    }
     
     @objc func denyButtonTapped(){
         let alert = UIAlertController(title: "정말로 거절하시겠습니까?", message: nil, preferredStyle: UIAlertController.Style.actionSheet)
