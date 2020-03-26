@@ -257,6 +257,9 @@ PODS:
     - nanopb (~> 0.3)
   - gRPC-Core/Interface (1.21.0)
   - GTMSessionFetcher/Core (1.3.1)
+  - InputBarAccessoryView (4.3.2):
+    - InputBarAccessoryView/Core (= 4.3.2)
+  - InputBarAccessoryView/Core (4.3.2)
   - leveldb-library (1.22)
   - LoadingShimmer (1.0.3)
   - MDatePickerView (1.2.3)
@@ -289,6 +292,7 @@ DEPENDENCIES:
   - Fusuma (~> 1.3.3)
   - GooglePlaces
   - GrowingTextView (= 0.7.2)
+  - InputBarAccessoryView
   - LoadingShimmer
   - MDatePickerView
   - NextGrowingTextView
@@ -325,6 +329,7 @@ SPEC REPOS:
     - "gRPC-C++"
     - gRPC-Core
     - GTMSessionFetcher
+    - InputBarAccessoryView
     - leveldb-library
     - LoadingShimmer
     - MDatePickerView
@@ -364,6 +369,7 @@ SPEC CHECKSUMS:
   "gRPC-C++": 9dfe7b44821e7b3e44aacad2af29d2c21f7cde83
   gRPC-Core: c9aef9a261a1247e881b18059b84d597293c9947
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
+  InputBarAccessoryView: 7985d418040a05fe894bd4b8328dd43ab35517c3
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   LoadingShimmer: dd681218498ec9648f572b845a7299b9c62e8e30
   MDatePickerView: e26233885de2f13659c6101b3ed265eacf92c078
@@ -377,6 +383,6 @@ SPEC CHECKSUMS:
   YPImagePicker: accf310f9526641a84372c0ecf943547d9b1e52c
   ZKCarousel: e54cdf2a5da6400c7e95bd6df5cbb001dc28883e
 
-PODFILE CHECKSUM: c41a38209811046fed66e57439726af562c4d84e
+PODFILE CHECKSUM: 4008e19fbd7ed1209a729384bfbff41473e266cb
 
 COCOAPODS: 1.8.4

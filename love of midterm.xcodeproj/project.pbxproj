@@ -48,6 +48,9 @@
 		709FA0072424FFE500F46C12 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709F9FF82424FFE400F46C12 /* LoginController.swift */; };
 		709FA0082424FFE500F46C12 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709F9FF92424FFE400F46C12 /* SideMenuViewController.swift */; };
 		709FA0092424FFE500F46C12 /* PostTestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709F9FFA2424FFE500F46C12 /* PostTestController.swift */; };
+		70D1B349242C6184001EFD64 /* IMessageInputBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D1B348242C6184001EFD64 /* IMessageInputBar.swift */; };
+		70D1B34D242C6CD3001EFD64 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D1B34C242C6CD3001EFD64 /* MessageService.swift */; };
+		70D1B34F242C6F0C001EFD64 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D1B34E242C6F0C001EFD64 /* Message.swift */; };
 		70D6D628241B3A8A0092BD99 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D6D627241B3A8A0092BD99 /* AppDelegate.swift */; };
 		70D6D62A241B3A8A0092BD99 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D6D629241B3A8A0092BD99 /* SceneDelegate.swift */; };
 		70D6D62C241B3A8A0092BD99 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D6D62B241B3A8A0092BD99 /* ViewController.swift */; };
@@ -104,6 +107,9 @@
 		709F9FF82424FFE400F46C12 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		709F9FF92424FFE400F46C12 /* SideMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
 		709F9FFA2424FFE500F46C12 /* PostTestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTestController.swift; sourceTree = "<group>"; };
+		70D1B348242C6184001EFD64 /* IMessageInputBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMessageInputBar.swift; sourceTree = "<group>"; };
+		70D1B34C242C6CD3001EFD64 /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
+		70D1B34E242C6F0C001EFD64 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		70D6D624241B3A8A0092BD99 /* love of midterm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "love of midterm.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		70D6D627241B3A8A0092BD99 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		70D6D629241B3A8A0092BD99 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -162,6 +168,7 @@
 				70790FCF24282EEB00B08D40 /* Try.swift */,
 				700EC93624284F77008BBC73 /* Request.swift */,
 				70202E93242AF174009A6E9A /* Chat.swift */,
+				70D1B34E242C6F0C001EFD64 /* Message.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -175,6 +182,7 @@
 				70109D122428DCD80020C144 /* RequestCell.swift */,
 				705395552429872D00126726 /* DenyRequestCell.swift */,
 				70202E95242AFEA7009A6E9A /* ChatCell.swift */,
+				70D1B348242C6184001EFD64 /* IMessageInputBar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -275,6 +283,7 @@
 				70790FCD24282CA600B08D40 /* TryService.swift */,
 				700EC93424284BFA008BBC73 /* RequestService.swift */,
 				70202E91242AF052009A6E9A /* ChatService.swift */,
+				70D1B34C242C6CD3001EFD64 /* MessageService.swift */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -434,6 +443,7 @@
 				709FA0072424FFE500F46C12 /* LoginController.swift in Sources */,
 				70109D132428DCD80020C144 /* RequestCell.swift in Sources */,
 				709FA0052424FFE500F46C12 /* MainTabBarController.swift in Sources */,
+				70D1B34F242C6F0C001EFD64 /* Message.swift in Sources */,
 				70790FCE24282CA600B08D40 /* TryService.swift in Sources */,
 				709FA0002424FFE500F46C12 /* SearchAddressController.swift in Sources */,
 				705395562429872D00126726 /* DenyRequestCell.swift in Sources */,
@@ -474,7 +484,9 @@
 				70202E92242AF052009A6E9A /* ChatService.swift in Sources */,
 				70202E96242AFEA7009A6E9A /* ChatCell.swift in Sources */,
 				703851DB24252E11005ABE28 /* TestController.swift in Sources */,
+				70D1B349242C6184001EFD64 /* IMessageInputBar.swift in Sources */,
 				709F9FFD2424FFE500F46C12 /* ImagePickerController.swift in Sources */,
+				70D1B34D242C6CD3001EFD64 /* MessageService.swift in Sources */,
 				709F9FFE2424FFE500F46C12 /* PostBioController.swift in Sources */,
 				70109D152428E77F0020C144 /* ChoiceController.swift in Sources */,
 				709FA0032424FFE500F46C12 /* MoreUserImageController.swift in Sources */,

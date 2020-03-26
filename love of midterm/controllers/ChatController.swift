@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import InputBarAccessoryView
+
 
 private let reuseIdentifier = "Cell"
 
@@ -20,6 +22,7 @@ class ChatController: UICollectionViewController {
             configureUser()
         }
     }
+    var messages = [Message]()
     
     // MARK: UIKits
     lazy var backButton:UIButton = {
@@ -30,6 +33,13 @@ class ChatController: UICollectionViewController {
         button.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
         return button
     }()
+    
+    lazy var iMessageInputBar:IMeessageInputBar = {
+        let iMessage = IMeessageInputBar()
+        iMessage.delegate = self
+        return iMessage
+    }()
+    
     
     // MARK: Life styles
 
@@ -49,17 +59,29 @@ class ChatController: UICollectionViewController {
 
     }
     
+    // MARK: helpers
+    
+    
     // MARK: Selectors
     @objc func backbuttonTapped(){
         navigationController?.popViewController(animated: true)
     }
     
-    // MARK: configures
-    func configure(){
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        collectionView.backgroundColor = .white
-        configureNavigation()
-        fetchUser()
+    @objc func dismissIMessageeKeyboard() {
+        print("here")
+        iMessageInputBar.inputTextView.resignFirstResponder()
+    }
+    
+    // MARK: APIs
+    
+    func fetchMessages(){
+        MessageService.shared.listenMessages(chatId: chat.id) { (error, messages) in
+            if let error = error {
+                self.popupDialog(title: "죄송해요", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+            }else {
+                self.messages = messages!
+            }
+        }
     }
     
     func fetchUser(){
@@ -81,6 +103,33 @@ class ChatController: UICollectionViewController {
         }
         
     }
+    
+    
+    // MARK: configures
+    func configure(){
+        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.backgroundColor = .white
+        configureNavigation()
+        fetchUser()
+        configureUI()
+        fetchMessages()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissIMessageeKeyboard))
+        view.addGestureRecognizer(tap)
+        
+    }
+    
+    override var inputAccessoryView: UIView? {
+        return iMessageInputBar
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    func configureUI(){
+        
+    }
+    
     
     func configureUser(){
         guard let user = user else { return }
@@ -123,4 +172,15 @@ class ChatController: UICollectionViewController {
 }
 
 
-
+// MARK: InputBarAccessoryViewDelegate
+extension ChatController:InputBarAccessoryViewDelegate {
+    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+        guard let myId = Auth.auth().currentUser?.uid else { return }
+        MessageService.shared.postMessage(chatId: chat.id, sender: myId, text: text) { (error) in
+            if let error = error {
+                self.popupDialog(title: "죄송해요", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+            }
+        }
+        iMessageInputBar.inputTextView.text = ""
+    }
+}
