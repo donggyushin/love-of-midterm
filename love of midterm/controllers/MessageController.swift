@@ -20,6 +20,7 @@ class MessageController: UICollectionViewController {
     }
     
     
+    
     // MARK: life cycles
     
     init(){

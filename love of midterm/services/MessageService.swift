@@ -40,6 +40,9 @@ struct MessageService {
     
     func postMessage(chatId:String, sender:String, text:String, completion:@escaping(Error?) -> Void){
         var messageReference:DocumentReference?
+        
+        db.collection("chats").document(chatId).updateData(["lastMessage" : text, "updatedAt": FieldValue.serverTimestamp()])
+        
         messageReference = db.collection("messages").addDocument(data: [
             "sender":sender,
             "type":"TEXT",

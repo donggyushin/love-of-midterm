@@ -92,10 +92,19 @@ class ChatCell: UICollectionViewCell {
         configureUI()
     }
     
+    
     func configureUser(){
         guard let user = user else { return }
+        guard let chat = chat else { return }
+        
         usernameLabel.text = user.username
-        lastMessageLabel.text = "\(user.username)님과 대화를 시작해보세요"
+        
+        if chat.lastMessage == "" {
+            lastMessageLabel.text = "\(user.username)님과 대화를 시작해보세요"
+        }else {
+            lastMessageLabel.text = "\(chat.lastMessage)"
+        }
+        
         if let url = URL(string: user.profileImageUrl) {
             profileImageView.sd_setImage(with: url, completed: nil)
         }
@@ -110,7 +119,7 @@ class ChatCell: UICollectionViewCell {
         addSubview(usernameLabel)
         usernameLabel.translatesAutoresizingMaskIntoConstraints = false
         usernameLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 12).isActive = true
-        usernameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
+        usernameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 25).isActive = true
         
         addSubview(lastMessageLabel)
         lastMessageLabel.translatesAutoresizingMaskIntoConstraints = false

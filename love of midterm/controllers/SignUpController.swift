@@ -402,7 +402,7 @@ class SignUpController: UIViewController {
     // MARK: helpers
     
     func setAddress(address:Address){
-        addressTextField.text = address.roadAddress
+        addressTextField.text = address.title.replacingOccurrences(of: "<b>", with: "").replacingOccurrences(of: "</b>", with: " ")
         addressValue = address
     }
     

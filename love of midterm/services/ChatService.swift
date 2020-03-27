@@ -36,6 +36,8 @@ struct ChatService {
         
         guard let myId = Auth.auth().currentUser?.uid else { return }
         
+        
+        
         var chatReference:DocumentReference?
         
         chatReference = db.collection("chats").addDocument(data: [

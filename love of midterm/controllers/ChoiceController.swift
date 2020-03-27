@@ -145,6 +145,7 @@ class ChoiceController: UIViewController {
         
         RequestService.shared.updateRequestCheckedStatus(id: self.request.id)
         ChatService.shared.createNewChat(userId: self.user.id) { (error, chat) in
+            RequestService.shared.updateRequestCheckedStatus(id: self.request.id)
             if let error = error {
                 self.popupDialog(title: "죄송해요", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
             }else {
