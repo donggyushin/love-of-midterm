@@ -18,6 +18,16 @@ struct Message {
     let type:String
     let createdAt:Date
     
+    init(){
+        self.sender = ""
+        self.chatId = ""
+        self.id = ""
+        self.read = true
+        self.text = ""
+        self.type = ""
+        self.createdAt = Date()
+    }
+    
     init(data:[String:Any]) {
         let sender = data["sender"] as? String ?? ""
         let chatId = data["chatId"] as? String ?? ""

@@ -11,7 +11,8 @@ import Firebase
 import InputBarAccessoryView
 
 
-private let reuseIdentifier = "Cell"
+private let reuseIdentifierMyMessage = "Cell1"
+private let reuseIdentifierOthersMessage = "Cell2"
 
 class ChatController: UICollectionViewController {
     
@@ -22,7 +23,14 @@ class ChatController: UICollectionViewController {
             configureUser()
         }
     }
-    var messages = [Message]()
+    var messages = [Message]() {
+        didSet {
+            collectionView.reloadData()
+            let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
+            let lastItemIndex = NSIndexPath(item: item, section: 0)
+            self.collectionView.scrollToItem(at: lastItemIndex as IndexPath, at: .top, animated: true)
+        }
+    }
     
     // MARK: UIKits
     lazy var backButton:UIButton = {
@@ -75,11 +83,12 @@ class ChatController: UICollectionViewController {
     // MARK: APIs
     
     func fetchMessages(){
-        MessageService.shared.listenMessages(chatId: chat.id) { (error, messages) in
+        MessageService.shared.listenMessages(chatId: chat.id) { (error, message) in
             if let error = error {
                 self.popupDialog(title: "죄송해요", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
             }else {
-                self.messages = messages!
+//                self.messages = messages!
+                self.messages.append(message!)
             }
         }
     }
@@ -107,7 +116,10 @@ class ChatController: UICollectionViewController {
     
     // MARK: configures
     func configure(){
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(MyMessageCell.self, forCellWithReuseIdentifier: reuseIdentifierMyMessage)
+        
+        self.collectionView!.register(OthersMessageCell.self, forCellWithReuseIdentifier: reuseIdentifierOthersMessage)
+        
         collectionView.backgroundColor = .white
         configureNavigation()
         fetchUser()
@@ -158,17 +170,68 @@ class ChatController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 0
+        return messages.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    
-        // Configure the cell
-    
-        return cell
+        let myId = Auth.auth().currentUser!.uid
+        
+        let message = messages[indexPath.row]
+        
+        let messageText = messages[indexPath.row].text
+        let size = CGSize(width: 250, height: 1000)
+        let options = NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin)
+        let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font : UIFont(name: "BMJUAOTF", size: 16) as Any], context: nil)
+        
+        
+        if message.sender == myId {
+            let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierMyMessage, for: indexPath) as! MyMessageCell
+            
+            myCell.messageTextView.text = message.text
+            
+            myCell.messageTextView.frame = CGRect(x: view.frame.width - estimatedFrame.width - 25 - 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
+            myCell.textBubbleView.frame = CGRect(x: view.frame.width - estimatedFrame.width - 40, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
+            
+            return myCell
+        }else {
+            let othersCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessage, for: indexPath) as! OthersMessageCell
+            
+            othersCell.messageTextView.text = message.text
+            othersCell.userId = message.sender
+            othersCell.profileImageView.frame = CGRect(x: 8, y: 0, width: 40, height: 40)
+            othersCell.messageTextView.frame = CGRect(x: 60 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
+            othersCell.textBubbleView.frame = CGRect(x: 60, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
+            
+            return othersCell
+        }
+        
     }
     
+}
+
+// MARK: Set message cell size
+extension ChatController:UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        
+        let messageText = messages[indexPath.row].text
+        let size = CGSize(width: 250, height: 1000)
+        let options = NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin)
+        let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font : UIFont(name: "BMJUAOTF", size: 16) as Any], context: nil)
+        
+        
+        return CGSize(width: UIScreen.main.bounds.size.width , height: estimatedFrame.height + 20)
+    }
+    
+
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
 }
 
 

@@ -126,5 +126,7 @@ class ChatCell: UICollectionViewCell {
         lastMessageLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 4).isActive = true
         lastMessageLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 12).isActive = true
         
+        lastMessageLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -50).isActive = true 
+        
     }
 }

@@ -14,24 +14,23 @@ struct MessageService {
     
     let db = Firestore.firestore()
     
-    func listenMessages(chatId:String, completion:@escaping(Error?, [Message]?) -> Void){
-        db.collection("messages").whereField("chatId", isEqualTo: chatId).order(by: "createdAt", descending: true).addSnapshotListener { (querySnapshot, error) in
+    func listenMessages(chatId:String, completion:@escaping(Error?, Message?) -> Void){
+        
+        db.collection("messages").whereField("chatId", isEqualTo: chatId).order(by: "createdAt", descending: false).addSnapshotListener { (querySnapshot, error) in
             if let error = error {
                 completion(error, nil)
             }else {
                 
-                var messages = [Message]()
+                
                 // 추가되는 데이터들만 확인하기
                 
                 querySnapshot!.documentChanges.forEach { (diff) in
                     if (diff.type == .added){
                         let data = diff.document.data()
                         let message = Message(data: data)
-                        print("추가된 메시지: \(message)")
-                        messages.append(message)
+                        completion(nil, message)
                     }
                 }
-                completion(nil, messages)
                 
                 
             }

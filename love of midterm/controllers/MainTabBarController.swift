@@ -37,7 +37,7 @@ class MainTabBarController: UITabBarController {
     }
     
     var requestCount = 0
-    var requests:[Request]?
+    var requests = [Request]()
     var chats:[Chat]? {
         didSet {
             let messageNavigationController = self.viewControllers?[3] as? UINavigationController
@@ -82,14 +82,14 @@ class MainTabBarController: UITabBarController {
     }
     
     func listenRequests(){
-        RequestService.shared.listenRequests { (error, requests) in
+        RequestService.shared.listenRequests { (error, request) in
             if let error = error {
                 self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
             }else {
-                self.requests = requests!
+                self.requests.append(request!)
                 let notificationNavigationController = self.viewControllers?[2] as? UINavigationController
                 let notificationController = notificationNavigationController?.viewControllers.first as! NotificationController
-                notificationController.requests = self.requests!
+                notificationController.requests = self.requests
             }
         }
     }
