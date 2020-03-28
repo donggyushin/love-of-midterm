@@ -13,7 +13,6 @@ import InputBarAccessoryView
 
 private let reuseIdentifierMyMessage = "Cell1"
 private let reuseIdentifierOthersMessage = "Cell2"
-private let reuseIdentifierOthersMessageTypeTwo = "Cell3"
 
 class ChatController: UICollectionViewController {
     
@@ -24,6 +23,7 @@ class ChatController: UICollectionViewController {
             configureUser()
         }
     }
+    let me:User
     var messages = [Message]() {
         didSet {
             collectionView.reloadData()
@@ -52,8 +52,9 @@ class ChatController: UICollectionViewController {
     
     // MARK: Life styles
 
-    init(chat:Chat) {
+    init(chat:Chat, me:User) {
         self.chat = chat
+        self.me = me
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
     
@@ -77,7 +78,6 @@ class ChatController: UICollectionViewController {
     }
     
     @objc func dismissIMessageeKeyboard() {
-        print("here")
         iMessageInputBar.inputTextView.resignFirstResponder()
     }
     
@@ -121,7 +121,6 @@ class ChatController: UICollectionViewController {
         
         self.collectionView!.register(OthersMessageCell.self, forCellWithReuseIdentifier: reuseIdentifierOthersMessage)
         
-        self.collectionView!.register(OtherMessageCellTypeTwo.self, forCellWithReuseIdentifier: reuseIdentifierOthersMessageTypeTwo)
         
         collectionView.backgroundColor = .white
         configureNavigation()
@@ -191,7 +190,7 @@ class ChatController: UICollectionViewController {
         let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font : UIFont(name: "BMJUAOTF", size: 16) as Any], context: nil)
         
         
-        if message.sender == myId {
+        if message.sender == myId { // 내 메시지
             
             
             let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierMyMessage, for: indexPath) as! MyMessageCell
@@ -216,7 +215,7 @@ class ChatController: UICollectionViewController {
             
             myCell.messageTextView.frame = CGRect(x: view.frame.width - estimatedFrame.width - 25 - 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
             myCell.textBubbleView.frame = CGRect(x: view.frame.width - estimatedFrame.width - 40, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
-            myCell.timeStamp.frame = CGRect(x: view.frame.width - estimatedFrame.width - 40 - 69, y: estimatedFrame.height + 7, width: 75, height: 10)
+            myCell.timeStamp.frame = CGRect(x: view.frame.width - estimatedFrame.width - 40 - 69, y: estimatedFrame.height + 8, width: 75, height: 10)
             
             if messages.count - 1 != indexPath.row {
                 
@@ -239,43 +238,95 @@ class ChatController: UICollectionViewController {
             return myCell
             
             
-        }else {
+        }else { // 상대방 메시지
             
             if indexPath.row == 0 {
                 let othersCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessage, for: indexPath) as! OthersMessageCell
                 
-                othersCell.messageTextView.text = message.text
+                
+                var timestampText = ""
+                let date = message.createdAt
+                let calendar = Calendar.current
+                let hour = calendar.component(.hour, from: date)
+                let minutes = calendar.component(.minute, from: date)
+                
+                if hour == 12 {
+                    timestampText = "오후 12시 \(minutes)분"
+                }else if hour > 12 {
+                    timestampText = "오후 \(hour - 12)시 \(minutes)분"
+                }else {
+                    timestampText = "오전 \(hour)시 \(minutes)분"
+                }
+                
+                
+                
+                
                 othersCell.userId = message.sender
                 othersCell.profileImageView.frame = CGRect(x: 8, y: 0, width: 40, height: 40)
                 othersCell.messageTextView.frame = CGRect(x: 60 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
                 othersCell.textBubbleView.frame = CGRect(x: 60, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
+                othersCell.delegate = self
+                othersCell.messageTextView.text = message.text
+                othersCell.timeStamp.text = timestampText
+                othersCell.timeStamp.frame = CGRect(x: estimatedFrame.width + 16 + 8 + 69, y: estimatedFrame.height + 4, width: 75, height: 10)
                 
                 return othersCell
             }else {
                 
                 let previousMessage = self.messages[indexPath.row - 1]
                 
+                let othersCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessage, for: indexPath) as! OthersMessageCell
+                
+                
+                var timestampText = ""
+                let date = message.createdAt
+                let calendar = Calendar.current
+                let hour = calendar.component(.hour, from: date)
+                let minutes = calendar.component(.minute, from: date)
+                
+                if hour == 12 {
+                    timestampText = "오후 12시 \(minutes)분"
+                }else if hour > 12 {
+                    timestampText = "오후 \(hour - 12)시 \(minutes)분"
+                }else {
+                    timestampText = "오전 \(hour)시 \(minutes)분"
+                }
+                
+                othersCell.delegate = self
+                othersCell.timeStamp.text = timestampText
+                othersCell.messageTextView.text = message.text
+                othersCell.userId = message.sender
+                othersCell.profileImageView.frame = CGRect(x: 8, y: 0, width: 40, height: 40)
+                othersCell.messageTextView.frame = CGRect(x: 60 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
+                othersCell.textBubbleView.frame = CGRect(x: 60, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
+                othersCell.timeStamp.frame = CGRect(x: estimatedFrame.width + 16 + 8 + 69, y: estimatedFrame.height + 4, width: 75, height: 10)
+                
+                
+                
                 if previousMessage.sender == message.sender {
                     
-                    let othersCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessageTypeTwo, for: indexPath) as! OtherMessageCellTypeTwo
+                    othersCell.profileImageView.isHidden = true
                     
-                    othersCell.messageTextView.text = message.text
-                    othersCell.messageTextView.frame = CGRect(x: 60 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
-                    othersCell.textBubbleView.frame = CGRect(x: 60, y: 0, width: estimatedFrame.width + 16 + 8 , height: estimatedFrame.height + 20)
-                    
-                    return othersCell
-                    
-                }else {
-                    let othersCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessage, for: indexPath) as! OthersMessageCell
-                    
-                    othersCell.messageTextView.text = message.text
-                    othersCell.userId = message.sender
-                    othersCell.profileImageView.frame = CGRect(x: 8, y: 0, width: 40, height: 40)
-                    othersCell.messageTextView.frame = CGRect(x: 60 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
-                    othersCell.textBubbleView.frame = CGRect(x: 60, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
-                    
-                    return othersCell
+                    if messages.count - 1 != indexPath.row {
+                        
+                        let currentMessageDate = message.createdAt
+                        let currentHour = calendar.component(.hour, from: currentMessageDate)
+                        let currentMinute = calendar.component(.minute, from: currentMessageDate)
+                        
+                        let nextMessageDate = messages[indexPath.row + 1].createdAt
+                        let nextHour = calendar.component(.hour, from: nextMessageDate)
+                        let nextMinute = calendar.component(.minute, from: nextMessageDate)
+                        
+                        if nextHour == currentHour && nextMinute == currentMinute {
+                            othersCell.timeStamp.isHidden = true
+                        }
+                        
+                    }
                 }
+                
+                
+                
+                return othersCell
                 
             }
             
@@ -317,5 +368,16 @@ extension ChatController:InputBarAccessoryViewDelegate {
             }
         }
         iMessageInputBar.inputTextView.text = ""
+    }
+}
+
+// MARK: OthersMessageCellDelegate
+extension ChatController:OthersMessageCellDelegate {
+    func profileImageTapped(cell: OthersMessageCell) {
+        guard let user = cell.user else { return }
+        let profileTypeTwoVC = ProfileControllerTypeTwo()
+        profileTypeTwoVC.user = user
+        profileTypeTwoVC.me = self.me
+        navigationController?.pushViewController(profileTypeTwoVC, animated: true)
     }
 }

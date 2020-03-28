@@ -28,6 +28,9 @@ class MainTabBarController: UITabBarController {
             let notificationVC = notificationNavigation.viewControllers.first as! NotificationController
             notificationVC.me = self.user
             
+            let messageNavigation = self.viewControllers?[3] as! UINavigationController
+            let messageVC = messageNavigation.viewControllers.first as! MessageController
+            messageVC.me = self.user
             
             checkUserHasTest()
             listenRequestsCount()

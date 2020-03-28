@@ -21,7 +21,6 @@
 		7024666B242DE9C400A9F641 /* MyMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7024666A242DE9C400A9F641 /* MyMessageCell.swift */; };
 		7024666D242DEA2100A9F641 /* OthersMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7024666C242DEA2100A9F641 /* OthersMessageCell.swift */; };
 		703851DB24252E11005ABE28 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703851DA24252E11005ABE28 /* TestController.swift */; };
-		70495302242F652C004A7F1C /* OtherMessageCellTypeTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70495301242F652C004A7F1C /* OtherMessageCellTypeTwo.swift */; };
 		70510208241E980B00C2ADFF /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510207241E980B00C2ADFF /* AddressCell.swift */; };
 		7051020B241EA34800C2ADFF /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051020A241EA34800C2ADFF /* Secrets.swift */; };
 		705395562429872D00126726 /* DenyRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705395552429872D00126726 /* DenyRequestCell.swift */; };
@@ -83,7 +82,6 @@
 		7024666A242DE9C400A9F641 /* MyMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMessageCell.swift; sourceTree = "<group>"; };
 		7024666C242DEA2100A9F641 /* OthersMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OthersMessageCell.swift; sourceTree = "<group>"; };
 		703851DA24252E11005ABE28 /* TestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
-		70495301242F652C004A7F1C /* OtherMessageCellTypeTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherMessageCellTypeTwo.swift; sourceTree = "<group>"; };
 		70510207241E980B00C2ADFF /* AddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCell.swift; sourceTree = "<group>"; };
 		7051020A241EA34800C2ADFF /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		705395552429872D00126726 /* DenyRequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DenyRequestCell.swift; sourceTree = "<group>"; };
@@ -191,7 +189,6 @@
 				70D1B348242C6184001EFD64 /* IMessageInputBar.swift */,
 				7024666A242DE9C400A9F641 /* MyMessageCell.swift */,
 				7024666C242DEA2100A9F641 /* OthersMessageCell.swift */,
-				70495301242F652C004A7F1C /* OtherMessageCellTypeTwo.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -476,7 +473,6 @@
 				70E51DAE241BAFF700631E25 /* Errors.swift in Sources */,
 				709F9FFF2424FFE500F46C12 /* BackgroundViewController.swift in Sources */,
 				70733FD12424083C006A545F /* UserCell.swift in Sources */,
-				70495302242F652C004A7F1C /* OtherMessageCellTypeTwo.swift in Sources */,
 				7086B81F241BED2400E81084 /* User.swift in Sources */,
 				709FA0082424FFE500F46C12 /* SideMenuViewController.swift in Sources */,
 				70D6D628241B3A8A0092BD99 /* AppDelegate.swift in Sources */,

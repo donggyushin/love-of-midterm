@@ -9,9 +9,17 @@
 import UIKit
 import SDWebImage
 
+protocol OthersMessageCellDelegate:class {
+    func profileImageTapped(cell:OthersMessageCell)
+}
+
 class OthersMessageCell: UICollectionViewCell {
     
     // MARK: properties
+    
+    weak var delegate:OthersMessageCellDelegate?
+    
+    var user:User?
     
     var userId:String? {
         didSet {
@@ -20,6 +28,7 @@ class OthersMessageCell: UICollectionViewCell {
                 if let error = error {
                     print(error.localizedDescription)
                 }else {
+                    self.user = user!
                     if let url = URL(string: user!.profileImageUrl) {
                         self.profileImageView.sd_setImage(with: url, completed: nil)
                     }
@@ -37,6 +46,10 @@ class OthersMessageCell: UICollectionViewCell {
         profileView.backgroundColor = .systemGroupedBackground
         profileView.layer.cornerRadius = 8
         profileView.layer.masksToBounds = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
+        profileView.isUserInteractionEnabled = true
+        profileView.addGestureRecognizer(tap)
         return profileView
     }()
     
@@ -56,6 +69,14 @@ class OthersMessageCell: UICollectionViewCell {
         return text
     }()
     
+    lazy var timeStamp:UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = UIFont(name: "BMJUAOTF", size: 12)
+        label.textColor = .lightGray
+        return label
+    }()
+    
     // MARK: Life cycles
     override init(frame:CGRect) {
         super.init(frame: frame)
@@ -65,6 +86,11 @@ class OthersMessageCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Selectors
+    @objc func profileImageTapped(){
+        delegate?.profileImageTapped(cell: self)
     }
     
     // MARK: configure
@@ -77,6 +103,6 @@ class OthersMessageCell: UICollectionViewCell {
         addSubview(profileImageView)
         addSubview(textBubbleView)
         addSubview(messageTextView)
-        
+        addSubview(timeStamp)
     }
 }

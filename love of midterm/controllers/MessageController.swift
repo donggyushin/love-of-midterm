@@ -19,6 +19,7 @@ class MessageController: UICollectionViewController {
         }
     }
     
+    var me:User?
     
     
     // MARK: life cycles
@@ -82,8 +83,9 @@ class MessageController: UICollectionViewController {
     
     // MARK: Collectionview Delegate
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let me = self.me else { return }
         let chat = chats[indexPath.row]
-        let chatVC = ChatController(chat: chat)
+        let chatVC = ChatController(chat: chat, me: me)
         navigationController?.pushViewController(chatVC, animated: true)
     }
 

@@ -151,7 +151,7 @@ class ChoiceController: UIViewController {
             }else {
                 self.disableButtons()
                 guard let chat = chat else { return }
-                let chatVC = ChatController(chat: chat)
+                let chatVC = ChatController(chat: chat, me: self.me)
                 self.navigationController?.pushViewController(chatVC, animated: true)
                 
             }
