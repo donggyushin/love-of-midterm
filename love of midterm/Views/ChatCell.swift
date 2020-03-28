@@ -16,6 +16,7 @@ class ChatCell: UICollectionViewCell {
     var chat:Chat? {
         didSet {
             fetchUser()
+            configureChat()
         }
     }
     
@@ -49,6 +50,15 @@ class ChatCell: UICollectionViewCell {
         let label = UILabel()
         label.text = ""
         label.font = UIFont(name: "BMJUAOTF", size: 14)
+        label.textColor = .lightGray
+        return label
+    }()
+    
+    
+    lazy var timeStamp:UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = UIFont(name: "BMJUAOTF", size: 12)
         label.textColor = .lightGray
         return label
     }()
@@ -92,6 +102,22 @@ class ChatCell: UICollectionViewCell {
         configureUI()
     }
     
+    func configureChat(){
+        guard let chat = self.chat else { return }
+        let date = chat.updatedAt
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+        
+        if hour == 12 {
+            timeStamp.text = "오후 12시 \(minutes)분"
+        }else if hour > 12 {
+            timeStamp.text = "오후 \(hour - 12)시 \(minutes)분"
+        }else {
+            timeStamp.text = "오전 \(hour)시 \(minutes)분"
+        }
+    }
+    
     
     func configureUser(){
         guard let user = user else { return }
@@ -121,12 +147,21 @@ class ChatCell: UICollectionViewCell {
         usernameLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 12).isActive = true
         usernameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 25).isActive = true
         
+        addSubview(timeStamp)
+        timeStamp.translatesAutoresizingMaskIntoConstraints = false
+        timeStamp.topAnchor.constraint(equalTo: topAnchor, constant: 25).isActive = true
+        timeStamp.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
+        timeStamp.widthAnchor.constraint(equalToConstant: 75).isActive = true
+        
+        
         addSubview(lastMessageLabel)
         lastMessageLabel.translatesAutoresizingMaskIntoConstraints = false
         lastMessageLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 4).isActive = true
         lastMessageLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 12).isActive = true
         
-        lastMessageLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -50).isActive = true 
+        lastMessageLabel.rightAnchor.constraint(equalTo: timeStamp.leftAnchor, constant: 10).isActive = true
+        
+        
         
     }
 }

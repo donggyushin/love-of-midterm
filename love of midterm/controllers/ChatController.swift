@@ -13,6 +13,7 @@ import InputBarAccessoryView
 
 private let reuseIdentifierMyMessage = "Cell1"
 private let reuseIdentifierOthersMessage = "Cell2"
+private let reuseIdentifierOthersMessageTypeTwo = "Cell3"
 
 class ChatController: UICollectionViewController {
     
@@ -120,6 +121,8 @@ class ChatController: UICollectionViewController {
         
         self.collectionView!.register(OthersMessageCell.self, forCellWithReuseIdentifier: reuseIdentifierOthersMessage)
         
+        self.collectionView!.register(OtherMessageCellTypeTwo.self, forCellWithReuseIdentifier: reuseIdentifierOthersMessageTypeTwo)
+        
         collectionView.backgroundColor = .white
         configureNavigation()
         fetchUser()
@@ -189,24 +192,93 @@ class ChatController: UICollectionViewController {
         
         
         if message.sender == myId {
+            
+            
             let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierMyMessage, for: indexPath) as! MyMessageCell
             
             myCell.messageTextView.text = message.text
             
+            var timestampText = ""
+            let date = message.createdAt
+            let calendar = Calendar.current
+            let hour = calendar.component(.hour, from: date)
+            let minutes = calendar.component(.minute, from: date)
+            
+            if hour == 12 {
+                timestampText = "오후 12시 \(minutes)분"
+            }else if hour > 12 {
+                timestampText = "오후 \(hour - 12)시 \(minutes)분"
+            }else {
+                timestampText = "오전 \(hour)시 \(minutes)분"
+            }
+            
+            myCell.timeStamp.text = timestampText
+            
             myCell.messageTextView.frame = CGRect(x: view.frame.width - estimatedFrame.width - 25 - 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
             myCell.textBubbleView.frame = CGRect(x: view.frame.width - estimatedFrame.width - 40, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
+            myCell.timeStamp.frame = CGRect(x: view.frame.width - estimatedFrame.width - 40 - 69, y: estimatedFrame.height + 7, width: 75, height: 10)
+            
+            if messages.count - 1 != indexPath.row {
+                
+                if message.sender == messages[indexPath.row + 1].sender {
+                    let currentMessageDate = message.createdAt
+                    let currentHour = calendar.component(.hour, from: currentMessageDate)
+                    let currentMinute = calendar.component(.minute, from: currentMessageDate)
+                    
+                    let nextMessageDate = messages[indexPath.row + 1].createdAt
+                    let nextHour = calendar.component(.hour, from: nextMessageDate)
+                    let nextMinute = calendar.component(.minute, from: nextMessageDate)
+                    
+                    if nextHour == currentHour && nextMinute == currentMinute {
+                        myCell.timeStamp.isHidden = true
+                    }
+                }
+                
+            }
             
             return myCell
+            
+            
         }else {
-            let othersCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessage, for: indexPath) as! OthersMessageCell
             
-            othersCell.messageTextView.text = message.text
-            othersCell.userId = message.sender
-            othersCell.profileImageView.frame = CGRect(x: 8, y: 0, width: 40, height: 40)
-            othersCell.messageTextView.frame = CGRect(x: 60 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
-            othersCell.textBubbleView.frame = CGRect(x: 60, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
+            if indexPath.row == 0 {
+                let othersCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessage, for: indexPath) as! OthersMessageCell
+                
+                othersCell.messageTextView.text = message.text
+                othersCell.userId = message.sender
+                othersCell.profileImageView.frame = CGRect(x: 8, y: 0, width: 40, height: 40)
+                othersCell.messageTextView.frame = CGRect(x: 60 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
+                othersCell.textBubbleView.frame = CGRect(x: 60, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
+                
+                return othersCell
+            }else {
+                
+                let previousMessage = self.messages[indexPath.row - 1]
+                
+                if previousMessage.sender == message.sender {
+                    
+                    let othersCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessageTypeTwo, for: indexPath) as! OtherMessageCellTypeTwo
+                    
+                    othersCell.messageTextView.text = message.text
+                    othersCell.messageTextView.frame = CGRect(x: 60 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
+                    othersCell.textBubbleView.frame = CGRect(x: 60, y: 0, width: estimatedFrame.width + 16 + 8 , height: estimatedFrame.height + 20)
+                    
+                    return othersCell
+                    
+                }else {
+                    let othersCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessage, for: indexPath) as! OthersMessageCell
+                    
+                    othersCell.messageTextView.text = message.text
+                    othersCell.userId = message.sender
+                    othersCell.profileImageView.frame = CGRect(x: 8, y: 0, width: 40, height: 40)
+                    othersCell.messageTextView.frame = CGRect(x: 60 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
+                    othersCell.textBubbleView.frame = CGRect(x: 60, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
+                    
+                    return othersCell
+                }
+                
+            }
             
-            return othersCell
         }
         
     }

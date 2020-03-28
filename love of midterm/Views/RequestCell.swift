@@ -59,6 +59,7 @@ class RequestCell: UICollectionViewCell {
         return label
     }()
     
+    
     // MARK: Life cycles
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -131,11 +132,16 @@ class RequestCell: UICollectionViewCell {
         profileImageView.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         profileImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
         
+        
+        
+        
         addSubview(contentLabel)
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
         contentLabel.topAnchor.constraint(equalTo: topAnchor, constant: 36).isActive = true
         contentLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 10).isActive = true
-        contentLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -20).isActive = true
+        contentLabel.rightAnchor.constraint(equalTo:rightAnchor, constant: -30).isActive = true
+        
+        
     }
     
 }

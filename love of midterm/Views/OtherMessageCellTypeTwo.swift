@@ -1,44 +1,35 @@
 //
-//  MyMessageCell.swift
+//  OtherMessageCellTypeTwo.swift
 //  love of midterm
 //
-//  Created by 신동규 on 2020/03/27.
+//  Created by 신동규 on 2020/03/28.
 //  Copyright © 2020 Mac circle. All rights reserved.
 //
 
 import UIKit
 
-class MyMessageCell: UICollectionViewCell {
+class OtherMessageCellTypeTwo: UICollectionViewCell {
     
     // MARK: UIKits
     
     lazy var textBubbleView:UIView = {
         let view = UIView()
-        view.backgroundColor = .facebookBlue
+        view.backgroundColor = .systemGroupedBackground
         view.layer.cornerRadius = 15
         view.layer.masksToBounds = true
         return view
     }()
     
     lazy var messageTextView:UITextView = {
-        let text = UITextView()
-        text.isEditable = false
-        text.font = UIFont(name: "BMJUAOTF", size: 16)
-        text.textColor = .white
-        text.backgroundColor = .clear
-        return text
-    }()
-    
-    lazy var timeStamp:UILabel = {
-        let label = UILabel()
-        label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 12)
-        label.textColor = .lightGray
-        return label
+        let tv = UITextView()
+        tv.isEditable = false
+        tv.font = UIFont(name: "BMJUAOTF", size: 16)
+        tv.backgroundColor = .clear
+        return tv
     }()
     
     // MARK: Life cycles
-    override init(frame: CGRect) {
+    override init(frame:CGRect) {
         super.init(frame: frame)
         
         configure()
@@ -48,21 +39,14 @@ class MyMessageCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: configures
-    
-   
-    
+    // MARK: configure
     
     func configure(){
         configureUI()
     }
     
     func configureUI(){
-        
         addSubview(textBubbleView)
         addSubview(messageTextView)
-        addSubview(timeStamp)
-
     }
-    
 }
