@@ -26,10 +26,13 @@ class ChatController: UICollectionViewController {
     let me:User
     var messages = [Message]() {
         didSet {
-            collectionView.reloadData()
-            let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
-            let lastItemIndex = NSIndexPath(item: item, section: 0)
-            self.collectionView.scrollToItem(at: lastItemIndex as IndexPath, at: .top, animated: true)
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
+                let lastItemIndex = NSIndexPath(item: item, section: 0)
+                self.collectionView.scrollToItem(at: lastItemIndex as IndexPath, at: .top, animated: true)
+            }
+            
         }
     }
     
@@ -188,18 +191,15 @@ class ChatController: UICollectionViewController {
         let size = CGSize(width: 250, height: 1000)
         let options = NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin)
         let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font : UIFont(name: "BMJUAOTF", size: 16) as Any], context: nil)
+        let calendar = Calendar.current
         
-        
-        if message.sender == myId { // 내 메시지
-            
-            
+        if message.sender == myId {
             let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierMyMessage, for: indexPath) as! MyMessageCell
             
             myCell.messageTextView.text = message.text
             
             var timestampText = ""
             let date = message.createdAt
-            let calendar = Calendar.current
             let hour = calendar.component(.hour, from: date)
             let minutes = calendar.component(.minute, from: date)
             
@@ -217,120 +217,88 @@ class ChatController: UICollectionViewController {
             myCell.textBubbleView.frame = CGRect(x: view.frame.width - estimatedFrame.width - 40, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
             myCell.timeStamp.frame = CGRect(x: view.frame.width - estimatedFrame.width - 40 - 69, y: estimatedFrame.height + 8, width: 75, height: 10)
             
-            if messages.count - 1 != indexPath.row {
-                
-                if message.sender == messages[indexPath.row + 1].sender {
-                    let currentMessageDate = message.createdAt
-                    let currentHour = calendar.component(.hour, from: currentMessageDate)
-                    let currentMinute = calendar.component(.minute, from: currentMessageDate)
-                    
-                    let nextMessageDate = messages[indexPath.row + 1].createdAt
-                    let nextHour = calendar.component(.hour, from: nextMessageDate)
-                    let nextMinute = calendar.component(.minute, from: nextMessageDate)
-                    
-                    if nextHour == currentHour && nextMinute == currentMinute {
+            
+            // 밑의 메시지가 내 메시지이고 시간이 같으면 시간 지우기
+            if indexPath.row != messages.count - 1 {
+                if message.sender == self.messages[indexPath.row + 1].sender {
+                    let secondDate = self.messages[indexPath.row + 1].createdAt
+                    let secondHour = calendar.component(.hour, from: secondDate)
+                    let secondMinute = calendar.component(.minute, from: secondDate)
+                    if hour == secondHour && minutes == secondMinute {
                         myCell.timeStamp.isHidden = true
+                    }else {
+                        myCell.timeStamp.isHidden = false
                     }
+                }else {
+                    myCell.timeStamp.isHidden = false
                 }
-                
+            }else {
+                myCell.timeStamp.isHidden = false
             }
             
             return myCell
+        }else {
+            let othersCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessage, for: indexPath) as! OthersMessageCell
             
             
-        }else { // 상대방 메시지
+            var timestampText = ""
+            let date = message.createdAt
+            let hour = calendar.component(.hour, from: date)
+            let minutes = calendar.component(.minute, from: date)
             
-            if indexPath.row == 0 {
-                let othersCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessage, for: indexPath) as! OthersMessageCell
-                
-                
-                var timestampText = ""
-                let date = message.createdAt
-                let calendar = Calendar.current
-                let hour = calendar.component(.hour, from: date)
-                let minutes = calendar.component(.minute, from: date)
-                
-                if hour == 12 {
-                    timestampText = "오후 12시 \(minutes)분"
-                }else if hour > 12 {
-                    timestampText = "오후 \(hour - 12)시 \(minutes)분"
-                }else {
-                    timestampText = "오전 \(hour)시 \(minutes)분"
-                }
-                
-                
-                
-                
-                othersCell.userId = message.sender
-                othersCell.profileImageView.frame = CGRect(x: 8, y: 0, width: 40, height: 40)
-                othersCell.messageTextView.frame = CGRect(x: 60 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
-                othersCell.textBubbleView.frame = CGRect(x: 60, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
-                othersCell.delegate = self
-                othersCell.messageTextView.text = message.text
-                othersCell.timeStamp.text = timestampText
-                othersCell.timeStamp.frame = CGRect(x: estimatedFrame.width + 16 + 8 + 69, y: estimatedFrame.height + 4, width: 75, height: 10)
-                
-                return othersCell
+            if hour == 12 {
+                timestampText = "오후 12시 \(minutes)분"
+            }else if hour > 12 {
+                timestampText = "오후 \(hour - 12)시 \(minutes)분"
             }else {
-                
-                let previousMessage = self.messages[indexPath.row - 1]
-                
-                let othersCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessage, for: indexPath) as! OthersMessageCell
-                
-                
-                var timestampText = ""
-                let date = message.createdAt
-                let calendar = Calendar.current
-                let hour = calendar.component(.hour, from: date)
-                let minutes = calendar.component(.minute, from: date)
-                
-                if hour == 12 {
-                    timestampText = "오후 12시 \(minutes)분"
-                }else if hour > 12 {
-                    timestampText = "오후 \(hour - 12)시 \(minutes)분"
-                }else {
-                    timestampText = "오전 \(hour)시 \(minutes)분"
-                }
-                
-                othersCell.delegate = self
-                othersCell.timeStamp.text = timestampText
-                othersCell.messageTextView.text = message.text
-                othersCell.userId = message.sender
-                othersCell.profileImageView.frame = CGRect(x: 8, y: 0, width: 40, height: 40)
-                othersCell.messageTextView.frame = CGRect(x: 60 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
-                othersCell.textBubbleView.frame = CGRect(x: 60, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
-                othersCell.timeStamp.frame = CGRect(x: estimatedFrame.width + 16 + 8 + 69, y: estimatedFrame.height + 4, width: 75, height: 10)
-                
-                
-                
-                if previousMessage.sender == message.sender {
-                    
-                    othersCell.profileImageView.isHidden = true
-                    
-                    if messages.count - 1 != indexPath.row {
-                        
-                        let currentMessageDate = message.createdAt
-                        let currentHour = calendar.component(.hour, from: currentMessageDate)
-                        let currentMinute = calendar.component(.minute, from: currentMessageDate)
-                        
-                        let nextMessageDate = messages[indexPath.row + 1].createdAt
-                        let nextHour = calendar.component(.hour, from: nextMessageDate)
-                        let nextMinute = calendar.component(.minute, from: nextMessageDate)
-                        
-                        if nextHour == currentHour && nextMinute == currentMinute {
-                            othersCell.timeStamp.isHidden = true
-                        }
-                        
-                    }
-                }
-                
-                
-                
-                return othersCell
-                
+                timestampText = "오전 \(hour)시 \(minutes)분"
             }
             
+            
+            
+            
+            othersCell.userId = message.sender
+            othersCell.profileImageView.frame = CGRect(x: 8, y: 0, width: 40, height: 40)
+            othersCell.messageTextView.frame = CGRect(x: 60 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
+            othersCell.textBubbleView.frame = CGRect(x: 60, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
+            othersCell.delegate = self
+            othersCell.messageTextView.text = message.text
+            othersCell.timeStamp.text = timestampText
+            othersCell.timeStamp.frame = CGRect(x: estimatedFrame.width + 16 + 8 + 69, y: estimatedFrame.height + 4, width: 75, height: 10)
+            
+            
+            // 위의 메시지가 내 메시지이면 프로필 지우기
+            if indexPath.row != 0 {
+                if message.sender == self.messages[indexPath.row - 1].sender {
+                    othersCell.profileImageView.isHidden = true
+                }else {
+                    othersCell.profileImageView.isHidden = false
+                }
+            }else {
+                othersCell.profileImageView.isHidden = false
+            }
+            
+            // 밑의 메시지가 내 메시지이고 시간이 같으면 지우기
+            if messages.count - 1 != indexPath.row {
+                if message.sender == messages[indexPath.row + 1].sender {
+                    let secondDate = messages[indexPath.row + 1].createdAt
+                    let secondHour = calendar.component(.hour, from: secondDate)
+                    let secondMinute = calendar.component(.minute, from: secondDate)
+                    if hour == secondHour && minutes == secondMinute {
+                        othersCell.timeStamp.isHidden = true
+                    }else {
+                        othersCell.timeStamp.isHidden = false
+                    }
+                }else {
+                    othersCell.timeStamp.isHidden = false
+                }
+            }else {
+                othersCell.timeStamp.isHidden = false
+            }
+            
+            return othersCell
         }
+        
         
     }
     

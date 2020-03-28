@@ -104,18 +104,33 @@ class ChatCell: UICollectionViewCell {
     
     func configureChat(){
         guard let chat = self.chat else { return }
+        let todayDate = Date()
         let date = chat.updatedAt
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: date)
         let minutes = calendar.component(.minute, from: date)
         
-        if hour == 12 {
-            timeStamp.text = "오후 12시 \(minutes)분"
-        }else if hour > 12 {
-            timeStamp.text = "오후 \(hour - 12)시 \(minutes)분"
+        
+        if todayDate.year() == date.year() && todayDate.month() == date.month() && todayDate.day() == date.day() {
+            if hour == 12 {
+                timeStamp.text = "오후 12시 \(minutes)분"
+            }else if hour > 12 {
+                timeStamp.text = "오후 \(hour - 12)시 \(minutes)분"
+            }else {
+                timeStamp.text = "오전 \(hour)시 \(minutes)분"
+            }
+        }else if todayDate.year() == date.year() {
+            timeStamp.text = "\(date.month())월 \(date.day())일"
         }else {
-            timeStamp.text = "오전 \(hour)시 \(minutes)분"
+            timeStamp.text = "\(date.year()). \(date.month()). \(date.day())."
         }
+        
+        if let timestampText = timeStamp.text {
+            guard let font = UIFont(name: "BMJUAOTF", size: 12) else { return }
+            let width = timestampText.width(withConstrainedHeight: 10, font: font)
+            self.timeStamp.widthAnchor.constraint(equalToConstant: width + 5).isActive = true
+        }
+        
     }
     
     
@@ -151,7 +166,7 @@ class ChatCell: UICollectionViewCell {
         timeStamp.translatesAutoresizingMaskIntoConstraints = false
         timeStamp.topAnchor.constraint(equalTo: topAnchor, constant: 25).isActive = true
         timeStamp.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
-        timeStamp.widthAnchor.constraint(equalToConstant: 75).isActive = true
+
         
         
         addSubview(lastMessageLabel)

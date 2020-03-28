@@ -94,6 +94,8 @@ class OthersMessageCell: UICollectionViewCell {
     }
     
     // MARK: configure
+    
+    
     func configure(){
         configureUI()
     }
