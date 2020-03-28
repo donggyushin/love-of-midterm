@@ -378,6 +378,7 @@ extension ChatController:OthersMessageCellDelegate {
         let profileTypeTwoVC = ProfileControllerTypeTwo()
         profileTypeTwoVC.user = user
         profileTypeTwoVC.me = self.me
+        profileTypeTwoVC.backButton.setTitle("\(user.username)", for: UIControl.State.normal)
         navigationController?.pushViewController(profileTypeTwoVC, animated: true)
     }
 }
