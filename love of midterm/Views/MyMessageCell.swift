@@ -10,22 +10,30 @@ import UIKit
 
 class MyMessageCell: UICollectionViewCell {
     
+    // MARK: properties
+    var message:Message? {
+        didSet {
+            configureMessage()
+        }
+    }
+    var textBubbleViewWidthAnchor:NSLayoutConstraint?
+    
     // MARK: UIKits
     
     lazy var textBubbleView:UIView = {
         let view = UIView()
-        view.backgroundColor = .facebookBlue
-        view.layer.cornerRadius = 15
+        view.backgroundColor = .tinderColor3
+        view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         return view
     }()
     
-    lazy var messageTextView:UITextView = {
-        let text = UITextView()
-        text.isEditable = false
+    lazy var messageTextView:UILabel = {
+        let text = UILabel()
         text.font = UIFont(name: "BMJUAOTF", size: 16)
         text.textColor = .white
-        text.backgroundColor = .clear
+        text.lineBreakMode = .byWordWrapping
+        text.numberOfLines = 0
         return text
     }()
     
@@ -50,7 +58,25 @@ class MyMessageCell: UICollectionViewCell {
     
     // MARK: configures
     
-   
+    func configureMessage(){
+        guard let message = self.message else { return }
+        messageTextView.text = message.text
+        let calendar = Calendar.current
+        var timestampText = ""
+        let date = message.createdAt
+        let hour = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+        
+        if hour == 12 {
+            timestampText = "오후 12시 \(minutes)분"
+        }else if hour > 12 {
+            timestampText = "오후 \(hour - 12)시 \(minutes)분"
+        }else {
+            timestampText = "오전 \(hour)시 \(minutes)분"
+        }
+        
+        timeStamp.text = timestampText
+    }
     
     
     func configure(){
@@ -58,11 +84,24 @@ class MyMessageCell: UICollectionViewCell {
     }
     
     func configureUI(){
-        
         addSubview(textBubbleView)
+        textBubbleView.translatesAutoresizingMaskIntoConstraints = false
+        textBubbleView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        textBubbleView.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
+        textBubbleView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        textBubbleViewWidthAnchor = textBubbleView.widthAnchor.constraint(equalToConstant: 250)
+        textBubbleViewWidthAnchor?.isActive = true
+        
         addSubview(messageTextView)
+        messageTextView.translatesAutoresizingMaskIntoConstraints = false
+        messageTextView.topAnchor.constraint(equalTo: textBubbleView.topAnchor, constant: 10).isActive = true
+        messageTextView.rightAnchor.constraint(equalTo: textBubbleView.rightAnchor, constant: -7).isActive = true
+        messageTextView.leftAnchor.constraint(equalTo: textBubbleView.leftAnchor, constant: 7).isActive = true
+        
         addSubview(timeStamp)
-
+        timeStamp.translatesAutoresizingMaskIntoConstraints = false
+        timeStamp.rightAnchor.constraint(equalTo: textBubbleView.leftAnchor, constant: -2).isActive = true
+        timeStamp.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4).isActive = true
     }
     
 }

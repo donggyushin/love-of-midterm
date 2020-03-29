@@ -19,23 +19,37 @@ class OthersMessageCell: UICollectionViewCell {
     
     weak var delegate:OthersMessageCellDelegate?
     
+    var message:Message? {
+        didSet {
+            guard let message = self.message else { return }
+            self.messageTextView.text = message.text
+            let calendar = Calendar.current
+            var timestampText = ""
+            let date = message.createdAt
+            let hour = calendar.component(.hour, from: date)
+            let minutes = calendar.component(.minute, from: date)
+            
+            if hour == 12 {
+                timestampText = "오후 12시 \(minutes)분"
+            }else if hour > 12 {
+                timestampText = "오후 \(hour - 12)시 \(minutes)분"
+            }else {
+                timestampText = "오전 \(hour)시 \(minutes)분"
+            }
+            
+            timeStamp.text = timestampText
+        }
+    }
+    
     var user:User?
     
     var userId:String? {
         didSet {
-            guard let userId = self.userId else { return }
-            UserService.shared.fetchUserWithId(id: userId) { (error, user) in
-                if let error = error {
-                    print(error.localizedDescription)
-                }else {
-                    self.user = user!
-                    if let url = URL(string: user!.profileImageUrl) {
-                        self.profileImageView.sd_setImage(with: url, completed: nil)
-                    }
-                }
-            }
+            fetchUser()
         }
     }
+    
+    var textBubbleViewWidthAnchor:NSLayoutConstraint?
     
     
     // MARK: UIKits
@@ -44,7 +58,7 @@ class OthersMessageCell: UICollectionViewCell {
         let profileView = UIImageView()
         profileView.contentMode = .scaleAspectFill
         profileView.backgroundColor = .systemGroupedBackground
-        profileView.layer.cornerRadius = 8
+        profileView.layer.cornerRadius = 10
         profileView.layer.masksToBounds = true
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
@@ -61,11 +75,11 @@ class OthersMessageCell: UICollectionViewCell {
         return view
     }()
     
-    lazy var messageTextView:UITextView = {
-        let text = UITextView()
-        text.isEditable = false
+    lazy var messageTextView:UILabel = {
+        let text = UILabel()
         text.font = UIFont(name: "BMJUAOTF", size: 16)
-        text.backgroundColor = .clear
+        text.lineBreakMode = .byWordWrapping
+        text.numberOfLines = 0 
         return text
     }()
     
@@ -93,6 +107,21 @@ class OthersMessageCell: UICollectionViewCell {
         delegate?.profileImageTapped(cell: self)
     }
     
+    // MARK: APIs
+    func fetchUser(){
+        guard let userId = self.userId else { return }
+        UserService.shared.fetchUserWithId(id: userId) { (error, user) in
+            if let error = error {
+                print(error.localizedDescription)
+            }else {
+                self.user = user!
+                if let url = URL(string: user!.profileImageUrl) {
+                    self.profileImageView.sd_setImage(with: url, completed: nil)
+                }
+            }
+        }
+    }
+    
     // MARK: configure
     
     
@@ -101,10 +130,33 @@ class OthersMessageCell: UICollectionViewCell {
     }
     
     func configureUI(){
-        
         addSubview(profileImageView)
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        profileImageView.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
+        profileImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
+        profileImageView.widthAnchor.constraint(equalToConstant: 48).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        
         addSubview(textBubbleView)
+        textBubbleView.translatesAutoresizingMaskIntoConstraints = false
+        textBubbleView.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
+        textBubbleView.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 7).isActive = true
+        textBubbleViewWidthAnchor = textBubbleView.widthAnchor.constraint(equalToConstant: 250)
+        textBubbleViewWidthAnchor?.isActive = true
+        textBubbleView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        
         addSubview(messageTextView)
+        messageTextView.translatesAutoresizingMaskIntoConstraints = false
+        messageTextView.leftAnchor.constraint(equalTo: textBubbleView.leftAnchor, constant: 7).isActive = true
+        messageTextView.topAnchor.constraint(equalTo: textBubbleView.topAnchor, constant: 10).isActive = true
+        messageTextView.rightAnchor.constraint(equalTo: textBubbleView.rightAnchor, constant: -7).isActive = true
+        
+        
         addSubview(timeStamp)
+        timeStamp.translatesAutoresizingMaskIntoConstraints = false
+        timeStamp.leftAnchor.constraint(equalTo: textBubbleView.rightAnchor, constant: 2).isActive = true
+        timeStamp.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -4).isActive = true
+        
+        
     }
 }

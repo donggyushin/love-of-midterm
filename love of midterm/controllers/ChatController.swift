@@ -125,6 +125,7 @@ class ChatController: UICollectionViewController {
         self.collectionView!.register(OthersMessageCell.self, forCellWithReuseIdentifier: reuseIdentifierOthersMessage)
         
         
+        
         collectionView.backgroundColor = .white
         configureNavigation()
         fetchUser()
@@ -194,41 +195,30 @@ class ChatController: UICollectionViewController {
         let calendar = Calendar.current
         
         if message.sender == myId {
+            // 내 메시지일때
+            
             let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierMyMessage, for: indexPath) as! MyMessageCell
+            myCell.message = message
+            myCell.textBubbleViewWidthAnchor?.constant = estimatedFrame.width + 20
             
-            myCell.messageTextView.text = message.text
-            
-            var timestampText = ""
-            let date = message.createdAt
-            let hour = calendar.component(.hour, from: date)
-            let minutes = calendar.component(.minute, from: date)
-            
-            if hour == 12 {
-                timestampText = "오후 12시 \(minutes)분"
-            }else if hour > 12 {
-                timestampText = "오후 \(hour - 12)시 \(minutes)분"
-            }else {
-                timestampText = "오전 \(hour)시 \(minutes)분"
-            }
-            
-            myCell.timeStamp.text = timestampText
-            
-            myCell.messageTextView.frame = CGRect(x: view.frame.width - estimatedFrame.width - 25 - 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
-            myCell.textBubbleView.frame = CGRect(x: view.frame.width - estimatedFrame.width - 40, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
-            myCell.timeStamp.frame = CGRect(x: view.frame.width - estimatedFrame.width - 40 - 69, y: estimatedFrame.height + 8, width: 75, height: 10)
-            
-            
-            // 밑의 메시지가 내 메시지이고 시간이 같으면 시간 지우기
-            if indexPath.row != messages.count - 1 {
-                if message.sender == self.messages[indexPath.row + 1].sender {
-                    let secondDate = self.messages[indexPath.row + 1].createdAt
-                    let secondHour = calendar.component(.hour, from: secondDate)
-                    let secondMinute = calendar.component(.minute, from: secondDate)
-                    if hour == secondHour && minutes == secondMinute {
+            // 밑에 메시지가 나의 메시지인데 서로 시간이 같으면 지워주기
+            if messages.count - 1 != indexPath.row {
+                let nextMessage = messages[indexPath.row + 1]
+                if message.sender == nextMessage.sender {
+                
+                    let date = message.createdAt
+                    let hour = calendar.component(.hour, from: date)
+                    let minutes = calendar.component(.minute, from: date)
+                    let date2 = nextMessage.createdAt
+                    let hour2 = calendar.component(.hour, from: date2)
+                    let minute2 = calendar.component(.minute, from: date2)
+                    
+                    if hour == hour2 && minutes == minute2 {
                         myCell.timeStamp.isHidden = true
                     }else {
                         myCell.timeStamp.isHidden = false
                     }
+                    
                 }else {
                     myCell.timeStamp.isHidden = false
                 }
@@ -237,69 +227,56 @@ class ChatController: UICollectionViewController {
             }
             
             return myCell
+            
         }else {
-            let othersCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessage, for: indexPath) as! OthersMessageCell
+           // 내 메시지가 아닐때
+            let othersMessage = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessage, for: indexPath) as! OthersMessageCell
+            othersMessage.message = message
+            othersMessage.userId = message.sender
+            othersMessage.delegate = self
+            othersMessage.textBubbleViewWidthAnchor?.constant = estimatedFrame.width + 20
             
-            
-            var timestampText = ""
-            let date = message.createdAt
-            let hour = calendar.component(.hour, from: date)
-            let minutes = calendar.component(.minute, from: date)
-            
-            if hour == 12 {
-                timestampText = "오후 12시 \(minutes)분"
-            }else if hour > 12 {
-                timestampText = "오후 \(hour - 12)시 \(minutes)분"
-            }else {
-                timestampText = "오전 \(hour)시 \(minutes)분"
-            }
-            
-            
-            
-            
-            othersCell.userId = message.sender
-            othersCell.profileImageView.frame = CGRect(x: 8, y: 0, width: 40, height: 40)
-            othersCell.messageTextView.frame = CGRect(x: 60 + 8, y: 0, width: estimatedFrame.width + 16, height: estimatedFrame.height + 20)
-            othersCell.textBubbleView.frame = CGRect(x: 60, y: 0, width: estimatedFrame.width + 16 + 8, height: estimatedFrame.height + 20)
-            othersCell.delegate = self
-            othersCell.messageTextView.text = message.text
-            othersCell.timeStamp.text = timestampText
-            othersCell.timeStamp.frame = CGRect(x: estimatedFrame.width + 16 + 8 + 69, y: estimatedFrame.height + 4, width: 75, height: 10)
-            
-            
-            // 위의 메시지가 내 메시지이면 프로필 지우기
+            // 위의 메시지가 내 메시지인데 서로 같은 유저이면 프로필 이미지 안보이게 바꿔주기
             if indexPath.row != 0 {
-                if message.sender == self.messages[indexPath.row - 1].sender {
-                    othersCell.profileImageView.isHidden = true
+                let prevMessage = messages[indexPath.row - 1]
+                if message.sender == prevMessage.sender {
+                    othersMessage.profileImageView.isHidden = true
                 }else {
-                    othersCell.profileImageView.isHidden = false
+                    othersMessage.profileImageView.isHidden = false
                 }
             }else {
-                othersCell.profileImageView.isHidden = false
+                othersMessage.profileImageView.isHidden = false
             }
             
-            // 밑의 메시지가 내 메시지이고 시간이 같으면 지우기
+            
+            // 밑에 메시지가 나의 메시지인데 서로 시간이 같으면 지워주기
             if messages.count - 1 != indexPath.row {
-                if message.sender == messages[indexPath.row + 1].sender {
-                    let secondDate = messages[indexPath.row + 1].createdAt
-                    let secondHour = calendar.component(.hour, from: secondDate)
-                    let secondMinute = calendar.component(.minute, from: secondDate)
-                    if hour == secondHour && minutes == secondMinute {
-                        othersCell.timeStamp.isHidden = true
+                let nextMessage = messages[indexPath.row + 1]
+                if message.sender == nextMessage.sender {
+                
+                    let date = message.createdAt
+                    let hour = calendar.component(.hour, from: date)
+                    let minutes = calendar.component(.minute, from: date)
+                    let date2 = nextMessage.createdAt
+                    let hour2 = calendar.component(.hour, from: date2)
+                    let minute2 = calendar.component(.minute, from: date2)
+                    
+                    if hour == hour2 && minutes == minute2 {
+                        othersMessage.timeStamp.isHidden = true
                     }else {
-                        othersCell.timeStamp.isHidden = false
+                        othersMessage.timeStamp.isHidden = false
                     }
+                    
                 }else {
-                    othersCell.timeStamp.isHidden = false
+                    othersMessage.timeStamp.isHidden = false
                 }
             }else {
-                othersCell.timeStamp.isHidden = false
+                othersMessage.timeStamp.isHidden = false
             }
             
-            return othersCell
+            
+            return othersMessage
         }
-        
-        
     }
     
 }
