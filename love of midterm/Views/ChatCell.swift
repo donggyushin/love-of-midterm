@@ -17,6 +17,7 @@ class ChatCell: UICollectionViewCell {
         didSet {
             fetchUser()
             configureChat()
+            checkUnreadNumber()
         }
     }
     
@@ -25,6 +26,8 @@ class ChatCell: UICollectionViewCell {
             configureUser()
         }
     }
+    
+    var unreadNumberWidthAnchor:NSLayoutConstraint?
     
     // MARK: UIKits
     
@@ -60,6 +63,21 @@ class ChatCell: UICollectionViewCell {
         label.text = ""
         label.font = UIFont(name: "BMJUAOTF", size: 12)
         label.textColor = .lightGray
+        return label
+    }()
+    
+    lazy var unreadNumberView:UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemRed
+        view.layer.cornerRadius = 6
+        return view
+    }()
+    
+    lazy var unreadNumberLabel:UILabel = {
+        let label = UILabel()
+        label.text = "4"
+        label.font = UIFont(name: "BMJUAOTF", size: 12)
+        label.textColor = .white
         return label
     }()
     
@@ -100,6 +118,32 @@ class ChatCell: UICollectionViewCell {
     // MARK: configures
     func configure(){
         configureUI()
+    }
+    
+    func checkUnreadNumber(){
+        guard let chat = self.chat else { return }
+        MessageService.shared.listenUnreadMessagesWithChat(chat: chat) { (error, unreadMessageCount) in
+            if let error = error {
+                print(error.localizedDescription)
+            }else {
+                guard let unreadMessageCount = unreadMessageCount else { return }
+                if unreadMessageCount == 0 {
+                    self.unreadNumberView.isHidden = true
+                    self.unreadNumberLabel.isHidden = true
+                }else {
+                    let unreadMessageCountString = String(unreadMessageCount)
+                    guard let font = UIFont(name: "BMJUAOTF", size: 12) else { return }
+                    let estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: unreadMessageCountString, width: 100, font: font)
+                    
+                    self.unreadNumberWidthAnchor?.constant = estimatedFrame.width + 7
+                    self.unreadNumberLabel.text = unreadMessageCountString
+                    self.unreadNumberView.isHidden = false
+                    self.unreadNumberLabel.isHidden = false
+                }
+                
+                
+            }
+        }
     }
     
     func configureChat(){
@@ -177,6 +221,18 @@ class ChatCell: UICollectionViewCell {
         lastMessageLabel.rightAnchor.constraint(equalTo: timeStamp.leftAnchor, constant: 10).isActive = true
         
         
+        addSubview(unreadNumberView)
+        unreadNumberView.translatesAutoresizingMaskIntoConstraints = false
+        unreadNumberView.topAnchor.constraint(equalTo: timeStamp.bottomAnchor, constant: 4).isActive = true
+        unreadNumberView.rightAnchor.constraint(equalTo: rightAnchor, constant: -15).isActive = true
+        unreadNumberView.heightAnchor.constraint(equalToConstant: 17).isActive = true
+        unreadNumberWidthAnchor = unreadNumberView.widthAnchor.constraint(equalToConstant: 0)
+        unreadNumberWidthAnchor?.isActive = true
+        
+        addSubview(unreadNumberLabel)
+        unreadNumberLabel.translatesAutoresizingMaskIntoConstraints = false
+        unreadNumberLabel.centerXAnchor.constraint(equalTo: unreadNumberView.centerXAnchor).isActive = true
+        unreadNumberLabel.centerYAnchor.constraint(equalTo: unreadNumberView.centerYAnchor).isActive = true
         
     }
 }

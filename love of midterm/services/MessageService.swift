@@ -20,6 +20,28 @@ struct MessageService {
         db.collection("users").document(myId).updateData(["unreadMessages" : FieldValue.arrayRemove([messageId])])
     }
     
+    func listenUnreadMessagesWithChat(chat:Chat, completion:@escaping(Error?, Int?) -> Void){
+        guard let myId = Auth.auth().currentUser?.uid else { return }
+        let othersIds = chat.users.filter { (id) -> Bool in
+            if id == myId {
+                return false
+            }else {
+                return true
+            }
+        }
+        
+        let otherId = othersIds[0]
+        
+        db.collection("messages").whereField("chatId", isEqualTo: chat.id).whereField("sender", isEqualTo: otherId).whereField("read", isEqualTo: false).addSnapshotListener { (querySnapshot, error) in
+            if let error = error {
+                completion(error, nil)
+            }else {
+                let documents = querySnapshot!.documents
+                completion(nil, documents.count)
+            }
+        }
+    }
+    
     func listenUnreadMessagesCount(completion:@escaping(Error?, Int?) -> Void){
         guard let myId = Auth.auth().currentUser?.uid else { return }
         db.collection("users").document(myId).addSnapshotListener { (querySnapshot, error) in
