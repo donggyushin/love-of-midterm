@@ -36,11 +36,13 @@ class MainTabBarController: UITabBarController {
             listenRequestsCount()
             listenRequests()
             fetchChats()
+            listenUnreadMessagesCount()
         }
     }
     
     var requestCount = 0
     var requests = [Request]()
+    var unreadMessagesCount = 0
     var chats:[Chat]? {
         didSet {
             let messageNavigationController = self.viewControllers?[3] as? UINavigationController
@@ -75,12 +77,19 @@ class MainTabBarController: UITabBarController {
         }
     }
     
-    // MARK: helpers
-    
-    func checkUserHasTest(){
-        guard let user = user else { return }
-        if user.testIds.count != 10 {
-            self.dialogRedirectsToPostTestController(goToPostTestController: goToPostTestController)
+    func listenUnreadMessagesCount(){
+        MessageService.shared.listenUnreadMessagesCount { (error, int) in
+            if let error = error {
+                self.popupDialog(title: "죄송해요", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+            }else {
+                self.unreadMessagesCount = int!
+                let messageNavigationController = self.viewControllers?[3] as? UINavigationController
+                if self.unreadMessagesCount == 0 {
+                    messageNavigationController?.tabBarItem.badgeValue = nil
+                }else {
+                    messageNavigationController?.tabBarItem.badgeValue = "\(self.unreadMessagesCount)"
+                }
+            }
         }
     }
     
@@ -114,6 +123,17 @@ class MainTabBarController: UITabBarController {
             }
         }
     }
+    
+    // MARK: helpers
+    
+    func checkUserHasTest(){
+        guard let user = user else { return }
+        if user.testIds.count != 10 {
+            self.dialogRedirectsToPostTestController(goToPostTestController: goToPostTestController)
+        }
+    }
+    
+    
     
     func goToPostTestController(){
         let postTestVC = PostTestController()

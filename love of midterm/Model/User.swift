@@ -27,6 +27,7 @@ struct User {
     let requestsISend:[String]
     let requestsIReceived:[String]
     let chatIds:[String]
+    let unreadMessages:[String]
     
     init(data:[String:Any]) {
         let email = data["email"] as? String ?? ""
@@ -45,6 +46,7 @@ struct User {
         let requestsISend = data["requestsISend"] as? [String] ?? []
         let requestsIReceived = data["requestsIReceived"] as? [String] ?? []
         let chatIds = data["chatIds"] as? [String] ?? []
+        let unreadMessages = data["unreadMessages"] as? [String] ?? []
         
         
         self.email = email
@@ -63,6 +65,7 @@ struct User {
         self.requestsISend = requestsISend
         self.requestsIReceived = requestsIReceived
         self.chatIds = chatIds
+        self.unreadMessages = unreadMessages
         
     }
     

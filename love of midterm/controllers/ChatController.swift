@@ -87,12 +87,18 @@ class ChatController: UICollectionViewController {
     // MARK: APIs
     
     func fetchMessages(){
-        MessageService.shared.listenMessages(chatId: chat.id) { (error, message) in
+        MessageService.shared.listenMessages(chatId: chat.id) { (error, message, updatedMessage) in
             if let error = error {
                 self.popupDialog(title: "죄송해요", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
             }else {
 //                self.messages = messages!
-                self.messages.append(message!)
+                if let message = message {
+                    self.messages.append(message)
+                }else if let message = updatedMessage {
+                    self.messages.remove(at: self.messages.count - 1)
+                    self.messages.append(message)
+                }
+                
             }
         }
     }
@@ -189,9 +195,11 @@ class ChatController: UICollectionViewController {
         let message = messages[indexPath.row]
         
         let messageText = messages[indexPath.row].text
-        let size = CGSize(width: 250, height: 1000)
-        let options = NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin)
-        let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font : UIFont(name: "BMJUAOTF", size: 16) as Any], context: nil)
+
+        let font = UIFont(name: "BMJUAOTF", size: 16)
+        
+        let estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: messageText, width: 250, font: font!)
+        
         let calendar = Calendar.current
         
         if message.sender == myId {
@@ -215,21 +223,26 @@ class ChatController: UICollectionViewController {
                     
                     if hour == hour2 && minutes == minute2 {
                         myCell.timeStamp.isHidden = true
+                        myCell.timestampWidthAnchor?.constant = 0
                     }else {
                         myCell.timeStamp.isHidden = false
+                        myCell.timestampWidthAnchor?.constant = 75
                     }
                     
                 }else {
                     myCell.timeStamp.isHidden = false
+                    myCell.timestampWidthAnchor?.constant = 75
                 }
             }else {
                 myCell.timeStamp.isHidden = false
+                myCell.timestampWidthAnchor?.constant = 75
             }
             
             return myCell
             
         }else {
            // 내 메시지가 아닐때
+            let estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: messageText, width: 200, font: font!)
             let othersMessage = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessage, for: indexPath) as! OthersMessageCell
             othersMessage.message = message
             othersMessage.userId = message.sender
@@ -263,15 +276,19 @@ class ChatController: UICollectionViewController {
                     
                     if hour == hour2 && minutes == minute2 {
                         othersMessage.timeStamp.isHidden = true
+                        othersMessage.timestampeWidthAnchor?.constant = 0
                     }else {
                         othersMessage.timeStamp.isHidden = false
+                        othersMessage.timestampeWidthAnchor?.constant = 75
                     }
                     
                 }else {
                     othersMessage.timeStamp.isHidden = false
+                    othersMessage.timestampeWidthAnchor?.constant = 75
                 }
             }else {
                 othersMessage.timeStamp.isHidden = false
+                othersMessage.timestampeWidthAnchor?.constant = 75
             }
             
             
@@ -287,12 +304,27 @@ extension ChatController:UICollectionViewDelegateFlowLayout {
         
         
         let messageText = messages[indexPath.row].text
-        let size = CGSize(width: 250, height: 1000)
-        let options = NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin)
-        let estimatedFrame = NSString(string: messageText).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font : UIFont(name: "BMJUAOTF", size: 16) as Any], context: nil)
+        guard let font = UIFont(name: "BMJUAOTF", size: 16) else {
+            
+            return CGSize(width: view.frame.width, height: 100)
+        }
+
+        
+        guard let myId = Auth.auth().currentUser?.uid else { return CGSize(width: collectionView.frame.width, height: 100) }
         
         
-        return CGSize(width: UIScreen.main.bounds.size.width , height: estimatedFrame.height + 20)
+        var estimatedFrame:CGRect?
+        
+        if messages[indexPath.row].sender == myId {
+            estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: messageText, width: 250, font: font)
+        }else {
+            estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: messageText, width: 200, font: font)
+        }
+        
+        guard estimatedFrame != nil else { return CGSize(width: view.frame.width, height: 100)}
+        
+        
+        return CGSize(width: UIScreen.main.bounds.size.width , height: estimatedFrame!.height + 20)
     }
     
 
@@ -307,7 +339,8 @@ extension ChatController:UICollectionViewDelegateFlowLayout {
 extension ChatController:InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         guard let myId = Auth.auth().currentUser?.uid else { return }
-        MessageService.shared.postMessage(chatId: chat.id, sender: myId, text: text) { (error) in
+        guard let userId = self.user?.id else { return }
+        MessageService.shared.postMessage(chatId: chat.id, sender: myId, text: text, receiver: userId) { (error) in
             if let error = error {
                 self.popupDialog(title: "죄송해요", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
             }

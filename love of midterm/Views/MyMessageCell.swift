@@ -17,6 +17,7 @@ class MyMessageCell: UICollectionViewCell {
         }
     }
     var textBubbleViewWidthAnchor:NSLayoutConstraint?
+    var timestampWidthAnchor:NSLayoutConstraint?
     
     // MARK: UIKits
     
@@ -42,6 +43,14 @@ class MyMessageCell: UICollectionViewCell {
         label.text = ""
         label.font = UIFont(name: "BMJUAOTF", size: 12)
         label.textColor = .lightGray
+        return label
+    }()
+    
+    lazy var yellowNumberLabel:UILabel = {
+        let label = UILabel()
+        label.text = "1"
+        label.font = UIFont(name: "BMJUAOTF", size: 12)
+        label.textColor = .systemYellow
         return label
     }()
     
@@ -75,6 +84,14 @@ class MyMessageCell: UICollectionViewCell {
             timestampText = "오전 \(hour)시 \(minutes)분"
         }
         
+        
+        if message.read == true {
+            self.yellowNumberLabel.isHidden = true
+        }else {
+            self.yellowNumberLabel.isHidden = false
+        }
+        
+        
         timeStamp.text = timestampText
     }
     
@@ -100,8 +117,16 @@ class MyMessageCell: UICollectionViewCell {
         
         addSubview(timeStamp)
         timeStamp.translatesAutoresizingMaskIntoConstraints = false
-        timeStamp.rightAnchor.constraint(equalTo: textBubbleView.leftAnchor, constant: -2).isActive = true
+        timeStamp.rightAnchor.constraint(equalTo: textBubbleView.leftAnchor, constant: 0).isActive = true
         timeStamp.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4).isActive = true
+        timestampWidthAnchor = timeStamp.widthAnchor.constraint(equalToConstant: 75)
+        
+        timestampWidthAnchor?.isActive = true
+        
+        addSubview(yellowNumberLabel)
+        yellowNumberLabel.translatesAutoresizingMaskIntoConstraints = false
+        yellowNumberLabel.rightAnchor.constraint(equalTo: timeStamp.leftAnchor, constant: -4).isActive = true
+        yellowNumberLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4).isActive = true
     }
     
 }

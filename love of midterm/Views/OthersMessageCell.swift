@@ -19,25 +19,11 @@ class OthersMessageCell: UICollectionViewCell {
     
     weak var delegate:OthersMessageCellDelegate?
     
+    
+    
     var message:Message? {
         didSet {
-            guard let message = self.message else { return }
-            self.messageTextView.text = message.text
-            let calendar = Calendar.current
-            var timestampText = ""
-            let date = message.createdAt
-            let hour = calendar.component(.hour, from: date)
-            let minutes = calendar.component(.minute, from: date)
-            
-            if hour == 12 {
-                timestampText = "오후 12시 \(minutes)분"
-            }else if hour > 12 {
-                timestampText = "오후 \(hour - 12)시 \(minutes)분"
-            }else {
-                timestampText = "오전 \(hour)시 \(minutes)분"
-            }
-            
-            timeStamp.text = timestampText
+            configureMessage()
         }
     }
     
@@ -50,6 +36,7 @@ class OthersMessageCell: UICollectionViewCell {
     }
     
     var textBubbleViewWidthAnchor:NSLayoutConstraint?
+    var timestampeWidthAnchor:NSLayoutConstraint?
     
     
     // MARK: UIKits
@@ -91,6 +78,14 @@ class OthersMessageCell: UICollectionViewCell {
         return label
     }()
     
+    lazy var yellowNumberLabel:UILabel = {
+        let label = UILabel()
+        label.textColor = .systemYellow
+        label.text = "1"
+        label.font = UIFont(name: "BMJUAOTF", size: 12)
+        return label
+    }()
+    
     // MARK: Life cycles
     override init(frame:CGRect) {
         super.init(frame: frame)
@@ -123,7 +118,30 @@ class OthersMessageCell: UICollectionViewCell {
     }
     
     // MARK: configure
-    
+    func configureMessage(){
+        guard let message = self.message else { return }
+        self.messageTextView.text = message.text
+        let calendar = Calendar.current
+        var timestampText = ""
+        let date = message.createdAt
+        let hour = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+        
+        if hour == 12 {
+            timestampText = "오후 12시 \(minutes)분"
+        }else if hour > 12 {
+            timestampText = "오후 \(hour - 12)시 \(minutes)분"
+        }else {
+            timestampText = "오전 \(hour)시 \(minutes)분"
+        }
+        
+        MessageService.shared.readMessage(messageId: message.id)
+        
+        
+        self.yellowNumberLabel.isHidden = true
+        
+        timeStamp.text = timestampText
+    }
     
     func configure(){
         configureUI()
@@ -156,6 +174,13 @@ class OthersMessageCell: UICollectionViewCell {
         timeStamp.translatesAutoresizingMaskIntoConstraints = false
         timeStamp.leftAnchor.constraint(equalTo: textBubbleView.rightAnchor, constant: 2).isActive = true
         timeStamp.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -4).isActive = true
+        timestampeWidthAnchor = timeStamp.widthAnchor.constraint(equalToConstant: 75)
+        timestampeWidthAnchor?.isActive = true 
+        
+        addSubview(yellowNumberLabel)
+        yellowNumberLabel.translatesAutoresizingMaskIntoConstraints = false
+        yellowNumberLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4).isActive = true
+        yellowNumberLabel.leftAnchor.constraint(equalTo: timeStamp.rightAnchor, constant: 0).isActive = true
         
         
     }
