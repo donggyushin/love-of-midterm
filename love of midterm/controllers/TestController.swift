@@ -30,6 +30,12 @@ class TestController: UIViewController {
     
     // MARK: UIKits
     
+    lazy var forSize:UIView = {
+        let view = UIView()
+        view.backgroundColor = .yellow
+        return view
+    }()
+    
     lazy var closeButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("포기할래요", for: .normal)
@@ -46,6 +52,11 @@ class TestController: UIViewController {
         return label
     }()
     
+    lazy var scrollView:UIScrollView = {
+        let sv = UIScrollView()
+        return sv
+    }()
+    
     lazy var questionIcon:UILabel = {
         let label = UILabel()
         label.text = "Q."
@@ -57,9 +68,9 @@ class TestController: UIViewController {
     lazy var questionTitleLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.numberOfLines = 5
-        label.lineBreakMode = .byWordWrapping
         label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
 
@@ -79,6 +90,8 @@ class TestController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(oneTapped))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tap)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
     
@@ -97,6 +110,8 @@ class TestController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(twoTapped))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tap)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
     
@@ -115,6 +130,8 @@ class TestController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(threeTapped))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tap)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
     
@@ -133,6 +150,8 @@ class TestController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(fourTapped))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tap)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
     
@@ -364,6 +383,15 @@ class TestController: UIViewController {
         optionThreeLabel.text = test.questionThree
         optionFourLabel.text = test.questionFour
         
+        let font = UIFont(name: "BMJUAOTF", size: 15)
+        
+        let height1 = test.title.height(withConstrainedWidth: view.frame.width * 0.75, font: font!)
+        let height2 = test.questionOne.height(withConstrainedWidth: view.frame.width * 0.7, font: font!)
+        let height3 = test.questionTwo.height(withConstrainedWidth: view.frame.width * 0.7, font: font!)
+        let height4 = test.questionThree.height(withConstrainedWidth: view.frame.width * 0.7, font: font!)
+        
+        self.scrollView.contentSize = CGSize(width: view.frame.width, height: 300 + height1 + height2 + height3 + height4)
+        
         
         optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         optionThreeIcon.tintColor = UIColor.black
@@ -404,69 +432,78 @@ class TestController: UIViewController {
         indexLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         
-        view.addSubview(questionIcon)
+        view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo: indexLabel.bottomAnchor, constant: 10).isActive = true
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        
+        
+        
+        scrollView.addSubview(questionIcon)
         questionIcon.translatesAutoresizingMaskIntoConstraints = false
-        questionIcon.topAnchor.constraint(equalTo: indexLabel.bottomAnchor, constant: 14).isActive = true
+        questionIcon.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 4).isActive = true
         questionIcon.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 14).isActive = true
         
-        view.addSubview(questionTitleLabel)
+        scrollView.addSubview(questionTitleLabel)
         questionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        questionTitleLabel.topAnchor.constraint(equalTo: indexLabel.bottomAnchor, constant: 18).isActive = true
-        questionTitleLabel.leftAnchor.constraint(equalTo: questionIcon.rightAnchor, constant: 5).isActive = true
-        questionTitleLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        questionTitleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 7).isActive = true
+        questionTitleLabel.leftAnchor.constraint(equalTo: questionIcon.rightAnchor, constant: 8).isActive = true
+        questionTitleLabel.widthAnchor.constraint(equalToConstant: view.frame.width * 0.75).isActive = true
         
         
         
-        view.addSubview(optionOneIcon)
+        scrollView.addSubview(optionOneIcon)
         optionOneIcon.translatesAutoresizingMaskIntoConstraints = false
-        optionOneIcon.topAnchor.constraint(equalTo: questionIcon.bottomAnchor, constant: 30).isActive = true
+        optionOneIcon.topAnchor.constraint(equalTo: questionTitleLabel.bottomAnchor, constant: 30).isActive = true
         optionOneIcon.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 14).isActive = true
         
-        view.addSubview(optionOneLabel)
+        scrollView.addSubview(optionOneLabel)
         optionOneLabel.translatesAutoresizingMaskIntoConstraints = false
-        optionOneLabel.topAnchor.constraint(equalTo: questionIcon.bottomAnchor, constant: 34).isActive = true
+        optionOneLabel.topAnchor.constraint(equalTo: questionTitleLabel.bottomAnchor, constant: 34).isActive = true
         optionOneLabel.leftAnchor.constraint(equalTo: optionOneIcon.rightAnchor, constant: 5).isActive = true
-        optionOneLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        optionOneLabel.widthAnchor.constraint(equalToConstant: view.frame.width * 0.7).isActive = true
         
         
-        view.addSubview(optionTwoIcon)
+        scrollView.addSubview(optionTwoIcon)
         optionTwoIcon.translatesAutoresizingMaskIntoConstraints = false
-        optionTwoIcon.topAnchor.constraint(equalTo: optionOneIcon.bottomAnchor, constant: 20).isActive = true
+        optionTwoIcon.topAnchor.constraint(equalTo: optionOneLabel.bottomAnchor, constant: 20).isActive = true
         optionTwoIcon.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 14).isActive = true
         
-        view.addSubview(optionTwoLabel)
+        scrollView.addSubview(optionTwoLabel)
         optionTwoLabel.translatesAutoresizingMaskIntoConstraints = false
-        optionTwoLabel.topAnchor.constraint(equalTo: optionOneIcon.bottomAnchor, constant: 24).isActive = true
+        optionTwoLabel.topAnchor.constraint(equalTo: optionOneLabel.bottomAnchor, constant: 24).isActive = true
         optionTwoLabel.leftAnchor.constraint(equalTo: optionTwoIcon.rightAnchor, constant: 5).isActive = true
         optionTwoLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         
         
-        view.addSubview(optionThreeIcon)
+        scrollView.addSubview(optionThreeIcon)
         optionThreeIcon.translatesAutoresizingMaskIntoConstraints = false
-        optionThreeIcon.topAnchor.constraint(equalTo: optionTwoIcon.bottomAnchor, constant: 20).isActive = true
+        optionThreeIcon.topAnchor.constraint(equalTo: optionTwoLabel.bottomAnchor, constant: 20).isActive = true
         optionThreeIcon.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 14).isActive = true
         
-        view.addSubview(optionThreeLabel)
+        scrollView.addSubview(optionThreeLabel)
         optionThreeLabel.translatesAutoresizingMaskIntoConstraints = false
-        optionThreeLabel.topAnchor.constraint(equalTo: optionTwoIcon.bottomAnchor, constant: 24).isActive = true
+        optionThreeLabel.topAnchor.constraint(equalTo: optionTwoLabel.bottomAnchor, constant: 24).isActive = true
         optionThreeLabel.leftAnchor.constraint(equalTo: optionThreeIcon.rightAnchor, constant: 5).isActive = true
         optionThreeLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         
-        view.addSubview(optionFourIcon)
+        scrollView.addSubview(optionFourIcon)
         optionFourIcon.translatesAutoresizingMaskIntoConstraints = false
-        optionFourIcon.topAnchor.constraint(equalTo: optionThreeIcon.bottomAnchor, constant: 20).isActive = true
+        optionFourIcon.topAnchor.constraint(equalTo: optionThreeLabel.bottomAnchor, constant: 20).isActive = true
         optionFourIcon.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 14).isActive = true
         
-        view.addSubview(optionFourLabel)
+        scrollView.addSubview(optionFourLabel)
         optionFourLabel.translatesAutoresizingMaskIntoConstraints = false
-        optionFourLabel.topAnchor.constraint(equalTo: optionThreeIcon.bottomAnchor, constant: 24).isActive = true
+        optionFourLabel.topAnchor.constraint(equalTo: optionThreeLabel.bottomAnchor, constant: 24).isActive = true
         optionFourLabel.leftAnchor.constraint(equalTo: optionFourIcon.rightAnchor, constant: 5).isActive = true
         optionFourLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         
-        view.addSubview(submitButton)
+        scrollView.addSubview(submitButton)
         submitButton.translatesAutoresizingMaskIntoConstraints = false
         submitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        submitButton.topAnchor.constraint(equalTo: optionFourIcon.bottomAnchor, constant: 30).isActive = true
+        submitButton.topAnchor.constraint(equalTo: optionFourLabel.bottomAnchor, constant: 30).isActive = true
         
         view.addSubview(answerMark)
         answerMark.translatesAutoresizingMaskIntoConstraints = false

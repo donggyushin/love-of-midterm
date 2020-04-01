@@ -51,6 +51,19 @@ class ProfileController: UIViewController {
     
     // MARK: UIKits
     
+    lazy var scrollView:UIScrollView = {
+        let sv = UIScrollView()
+        sv.contentInsetAdjustmentBehavior = .never
+        return sv
+    }()
+    
+    lazy var testLabel:UILabel = {
+        let label = UILabel()
+        label.text = "test label"
+        label.textColor = .white
+        return label
+    }()
+    
     
     lazy var topCustomNavigationBar:UIView = {
         let view = UIView()
@@ -77,7 +90,7 @@ class ProfileController: UIViewController {
     
     lazy var backgroundImageView:UIImageView = {
         let iv = UIImageView()
-        iv.backgroundColor = .lightGray
+        iv.backgroundColor = .systemGroupedBackground
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         return iv
@@ -147,15 +160,15 @@ class ProfileController: UIViewController {
         label.numberOfLines = 5
         label.textColor = .darkText
         
-        let attributedString = NSMutableAttributedString(string: "")
-        // *** Create instance of `NSMutableParagraphStyle`
-        let paragraphStyle = NSMutableParagraphStyle()
-        // *** set LineSpacing property in points ***
-        paragraphStyle.lineSpacing = 1 // Whatever line spacing you want in points
-        // *** Apply attribute to string ***
-        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
-        // *** Set Attributed String to your label ***
-        label.attributedText = attributedString
+//        let attributedString = NSMutableAttributedString(string: "")
+//        // *** Create instance of `NSMutableParagraphStyle`
+//        let paragraphStyle = NSMutableParagraphStyle()
+//        // *** set LineSpacing property in points ***
+//        paragraphStyle.lineSpacing = 1 // Whatever line spacing you want in points
+//        // *** Apply attribute to string ***
+//        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+//        // *** Set Attributed String to your label ***
+//        label.attributedText = attributedString
         
         
         
@@ -280,6 +293,7 @@ class ProfileController: UIViewController {
     
     // MARK: configures
     
+    
     func configureAddress(){
         guard let address = self.address else { return }
         
@@ -331,7 +345,8 @@ class ProfileController: UIViewController {
         // *** Set Attributed String to your label ***
         bioTextLabel.attributedText = attributedString
         
-        
+        let attributedStringHeight = attributedString.height(containerWidth: view.frame.width * 0.9)
+        self.scrollView.contentSize = CGSize(width: view.frame.width, height: 653 + attributedStringHeight + 20)
         LoadingShimmer.stopCovering(self.view)
         
         
@@ -356,6 +371,7 @@ class ProfileController: UIViewController {
         configureUI()
         view.backgroundColor = .white
         
+        
     }
     
     
@@ -369,66 +385,138 @@ class ProfileController: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.shadowImage = UIImage()
         
-        
-        view.addSubview(topCustomNavigationBar)
+        view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 896)
+
+        scrollView.addSubview(topCustomNavigationBar)
         topCustomNavigationBar.translatesAutoresizingMaskIntoConstraints = false
-        topCustomNavigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        topCustomNavigationBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        topCustomNavigationBar.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        topCustomNavigationBar.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        topCustomNavigationBar.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        topCustomNavigationBar.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         topCustomNavigationBar.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        topCustomNavigationBar.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+
         
-        
-        view.addSubview(backgroundImageView)
+        scrollView.addSubview(backgroundImageView)
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         backgroundImageView.topAnchor.constraint(equalTo: topCustomNavigationBar.bottomAnchor).isActive = true
-        backgroundImageView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        backgroundImageView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        backgroundImageView.heightAnchor.constraint(equalToConstant: view.frame.width * 0.65).isActive = true
+        backgroundImageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        backgroundImageView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        backgroundImageView.heightAnchor.constraint(equalToConstant: view.frame.width * 1).isActive = true
         
-        view.addSubview(pagerView)
+        
+        scrollView.addSubview(pagerView)
         pagerView.translatesAutoresizingMaskIntoConstraints = false
         pagerView.topAnchor.constraint(equalTo: topCustomNavigationBar.bottomAnchor).isActive = true
-        pagerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        pagerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        pagerView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        pagerView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         pagerView.heightAnchor.constraint(equalToConstant: view.frame.width * 1).isActive = true
         
-        view.addSubview(profileImageView)
+        scrollView.addSubview(profileImageView)
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         profileImageView.topAnchor.constraint(equalTo: topCustomNavigationBar.bottomAnchor, constant: -30).isActive = true
-        profileImageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-        
-        view.addSubview(plusButton)
+        profileImageView.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 20).isActive = true
+
+        scrollView.addSubview(plusButton)
         plusButton.translatesAutoresizingMaskIntoConstraints = false
         plusButton.rightAnchor.constraint(equalTo: pagerView.rightAnchor, constant: -20).isActive = true
         plusButton.bottomAnchor.constraint(equalTo: pagerView.bottomAnchor, constant: -20).isActive = true
-        
-        view.addSubview(usernameLabel)
+
+
+        scrollView.addSubview(usernameLabel)
         usernameLabel.translatesAutoresizingMaskIntoConstraints = false
         usernameLabel.topAnchor.constraint(equalTo: pagerView.bottomAnchor, constant: 10).isActive = true
-        usernameLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-        
-        view.addSubview(genderMarker)
+        usernameLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 20).isActive = true
+
+
+        scrollView.addSubview(genderMarker)
         genderMarker.translatesAutoresizingMaskIntoConstraints = false
         genderMarker.topAnchor.constraint(equalTo: pagerView.bottomAnchor, constant: 10).isActive = true
         genderMarker.leftAnchor.constraint(equalTo: usernameLabel.rightAnchor, constant: 8).isActive = true
-        
-        view.addSubview(birthdayLabel)
+
+        scrollView.addSubview(birthdayLabel)
         birthdayLabel.translatesAutoresizingMaskIntoConstraints = false
-        birthdayLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        birthdayLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 20).isActive = true
         birthdayLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 10).isActive = true
-        
-        view.addSubview(addressLabel)
+
+
+        scrollView.addSubview(addressLabel)
         addressLabel.translatesAutoresizingMaskIntoConstraints = false
         addressLabel.topAnchor.constraint(equalTo: birthdayLabel.bottomAnchor, constant: 10).isActive = true
-        addressLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        addressLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 20).isActive = true
 
-        
-        view.addSubview(bioTextLabel)
+
+        scrollView.addSubview(bioTextLabel)
         bioTextLabel.translatesAutoresizingMaskIntoConstraints = false
         bioTextLabel.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 40).isActive = true
-        bioTextLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-        bioTextLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        bioTextLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        bioTextLabel.widthAnchor.constraint(equalToConstant: view.frame.width * 0.9).isActive = true
+        
+        
+//
+//        view.addSubview(topCustomNavigationBar)
+//        topCustomNavigationBar.translatesAutoresizingMaskIntoConstraints = false
+//        topCustomNavigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+//        topCustomNavigationBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+//        topCustomNavigationBar.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+//        topCustomNavigationBar.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+//        topCustomNavigationBar.heightAnchor.constraint(equalToConstant: 100).isActive = true
+//
+//
+//        view.addSubview(backgroundImageView)
+//        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+//        backgroundImageView.topAnchor.constraint(equalTo: topCustomNavigationBar.bottomAnchor).isActive = true
+//        backgroundImageView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+//        backgroundImageView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+//        backgroundImageView.heightAnchor.constraint(equalToConstant: view.frame.width * 1).isActive = true
+//
+//        view.addSubview(pagerView)
+//        pagerView.translatesAutoresizingMaskIntoConstraints = false
+//        pagerView.topAnchor.constraint(equalTo: topCustomNavigationBar.bottomAnchor).isActive = true
+//        pagerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+//        pagerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+//        pagerView.heightAnchor.constraint(equalToConstant: view.frame.width * 1).isActive = true
+//
+//        view.addSubview(profileImageView)
+//        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+//        profileImageView.topAnchor.constraint(equalTo: topCustomNavigationBar.bottomAnchor, constant: -30).isActive = true
+//        profileImageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+//
+//        view.addSubview(plusButton)
+//        plusButton.translatesAutoresizingMaskIntoConstraints = false
+//        plusButton.rightAnchor.constraint(equalTo: pagerView.rightAnchor, constant: -20).isActive = true
+//        plusButton.bottomAnchor.constraint(equalTo: pagerView.bottomAnchor, constant: -20).isActive = true
+//
+//        view.addSubview(usernameLabel)
+//        usernameLabel.translatesAutoresizingMaskIntoConstraints = false
+//        usernameLabel.topAnchor.constraint(equalTo: pagerView.bottomAnchor, constant: 10).isActive = true
+//        usernameLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+//
+//        view.addSubview(genderMarker)
+//        genderMarker.translatesAutoresizingMaskIntoConstraints = false
+//        genderMarker.topAnchor.constraint(equalTo: pagerView.bottomAnchor, constant: 10).isActive = true
+//        genderMarker.leftAnchor.constraint(equalTo: usernameLabel.rightAnchor, constant: 8).isActive = true
+//
+//        view.addSubview(birthdayLabel)
+//        birthdayLabel.translatesAutoresizingMaskIntoConstraints = false
+//        birthdayLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+//        birthdayLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 10).isActive = true
+//
+//        view.addSubview(addressLabel)
+//        addressLabel.translatesAutoresizingMaskIntoConstraints = false
+//        addressLabel.topAnchor.constraint(equalTo: birthdayLabel.bottomAnchor, constant: 10).isActive = true
+//        addressLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+//
+//
+//        view.addSubview(bioTextLabel)
+//        bioTextLabel.translatesAutoresizingMaskIntoConstraints = false
+//        bioTextLabel.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 40).isActive = true
+//        bioTextLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+//        bioTextLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         
     }
     

@@ -31,6 +31,11 @@ class ProfileControllerTypeTwo: UIViewController {
     
     // MARK: UIKits
     
+    lazy var scrollView:UIScrollView = {
+        let sv = UIScrollView()
+        return sv
+    }()
+    
     lazy var backButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("대화상대 찾기", for: .normal)
@@ -239,7 +244,7 @@ class ProfileControllerTypeTwo: UIViewController {
         }
         
         usernameLabel.text = user.username
-        bioLabel.text = user.bio
+        
         
         let birthdayYear = String(user.birthday.year())
         birthdayLabel.text = String(birthdayYear.suffix(2))+"년생"
@@ -254,6 +259,14 @@ class ProfileControllerTypeTwo: UIViewController {
             genderIcon.tintColor = .facebookBlue
         }
         
+        
+        let attributedString = NSMutableAttributedString(string: user.bio)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        bioLabel.attributedText = attributedString
+        let attributedStringHeight = attributedString.height(containerWidth: view.frame.width * 0.9)
+        self.scrollView.contentSize = CGSize(width: view.frame.width, height: 600 + attributedStringHeight)
         
         TryService.shared.checkWhetherUserCanTry(userId: user.id) { (error, bool) in
             if let error = error {
@@ -279,53 +292,109 @@ class ProfileControllerTypeTwo: UIViewController {
     }
     
     func configureUI(){
-        view.addSubview(profileImageView)
+        
+        view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 896)
+        
+        scrollView.addSubview(profileImageView)
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        profileImageView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         profileImageView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         profileImageView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         profileImageView.heightAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         
-        view.addSubview(moreProfileImageButton)
+        
+        scrollView.addSubview(moreProfileImageButton)
         moreProfileImageButton.translatesAutoresizingMaskIntoConstraints = false
         moreProfileImageButton.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 6).isActive = true
         moreProfileImageButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         
-        
-        view.addSubview(usernameLabel)
+        scrollView.addSubview(usernameLabel)
         usernameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 25).isActive = true
         usernameLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
         
-        view.addSubview(genderIcon)
+        scrollView.addSubview(genderIcon)
         genderIcon.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 25).isActive = true
         genderIcon.leftAnchor.constraint(equalTo: usernameLabel.rightAnchor, constant: 8).isActive = true
         
-        view.addSubview(birthdayLabel)
+        
+        scrollView.addSubview(birthdayLabel)
         birthdayLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 10).isActive = true
         birthdayLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
         
-        view.addSubview(distanceLabel)
+        
+        scrollView.addSubview(distanceLabel)
         distanceLabel.translatesAutoresizingMaskIntoConstraints = false
         distanceLabel.topAnchor.constraint(equalTo: birthdayLabel.bottomAnchor, constant: 10).isActive = true
         distanceLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
         
-        
-        view.addSubview(divider)
+        scrollView.addSubview(divider)
         divider.translatesAutoresizingMaskIntoConstraints = false
         divider.topAnchor.constraint(equalTo: distanceLabel.bottomAnchor, constant: 15).isActive = true
         divider.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        view.addSubview(bioLabel)
+        scrollView.addSubview(bioLabel)
         bioLabel.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: 15).isActive = true
         bioLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
         bioLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -12).isActive = true
         
-
-        
-        view.addSubview(challengeButton)
+        scrollView.addSubview(challengeButton)
         challengeButton.translatesAutoresizingMaskIntoConstraints = false
         challengeButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         challengeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
+        
+//        view.addSubview(profileImageView)
+//        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+//        profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+//        profileImageView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+//        profileImageView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+//        profileImageView.heightAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+//
+//        view.addSubview(moreProfileImageButton)
+//        moreProfileImageButton.translatesAutoresizingMaskIntoConstraints = false
+//        moreProfileImageButton.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 6).isActive = true
+//        moreProfileImageButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
+//
+//
+//        view.addSubview(usernameLabel)
+//        usernameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 25).isActive = true
+//        usernameLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
+//
+//        view.addSubview(genderIcon)
+//        genderIcon.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 25).isActive = true
+//        genderIcon.leftAnchor.constraint(equalTo: usernameLabel.rightAnchor, constant: 8).isActive = true
+//
+//        view.addSubview(birthdayLabel)
+//        birthdayLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 10).isActive = true
+//        birthdayLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
+//
+//        view.addSubview(distanceLabel)
+//        distanceLabel.translatesAutoresizingMaskIntoConstraints = false
+//        distanceLabel.topAnchor.constraint(equalTo: birthdayLabel.bottomAnchor, constant: 10).isActive = true
+//        distanceLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
+//
+//
+//        view.addSubview(divider)
+//        divider.translatesAutoresizingMaskIntoConstraints = false
+//        divider.topAnchor.constraint(equalTo: distanceLabel.bottomAnchor, constant: 15).isActive = true
+//        divider.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//
+//        view.addSubview(bioLabel)
+//        bioLabel.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: 15).isActive = true
+//        bioLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
+//        bioLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -12).isActive = true
+//
+//
+//
+//        view.addSubview(challengeButton)
+//        challengeButton.translatesAutoresizingMaskIntoConstraints = false
+//        challengeButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+//        challengeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
     }
     
 }
