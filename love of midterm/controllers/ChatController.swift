@@ -69,7 +69,13 @@ class ChatController: UICollectionViewController {
         super.viewDidLoad()
 
         configure()
+        
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
 
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
     
     // MARK: helpers
@@ -129,12 +135,13 @@ class ChatController: UICollectionViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
     }
+    
+    
+    
     func configure(){
         self.collectionView!.register(MyMessageCell.self, forCellWithReuseIdentifier: reuseIdentifierMyMessage)
         
         self.collectionView!.register(OthersMessageCell.self, forCellWithReuseIdentifier: reuseIdentifierOthersMessage)
-        
-        
         
         collectionView.backgroundColor = .white
         configureNavigation()
@@ -362,5 +369,12 @@ extension ChatController:OthersMessageCellDelegate {
         profileTypeTwoVC.me = self.me
         profileTypeTwoVC.backButton.setTitle("\(user.username)", for: UIControl.State.normal)
         navigationController?.pushViewController(profileTypeTwoVC, animated: true)
+    }
+}
+
+
+extension ChatController:UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }

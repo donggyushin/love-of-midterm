@@ -141,6 +141,11 @@ class ChoiceController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
     
     // MARK: Selectors
@@ -217,6 +222,8 @@ class ChoiceController: UIViewController {
     }
     
     // MARK: Configure
+    
+    
     
     func configureScrollHeight(){
         guard let font = UIFont(name: "BMJUAOTF", size: 14) else { return }
@@ -354,4 +361,10 @@ class ChoiceController: UIViewController {
     }
     
 
+}
+
+extension ChoiceController:UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
 }

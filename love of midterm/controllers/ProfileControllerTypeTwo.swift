@@ -159,6 +159,12 @@ class ProfileControllerTypeTwo: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
     
     // MARK: selectors
@@ -212,6 +218,8 @@ class ProfileControllerTypeTwo: UIViewController {
     }
     
     // MARK: helpers
+    
+    
     
     func calculateDistanceFromMe() {
         guard let user = user else { return }
@@ -295,6 +303,8 @@ class ProfileControllerTypeTwo: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
     }
+    
+    
     
     func configureUI(){
         
@@ -425,5 +435,12 @@ extension ProfileControllerTypeTwo:TestControllerDelegate {
 //        let popup = PopupDialog(viewController: testVC, preferredWidth: 400, tapGestureDismissal: false, panGestureDismissal: false)
         
         self.present(popup, animated: true, completion: nil)
+    }
+}
+
+
+extension ProfileControllerTypeTwo:UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true 
     }
 }
