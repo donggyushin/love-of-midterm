@@ -11,7 +11,7 @@ import UIKit
 import PopupDialog
 
 extension UIColor {
-    static let tinderColor = UIColor(red:1.00, green:0.24, blue:0.45, alpha:1.0)
+    static let tinderColor = UIColor(red: 254/255, green: 60/255, blue: 114/255, alpha: 1.0)
     static let tinderColor2 = UIColor(red:1.00, green:0.35, blue:0.39, alpha:1.0)
     static let tinderColor3 = UIColor(red:1.00, green:0.40, blue:0.36, alpha:1.0)
     
