@@ -47,6 +47,10 @@ class MessageController: UICollectionViewController {
         self.collectionView!.register(ChatCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
+    
     func configureNavigationBar(){
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "BMJUAOTF", size: 18)!,
                                                                         NSAttributedString.Key.foregroundColor:UIColor.tinderColor

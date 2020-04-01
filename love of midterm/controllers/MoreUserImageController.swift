@@ -12,6 +12,8 @@ private let reuseIdentifier = "Cell"
 
 class MoreUserImageController: UICollectionViewController {
     
+    
+    
     // MARK: properties
     
     let backgroundImageIds:[String]
@@ -25,6 +27,14 @@ class MoreUserImageController: UICollectionViewController {
         button.setTitleColor(.tinderColor, for: .normal)
         button.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
         return button
+    }()
+    
+    lazy var messageLabel:UILabel = {
+        let label = UILabel()
+        label.text = "프로필 이미지 외의 사진이 없어요 😅"
+        label.font = UIFont(name: "BMJUAOTF", size: 16)
+        label.textColor = .lightGray
+        return label
     }()
     
     
@@ -46,12 +56,28 @@ class MoreUserImageController: UICollectionViewController {
         configureUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        hideTabbarController()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        showTabbarController()
+    }
+    
     // MARK: selectors
     @objc func backbuttonTapped(){
         navigationController?.popViewController(animated: true)
     }
     
     // MARK: Configure
+    
+    func hideTabbarController(){
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    func showTabbarController(){
+        self.tabBarController?.tabBar.isHidden = false
+    }
     
     func configureNavigationBar(){
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
@@ -60,10 +86,18 @@ class MoreUserImageController: UICollectionViewController {
     func configureUI(){
         
         collectionView.backgroundColor = .white
+        collectionView.addSubview(messageLabel)
+        messageLabel.translatesAutoresizingMaskIntoConstraints = false
+        messageLabel.topAnchor.constraint(equalTo: collectionView.topAnchor, constant: 80).isActive = true
+        messageLabel.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor).isActive = true
+        if backgroundImageIds.count != 0 {
+            self.messageLabel.isHidden = true
+        }
     }
     
     func configure(){
         collectionView.register(UserBackgroundImageCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        
     }
 
     // MARK: UICollectionViewDataSource

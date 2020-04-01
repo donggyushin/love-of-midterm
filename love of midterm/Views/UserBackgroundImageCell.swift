@@ -31,7 +31,7 @@ class UserBackgroundImageCell: UICollectionViewCell {
     
     lazy var imageView:UIImageView = {
         let iv = UIImageView()
-        iv.backgroundColor = .systemGroupedBackground
+        iv.backgroundColor = .veryLightGray
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(imageTapped))

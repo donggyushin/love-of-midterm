@@ -28,12 +28,17 @@ class ChoiceController: UIViewController {
         return button
     }()
     
+    lazy var scrollView:UIScrollView = {
+        let sv = UIScrollView()
+        return sv
+    }()
+    
     lazy var profileImageView:UIImageView = {
         let iv = UIImageView()
         iv.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         iv.heightAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         iv.contentMode = .scaleAspectFill
-        iv.backgroundColor = .systemGroupedBackground
+        iv.backgroundColor = .veryLightGray
         return iv
     }()
     
@@ -51,6 +56,7 @@ class ChoiceController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = ""
         label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.textColor = .black
         return label
     }()
     
@@ -85,7 +91,7 @@ class ChoiceController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.widthAnchor.constraint(equalToConstant: self.view.frame.width * 0.9).isActive = true
         view.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        view.backgroundColor = .systemGroupedBackground
+        view.backgroundColor = .veryLightGray
         return view
     }()
     
@@ -97,7 +103,7 @@ class ChoiceController: UIViewController {
         label.font = UIFont(name: "BMJUAOTF", size: 14)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 5
-        
+        label.textColor = .black
         return label
     }()
     
@@ -211,6 +217,15 @@ class ChoiceController: UIViewController {
     }
     
     // MARK: Configure
+    
+    func configureScrollHeight(){
+        guard let font = UIFont(name: "BMJUAOTF", size: 14) else { return }
+        
+        let bioTextHeight = user.bio.height(withConstrainedWidth: view.frame.width * 0.9, font: font)
+        self.scrollView.contentSize = CGSize(width: view.frame.width, height: 650 + bioTextHeight)
+    }
+    
+    
     func configure(){
         view.backgroundColor = .white
         if request.checked == true {
@@ -219,6 +234,7 @@ class ChoiceController: UIViewController {
         configureUI()
         configureNavigationBar()
         configureUser()
+        configureScrollHeight()
     }
     
     
@@ -269,57 +285,69 @@ class ChoiceController: UIViewController {
     
     
     func configureUI(){
-        view.addSubview(profileImageView)
+        
+        
+        view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        
+        
+        
+        scrollView.addSubview(profileImageView)
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        profileImageView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         profileImageView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         
-        view.addSubview(moreProfileImageButton)
+        scrollView.addSubview(moreProfileImageButton)
         moreProfileImageButton.translatesAutoresizingMaskIntoConstraints = false
         moreProfileImageButton.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 6).isActive = true
         moreProfileImageButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         
-        view.addSubview(usernameLabel)
+        scrollView.addSubview(usernameLabel)
         usernameLabel.translatesAutoresizingMaskIntoConstraints = false
         usernameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 25).isActive = true
         usernameLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
         
-        view.addSubview(genderIcon)
+        scrollView.addSubview(genderIcon)
         genderIcon.translatesAutoresizingMaskIntoConstraints = false
         genderIcon.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 25).isActive = true
         genderIcon.leftAnchor.constraint(equalTo: usernameLabel.rightAnchor, constant: 6).isActive = true
         
         
-        view.addSubview(birthdayLabel)
+        scrollView.addSubview(birthdayLabel)
         birthdayLabel.translatesAutoresizingMaskIntoConstraints = false
         birthdayLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 10).isActive = true
         birthdayLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
         
-        view.addSubview(distanceLabel)
+        scrollView.addSubview(distanceLabel)
         distanceLabel.translatesAutoresizingMaskIntoConstraints = false
         distanceLabel.topAnchor.constraint(equalTo: birthdayLabel.bottomAnchor, constant: 10).isActive = true
         distanceLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
         
-        view.addSubview(divider)
+        scrollView.addSubview(divider)
         divider.translatesAutoresizingMaskIntoConstraints = false
         divider.topAnchor.constraint(equalTo: distanceLabel.bottomAnchor, constant: 15).isActive = true
         divider.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         
-        view.addSubview(bioLabel)
+        scrollView.addSubview(bioLabel)
         bioLabel.translatesAutoresizingMaskIntoConstraints = false
         bioLabel.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: 15).isActive = true
         bioLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
         bioLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -12).isActive = true
         
-        view.addSubview(xLabel)
+        scrollView.addSubview(xLabel)
         xLabel.translatesAutoresizingMaskIntoConstraints = false
-        xLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
+        xLabel.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 70).isActive = true
         xLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -60).isActive = true
         
-        view.addSubview(oLabel)
+        scrollView.addSubview(oLabel)
         oLabel.translatesAutoresizingMaskIntoConstraints = false
-        oLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
+        oLabel.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 70).isActive = true
         oLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 60).isActive = true
         
         

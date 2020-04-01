@@ -66,6 +66,7 @@ class ProfileControllerTypeTwo: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = ""
         label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.textColor = .black
         return label
     }()
     
@@ -100,7 +101,7 @@ class ProfileControllerTypeTwo: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.widthAnchor.constraint(equalToConstant: self.view.frame.width * 0.9).isActive = true
         view.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        view.backgroundColor = .systemGroupedBackground
+        view.backgroundColor = .veryLightGray
         return view
     }()
     
@@ -111,7 +112,7 @@ class ProfileControllerTypeTwo: UIViewController {
         label.font = UIFont(name: "BMJUAOTF", size: 14)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 5
-        
+        label.textColor = .black
         return label
     }()
     
@@ -289,6 +290,10 @@ class ProfileControllerTypeTwo: UIViewController {
     
     func configureNavigation(){
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
     }
     
     func configureUI(){

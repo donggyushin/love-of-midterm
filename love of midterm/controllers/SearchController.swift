@@ -22,6 +22,8 @@ class SearchController: UICollectionViewController {
     
     var me:User?
     
+    private var refreshControl = UIRefreshControl()
+    
     // MARK: Life Cycles
     init(){
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
@@ -40,6 +42,7 @@ class SearchController: UICollectionViewController {
     // MARK: APIs
     
     func fetchUsers(){
+        
         LoadingShimmer.startCovering(self.collectionView, with: nil)
         UserService.shared.fetchUsers { (error, users) in
             if let error = error {
@@ -47,6 +50,19 @@ class SearchController: UICollectionViewController {
             }else {
                 self.users = users!
             }
+            LoadingShimmer.stopCovering(self.collectionView)
+        }
+    }
+    
+    // MARK: Selectors
+    @objc func refresh(){
+        UserService.shared.fetchUsers { (error, users) in
+            if let error = error {
+                self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+            }else {
+                self.users = users!
+            }
+            self.refreshControl.endRefreshing()
         }
     }
     
@@ -55,9 +71,18 @@ class SearchController: UICollectionViewController {
         configureUI()
         configureNavigationBar()
         navigationItem.title = "대화상대 찾기"
-        
+        refreshControl.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+        if #available(iOS 10.0, *) {
+            self.collectionView.refreshControl = refreshControl
+        }else {
+            self.collectionView.addSubview(refreshControl)
+        }
         
         self.collectionView!.register(UserCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
     }
     
     func configureNavigationBar(){

@@ -46,6 +46,7 @@ class UserCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "신다혜"
         label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.textColor = .black
         return label
     }()
     

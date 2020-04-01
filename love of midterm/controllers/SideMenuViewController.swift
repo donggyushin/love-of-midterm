@@ -49,6 +49,15 @@ class SideMenuViewController: UIViewController {
         return button
     }()
     
+    lazy var logoButton:UIButton = {
+        let button = UIButton(type: UIButton.ButtonType.system)
+        button.setTitle("로고", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
+        button.addTarget(self, action: #selector(logoButtonTapped), for: UIControl.Event.touchUpInside)
+        return button
+    }()
+    
     // MARK: life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,6 +82,12 @@ class SideMenuViewController: UIViewController {
     
     @objc func seeTestsButtonTapped(){
         print("seeTestsButtonTapped")
+    }
+    
+    @objc func logoButtonTapped(){
+        let logoVC = LogoSample()
+        logoVC.modalPresentationStyle = .fullScreen
+        present(logoVC, animated: true, completion: nil)
     }
     
     // MARK: configures
@@ -112,6 +127,15 @@ class SideMenuViewController: UIViewController {
         logoutButton.topAnchor.constraint(equalTo: seeTests.bottomAnchor, constant: 20).isActive = true
         logoutButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         logoutButton.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        
+        
+        view.addSubview(logoButton)
+        logoButton.translatesAutoresizingMaskIntoConstraints = false
+        logoButton.topAnchor.constraint(equalTo: logoutButton.bottomAnchor, constant: 20).isActive = true
+        logoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        logoButton.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        
+        
     }
 
 }

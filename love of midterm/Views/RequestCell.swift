@@ -39,7 +39,7 @@ class RequestCell: UICollectionViewCell {
         iv.layer.cornerRadius = 25
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        iv.backgroundColor = .systemGroupedBackground
+        iv.backgroundColor = .veryLightGray
         
         
         return iv
@@ -56,9 +56,16 @@ class RequestCell: UICollectionViewCell {
         ])
         string.append(attrString)
         label.attributedText = string
+        label.textColor = .black
         return label
     }()
     
+    
+    lazy var divider:UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        return view
+    }()
     
     // MARK: Life cycles
     override init(frame: CGRect) {
@@ -114,7 +121,7 @@ class RequestCell: UICollectionViewCell {
         contentLabel.attributedText = string
         
         if request.checked == true {
-            self.backgroundColor = .systemGroupedBackground
+            self.backgroundColor = .veryLightGray
         }else {
             self.backgroundColor = .white
         }

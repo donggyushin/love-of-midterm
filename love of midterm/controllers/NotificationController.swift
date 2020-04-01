@@ -57,6 +57,10 @@ class NotificationController: UICollectionViewController {
         
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
+    
     
 
     // MARK: UICollectionViewDataSource

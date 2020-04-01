@@ -38,7 +38,7 @@ class ChatCell: UICollectionViewCell {
         iv.layer.cornerRadius = 12
         iv.widthAnchor.constraint(equalToConstant: 50).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        iv.backgroundColor = .systemGroupedBackground
+        iv.backgroundColor = .veryLightGray
         return iv
     }()
     
@@ -46,7 +46,18 @@ class ChatCell: UICollectionViewCell {
         let label = UILabel()
         label.text = ""
         label.font = UIFont(name: "BMJUAOTF", size: 16)
+        label.textColor = .black
         return label
+    }()
+    
+    lazy var genderMarker:UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        iv.clipsToBounds = true
+        iv.widthAnchor.constraint(equalToConstant: 15).isActive = true
+        iv.heightAnchor.constraint(equalToConstant: 15).isActive = true
+    
+        return iv
     }()
     
     lazy var lastMessageLabel:UILabel = {
@@ -184,6 +195,16 @@ class ChatCell: UICollectionViewCell {
         
         usernameLabel.text = user.username
         
+        if user.gender == "male" {
+            self.genderMarker.image = #imageLiteral(resourceName: "male")
+            self.genderMarker.image = self.genderMarker.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            self.genderMarker.tintColor = .facebookBlue
+        }else {
+            self.genderMarker.image = #imageLiteral(resourceName: "female")
+            self.genderMarker.image = self.genderMarker.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            self.genderMarker.tintColor = .tinderColor
+        }
+        
         if chat.lastMessage == "" {
             lastMessageLabel.text = "\(user.username)님과 대화를 시작해보세요"
         }else {
@@ -205,6 +226,12 @@ class ChatCell: UICollectionViewCell {
         usernameLabel.translatesAutoresizingMaskIntoConstraints = false
         usernameLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 12).isActive = true
         usernameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 25).isActive = true
+        
+        addSubview(genderMarker)
+        genderMarker.translatesAutoresizingMaskIntoConstraints = false
+        genderMarker.topAnchor.constraint(equalTo: topAnchor, constant: 25).isActive = true
+        genderMarker.leftAnchor.constraint(equalTo: usernameLabel.rightAnchor, constant: 6).isActive = true
+        
         
         addSubview(timeStamp)
         timeStamp.translatesAutoresizingMaskIntoConstraints = false

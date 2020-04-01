@@ -123,6 +123,7 @@ class ProfileController: UIViewController {
     lazy var usernameLabel:UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.textColor = .black
         return label
     }()
     
@@ -344,12 +345,17 @@ class ProfileController: UIViewController {
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
         // *** Set Attributed String to your label ***
         bioTextLabel.attributedText = attributedString
+        configureScrollViewHeight()
         
-        let attributedStringHeight = attributedString.height(containerWidth: view.frame.width * 0.9)
-        self.scrollView.contentSize = CGSize(width: view.frame.width, height: 653 + attributedStringHeight + 20)
         LoadingShimmer.stopCovering(self.view)
         
         
+    }
+    
+    func configureScrollViewHeight(){
+        let attributedStringHeight = bioTextLabel.attributedText?.height(containerWidth: view.frame.width * 0.9)
+        guard attributedStringHeight != nil else { return }
+        self.scrollView.contentSize = CGSize(width: view.frame.width, height: 653 + attributedStringHeight! + 20)
     }
     
     func configure(){

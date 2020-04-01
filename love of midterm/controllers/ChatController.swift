@@ -125,6 +125,10 @@ class ChatController: UICollectionViewController {
     
     
     // MARK: configures
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
     func configure(){
         self.collectionView!.register(MyMessageCell.self, forCellWithReuseIdentifier: reuseIdentifierMyMessage)
         

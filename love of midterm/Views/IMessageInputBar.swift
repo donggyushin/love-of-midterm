@@ -29,6 +29,7 @@ class IMeessageInputBar:InputBarAccessoryView {
         inputTextView.layer.borderWidth = 1.0
         inputTextView.layer.cornerRadius = 16.0
         inputTextView.layer.masksToBounds = true
+        inputTextView.textColor = .black
         inputTextView.font = UIFont(name: "BMJUAOTF", size: 16)
         inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         setRightStackViewWidthConstant(to: 38, animated: false)
