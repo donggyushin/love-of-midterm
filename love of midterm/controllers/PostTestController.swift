@@ -11,11 +11,19 @@ import GrowingTextView
 import LoadingShimmer
 import PopupDialog
 
+protocol PostTestControllerDelegate:class {
+    func testChangeSuccessPopup()
+}
+
 class PostTestController: UIViewController {
     
     // MARK: properties
     
+    weak var delegate:PostTestControllerDelegate?
+    
     var currentIndex = 1
+    
+    var doNotShowPostBioController:Bool?
     
     // MARK: UIKits
     
@@ -62,7 +70,7 @@ class PostTestController: UIViewController {
         tv.font = UIFont(name: "BMJUAOTF", size: 15)
         tv.backgroundColor = .systemGroupedBackground
         tv.layer.cornerRadius = 8
-        tv.placeholder = "문제를 입력해주세요."
+        tv.placeholder = "다음중 내가 가장 좋아하는 동물은?"
         tv.minHeight = 50
         tv.maxLength = 150
         tv.autocorrectionType = .no
@@ -84,9 +92,8 @@ class PostTestController: UIViewController {
         tv.font = UIFont(name: "BMJUAOTF", size: 15)
         tv.backgroundColor = .systemGroupedBackground
         tv.layer.cornerRadius = 8
-        tv.placeholder = "1번 보기를 입력해주세요."
-//        tv.attributedPlaceholder = NSAttributedString(string: "1번 보기를 입력해주세요",
-//        attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        tv.placeholder = "강아지"
+        tv.delegate = self
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
         tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tv.autocorrectionType = .no
@@ -108,7 +115,8 @@ class PostTestController: UIViewController {
         tv.font = UIFont(name: "BMJUAOTF", size: 15)
         tv.backgroundColor = .systemGroupedBackground
         tv.layer.cornerRadius = 8
-        tv.placeholder = "2번 보기를 입력해주세요."
+        tv.placeholder = "고양이"
+        tv.delegate = self
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
         tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tv.autocorrectionType = .no
@@ -130,7 +138,8 @@ class PostTestController: UIViewController {
         tv.font = UIFont(name: "BMJUAOTF", size: 15)
         tv.backgroundColor = .systemGroupedBackground
         tv.layer.cornerRadius = 8
-        tv.placeholder = "3번 보기를 입력해주세요."
+        tv.placeholder = "거북이"
+        tv.delegate = self
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
         tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tv.autocorrectionType = .no
@@ -146,26 +155,16 @@ class PostTestController: UIViewController {
         iv.image = #imageLiteral(resourceName: "4")
         return iv
     }()
-    
-//    lazy var optionFourGrowingLabel:GrowingTextView = {
-//        let tv = GrowingTextView()
-//        tv.font = UIFont(name: "BMJUAOTF", size: 15)
-//        tv.backgroundColor = .systemGroupedBackground
-//        tv.layer.cornerRadius = 8
-//        tv.placeholder = "4번 보기를 입력해주세요."
-//        tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
-//        tv.minHeight = 30
-//        tv.maxLength = 150
-//        tv.autocorrectionType = .no
-//        return tv
-//    }()
+
     
     lazy var optionFourGrowingLabel:TextField = {
         let tv = TextField()
         tv.font = UIFont(name: "BMJUAOTF", size: 15)
+        
         tv.backgroundColor = .systemGroupedBackground
         tv.layer.cornerRadius = 8
-        tv.placeholder = "4번 보기를 입력해주세요."
+        tv.placeholder = "토끼"
+        tv.delegate = self
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
         tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tv.autocorrectionType = .no
@@ -296,7 +295,16 @@ class PostTestController: UIViewController {
                 
                 
                 if self.currentIndex == 11 {
-                    self.popPostBioController()
+                    
+                    // PostBioController 를 띄워줄지 아니면 시험 문제 출제 변경이 완료됬다고 띄워주고 PostTestController를 내려줄지 결정
+                    
+                    if self.doNotShowPostBioController == true {
+                        self.dismiss(animated: true, completion: nil)
+                        self.delegate?.testChangeSuccessPopup()
+                    }else {
+                        self.popPostBioController()
+                    }
+                    
                 }
             }
         }
@@ -415,5 +423,17 @@ class PostTestController: UIViewController {
 extension PostTestController:PostBioControllerDelgate {
     func redirectToMainApplication(VC: PostBioController) {
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension PostTestController:UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let textFieldText = textField.text,
+            let rangeOfTextToReplace = Range(range, in: textFieldText) else {
+                return false
+        }
+        let substringToReplace = textFieldText[rangeOfTextToReplace]
+        let count = textFieldText.count - substringToReplace.count + string.count
+        return count <= 50
     }
 }

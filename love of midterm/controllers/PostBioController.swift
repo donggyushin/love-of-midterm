@@ -41,7 +41,7 @@ class PostBioController: UIViewController {
         tv.font = UIFont(name: "BMJUAOTF", size: 15)
         tv.backgroundColor = .systemGroupedBackground
         tv.layer.cornerRadius = 8
-        tv.placeholder = "간략한 자기소개를 마친 후 '중간의 연애'를 시작해보세요!"
+        tv.placeholder = "간략한 자기소개를 해주세요!"
         tv.minHeight = 100
         tv.maxHeight = 100
         tv.maxLength = 150

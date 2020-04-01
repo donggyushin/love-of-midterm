@@ -126,6 +126,7 @@ class MainTabBarController: UITabBarController {
     
     // MARK: helpers
     
+    
     func checkUserHasTest(){
         guard let user = user else { return }
         if user.testIds.count != 10 {
@@ -138,6 +139,7 @@ class MainTabBarController: UITabBarController {
     func goToPostTestController(){
         let postTestVC = PostTestController()
         postTestVC.modalPresentationStyle = .fullScreen
+        postTestVC.delegate = self
         present(postTestVC, animated: true, completion: nil)
     }
     
@@ -189,3 +191,9 @@ class MainTabBarController: UITabBarController {
     
 }
 
+
+extension MainTabBarController:PostTestControllerDelegate {
+    func testChangeSuccessPopup() {
+        self.popupDialog(title: "완료", message: "시험변경이 모두 성공적으로 완료 되었습니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+    }   
+}
