@@ -147,6 +147,13 @@ class MainTabBarController: UITabBarController {
             view.backgroundColor = UIColor.tinderColor
             let loginVC = UINavigationController(rootViewController: LoginController())
             loginVC.modalPresentationStyle = .fullScreen
+        
+            self.requestCount = 0
+            self.requests = [Request]()
+            self.unreadMessagesCount = 0
+        
+
+            
             DispatchQueue.main.async {
                 self.present(loginVC, animated: true, completion: nil)
             }
@@ -160,7 +167,6 @@ class MainTabBarController: UITabBarController {
                 logoutFunction()
             }else {
                 configure()
-                
             }
             
         }
