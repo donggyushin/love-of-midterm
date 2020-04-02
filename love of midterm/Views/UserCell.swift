@@ -123,10 +123,12 @@ class UserCell: UICollectionViewCell {
             genderMark.image = #imageLiteral(resourceName: "female")
             genderMark.image = genderMark.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
             genderMark.tintColor = .tinderColor
+            profileImageView.layer.borderColor = UIColor.tinderColor.cgColor
         }else {
             genderMark.image = #imageLiteral(resourceName: "male")
             genderMark.image = genderMark.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
             genderMark.tintColor = .facebookBlue
+            profileImageView.layer.borderColor = UIColor.facebookBlue.cgColor
         }
     }
     
