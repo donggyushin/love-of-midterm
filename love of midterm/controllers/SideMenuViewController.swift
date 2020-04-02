@@ -81,6 +81,8 @@ class SideMenuViewController: UIViewController {
     
     @objc func changeProfileButtonTapped(){
         print("changeProfileButtonTapped")
+        let changeProfileVC = ChangeProfileController()
+        navigationController?.pushViewController(changeProfileVC, animated: true)
     }
     
     @objc func changeTestsButtonTapped(){
@@ -136,11 +138,11 @@ class SideMenuViewController: UIViewController {
         logoutButton.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         
         
-        view.addSubview(logoButton)
-        logoButton.translatesAutoresizingMaskIntoConstraints = false
-        logoButton.topAnchor.constraint(equalTo: logoutButton.bottomAnchor, constant: 20).isActive = true
-        logoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        logoButton.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+//        view.addSubview(logoButton)
+//        logoButton.translatesAutoresizingMaskIntoConstraints = false
+//        logoButton.topAnchor.constraint(equalTo: logoutButton.bottomAnchor, constant: 20).isActive = true
+//        logoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//        logoButton.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         
         
     }

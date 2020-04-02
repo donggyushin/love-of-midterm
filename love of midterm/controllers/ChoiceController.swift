@@ -144,8 +144,13 @@ class ChoiceController: UIViewController {
         navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     // MARK: Selectors
@@ -224,12 +229,16 @@ class ChoiceController: UIViewController {
     // MARK: Configure
     
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
+    
     
     func configureScrollHeight(){
         guard let font = UIFont(name: "BMJUAOTF", size: 14) else { return }
         
         let bioTextHeight = user.bio.height(withConstrainedWidth: view.frame.width * 0.9, font: font)
-        self.scrollView.contentSize = CGSize(width: view.frame.width, height: 650 + bioTextHeight)
+        self.scrollView.contentSize = CGSize(width: view.frame.width, height: 620 + bioTextHeight)
     }
     
     

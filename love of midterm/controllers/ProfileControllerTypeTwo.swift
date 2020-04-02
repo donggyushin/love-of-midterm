@@ -160,10 +160,15 @@ class ProfileControllerTypeTwo: UIViewController {
         super.viewDidLoad()
         configure()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
     
@@ -275,7 +280,7 @@ class ProfileControllerTypeTwo: UIViewController {
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
         bioLabel.attributedText = attributedString
         let attributedStringHeight = attributedString.height(containerWidth: view.frame.width * 0.9)
-        self.scrollView.contentSize = CGSize(width: view.frame.width, height: 600 + attributedStringHeight)
+        self.scrollView.contentSize = CGSize(width: view.frame.width, height: 550 + attributedStringHeight)
         
         TryService.shared.checkWhetherUserCanTry(userId: user.id) { (error, bool) in
             if let error = error {

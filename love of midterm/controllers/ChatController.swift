@@ -70,8 +70,10 @@ class ChatController: UICollectionViewController {
 
         configure()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {

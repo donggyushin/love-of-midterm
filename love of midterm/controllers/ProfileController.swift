@@ -183,15 +183,8 @@ class ProfileController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.setNavigationBarHidden(true, animated: true)
         configure()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = false
     }
     
     // MARK: Helpers
@@ -293,6 +286,8 @@ class ProfileController: UIViewController {
     }
     
     // MARK: configures
+    
+    
     
     
     func configureAddress(){
@@ -397,7 +392,7 @@ class ProfileController: UIViewController {
         topCustomNavigationBar.translatesAutoresizingMaskIntoConstraints = false
         topCustomNavigationBar.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         topCustomNavigationBar.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        topCustomNavigationBar.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        topCustomNavigationBar.heightAnchor.constraint(equalToConstant: 88).isActive = true
         topCustomNavigationBar.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
 
         
@@ -557,3 +552,6 @@ extension ProfileController:FSPagerViewDelegate, FSPagerViewDataSource {
     }
     
 }
+
+
+

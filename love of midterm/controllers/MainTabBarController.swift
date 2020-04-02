@@ -16,11 +16,9 @@ class MainTabBarController: UITabBarController {
     var user:User? {
         didSet {
             
-            print("received new user")
             
             guard let user = self.user else { return }
             
-            print("checked new user")
             let profileNavigationVC = self.viewControllers?[0] as! UINavigationController
             let profileVC = profileNavigationVC.viewControllers.first as! ProfileController
             profileVC.user = user
@@ -167,8 +165,6 @@ class MainTabBarController: UITabBarController {
         }
         
         func checkUserIsLoggedIn(){
-            
-    //        try! Auth.auth().signOut()
             
             if(Auth.auth().currentUser == nil){
                 logoutFunction()

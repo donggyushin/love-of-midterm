@@ -11,16 +11,50 @@ import UIKit
 import PopupDialog
 
 extension UIColor {
-    static let tinderColor = UIColor(red: 254/255, green: 60/255, blue: 114/255, alpha: 1.0)
+    static let tinderColor = UIColor(hex: "#FE3C72")
     static let tinderColor2 = UIColor(red:1.00, green:0.35, blue:0.39, alpha:1.0)
     static let tinderColor3 = UIColor(red:1.00, green:0.40, blue:0.36, alpha:1.0)
     
     static let facebookBlue = UIColor(red:0.26, green:0.40, blue:0.70, alpha:1.0)
     static let spaceGray = UIColor(red:0.18, green:0.20, blue:0.21, alpha:1.0)
     static let veryLightGray = UIColor(red: 237/255, green: 237/255, blue: 237/255, alpha: 1.0)
+    
+    
+    public convenience init?(hex: String) {
+        let r, g, b, a: CGFloat
+
+        if hex.hasPrefix("#") {
+            let start = hex.index(hex.startIndex, offsetBy: 1)
+            let hexColor = String(hex[start...])
+
+            if hexColor.count == 8 {
+                let scanner = Scanner(string: hexColor)
+                var hexNumber: UInt64 = 0
+
+                if scanner.scanHexInt64(&hexNumber) {
+                    r = CGFloat((hexNumber & 0xff000000) >> 24) / 255
+                    g = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
+                    b = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
+                    a = CGFloat(hexNumber & 0x000000ff) / 255
+
+                    self.init(red: r, green: g, blue: b, alpha: a)
+                    return
+                }
+            }
+        }
+
+        return nil
+    }
 }
 
 extension UIViewController {
+    
+    var topBarHeight: CGFloat {
+        return (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0.0) +
+        (self.navigationController?.navigationBar.frame.height ?? 0.0)
+    }
+    
+    
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
