@@ -167,6 +167,7 @@ PODS:
   - DatePicker (1.0.1):
     - Extended (~> 1.0.4)
   - DatePickerDialog (3.0)
+  - Dismissable (1.3.0)
   - DynamicBlurView (4.0.0)
   - Extended (1.0.5)
   - Firebase/Auth (6.18.0):
@@ -285,6 +286,7 @@ PODS:
 DEPENDENCIES:
   - DatePicker
   - DatePickerDialog
+  - Dismissable
   - Firebase/Auth
   - Firebase/Firestore
   - Firebase/Storage
@@ -308,6 +310,7 @@ SPEC REPOS:
     - BoringSSL-GRPC
     - DatePicker
     - DatePickerDialog
+    - Dismissable
     - DynamicBlurView
     - Extended
     - Firebase
@@ -348,6 +351,7 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
   DatePicker: adebbc11d7e198985f376e4943f844860bf019db
   DatePickerDialog: 03dbb8350bfa80302ab2a8c83cee1fec70184444
+  Dismissable: ae5917264ec589a02855051edd3e98b7c5a651ef
   DynamicBlurView: ccf9acd2b20c883cc2c72e3524a04d8d3ee20533
   Extended: c463225e0c29b2823847866c1b106827772ac678
   Firebase: 0490eca762a72e4f1582319539153897f1508dee
@@ -383,6 +387,6 @@ SPEC CHECKSUMS:
   YPImagePicker: accf310f9526641a84372c0ecf943547d9b1e52c
   ZKCarousel: e54cdf2a5da6400c7e95bd6df5cbb001dc28883e
 
-PODFILE CHECKSUM: 4008e19fbd7ed1209a729384bfbff41473e266cb
+PODFILE CHECKSUM: df834b1e7224257116014262ea9e8e9abaf0aed4
 
 COCOAPODS: 1.8.4

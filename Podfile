@@ -24,4 +24,5 @@ pod 'SideMenu', '~> 6.0'
 pod 'NextGrowingTextView'
 pod 'GrowingTextView', '0.7.2'
 pod 'InputBarAccessoryView'
+pod 'Dismissable'
 end

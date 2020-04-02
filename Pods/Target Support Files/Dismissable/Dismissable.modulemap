@@ -1,0 +1,6 @@
+framework module Dismissable {
+  umbrella header "Dismissable-umbrella.h"
+
+  export *
+  module * { export * }
+}

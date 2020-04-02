@@ -19,6 +19,7 @@ class BackgroundViewController: UIViewController {
     let me:User
     let profileVC:ProfileController
     
+    var viewTranslation = CGPoint(x: 0, y: 0)
     
     
     // MARK: UIKits
@@ -54,7 +55,10 @@ class BackgroundViewController: UIViewController {
         self.me = me
         self.user = user
         self.profileVC = profileVC
+        
         super.init(nibName: nil, bundle: nil)
+        
+        
     }
     
     required init?(coder: NSCoder) {
@@ -62,6 +66,7 @@ class BackgroundViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleDismiss)))
         configureUI()
     }
     
@@ -84,23 +89,40 @@ class BackgroundViewController: UIViewController {
     
     // MARK: selectors
     
+    @objc func handleDismiss(sender: UIPanGestureRecognizer){
+        switch sender.state {
+        case .changed:
+            viewTranslation = sender.translation(in: view)
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.view.transform = CGAffineTransform(translationX: 0, y: self.viewTranslation.y)
+            })
+        case .ended:
+        if viewTranslation.y < 200 {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.view.transform = .identity
+            })
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
+        default:
+            break
+        }
+    }
+    
     @objc func deleteButtonTapped(){
         if pagerView.currentIndex == backgroundImages.count - 1 {
             return
         }
         guard user.id == me.id else { return }
-        print("delete button tapped")
-        print("current index of background image: ", pagerView.currentIndex)
         let backgroundImageToDelete = backgroundImages[pagerView.currentIndex]
         BackgroundImageService.shared.deleteBackgroundImage(user: user, backgroundImage: backgroundImageToDelete) { (error) in
             if let error = error {
                 self.popupDialog(title: "경고", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
             }else {
                 
-                // TODO: 현재 뷰에서 해당 background image 없애주기
                 self.backgroundImages.remove(at: self.pagerView.currentIndex)
                 self.pagerView.reloadData()
-                // TODO: 이전 프로필 뷰에서 해당 background image 없애주기
+                
                 self.profileVC.deleteBackgroundImage(index: self.pagerView.currentIndex)
             }
             

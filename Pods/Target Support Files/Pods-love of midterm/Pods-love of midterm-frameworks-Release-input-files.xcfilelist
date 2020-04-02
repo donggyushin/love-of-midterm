@@ -2,6 +2,7 @@ ${PODS_ROOT}/Target Support Files/Pods-love of midterm/Pods-love of midterm-fram
 ${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework
 ${BUILT_PRODUCTS_DIR}/DatePicker/DatePicker.framework
 ${BUILT_PRODUCTS_DIR}/DatePickerDialog/DatePickerDialog.framework
+${BUILT_PRODUCTS_DIR}/Dismissable/Dismissable.framework
 ${BUILT_PRODUCTS_DIR}/DynamicBlurView/DynamicBlurView.framework
 ${BUILT_PRODUCTS_DIR}/Extended/Extended.framework
 ${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework
