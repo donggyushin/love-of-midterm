@@ -68,8 +68,15 @@ class SideMenuViewController: UIViewController {
     
     @objc func logoutTapped(){
         dismiss(animated: true, completion: nil)
-        try! Auth.auth().signOut()
-        RootViewController.rootViewController.logoutFunction()
+        
+        do {
+            try Auth.auth().signOut()
+            RootViewController.rootViewController.logoutFunction()
+        }catch {
+            
+        }
+        
+        
     }
     
     @objc func changeProfileButtonTapped(){

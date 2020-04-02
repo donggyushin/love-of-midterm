@@ -347,9 +347,6 @@ class ProfileController: UIViewController {
         bioTextLabel.attributedText = attributedString
         configureScrollViewHeight()
         
-        LoadingShimmer.stopCovering(self.view)
-        
-        
     }
     
     func configureScrollViewHeight(){
@@ -370,10 +367,7 @@ class ProfileController: UIViewController {
         
         sideMenu.statusBarEndAlpha = 0
         sideMenu.menuWidth = view.frame.width * 0.73
-        
-        DispatchQueue.main.async {
-            LoadingShimmer.startCovering(self.view, with: nil)
-        }
+
         configureUI()
         view.backgroundColor = .white
         

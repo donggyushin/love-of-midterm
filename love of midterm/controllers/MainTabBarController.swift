@@ -15,22 +15,28 @@ class MainTabBarController: UITabBarController {
     
     var user:User? {
         didSet {
+            
+            print("received new user")
+            
+            guard let user = self.user else { return }
+            
+            print("checked new user")
             let profileNavigationVC = self.viewControllers?[0] as! UINavigationController
             let profileVC = profileNavigationVC.viewControllers.first as! ProfileController
-            profileVC.user = self.user
-            profileVC.me = self.user
+            profileVC.user = user
+            profileVC.me = user
             
             let searchControllerNavigation = self.viewControllers?[1] as! UINavigationController
             let searchVC = searchControllerNavigation.viewControllers.first as! SearchController
-            searchVC.me = self.user
+            searchVC.me = user
             
             let notificationNavigation = self.viewControllers?[2] as! UINavigationController
             let notificationVC = notificationNavigation.viewControllers.first as! NotificationController
-            notificationVC.me = self.user
+            notificationVC.me = user
             
             let messageNavigation = self.viewControllers?[3] as! UINavigationController
             let messageVC = messageNavigation.viewControllers.first as! MessageController
-            messageVC.me = self.user
+            messageVC.me = user
             
             checkUserHasTest()
             listenRequestsCount()
@@ -63,6 +69,7 @@ class MainTabBarController: UITabBarController {
     
     func fetchUser(){
         UserService.shared.fetchUser { (user) in
+            
             self.user = user
         }
     }
@@ -147,13 +154,13 @@ class MainTabBarController: UITabBarController {
             view.backgroundColor = UIColor.tinderColor
             let loginVC = UINavigationController(rootViewController: LoginController())
             loginVC.modalPresentationStyle = .fullScreen
-        
-            self.requestCount = 0
-            self.requests = [Request]()
-            self.unreadMessagesCount = 0
-        
-
             
+            requestCount = 0
+            requests = [Request]()
+            unreadMessagesCount = 0
+            
+        
+        
             DispatchQueue.main.async {
                 self.present(loginVC, animated: true, completion: nil)
             }
