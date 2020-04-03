@@ -187,10 +187,18 @@ class MainTabBarController: UITabBarController {
         let notificationVC = UINavigationController(rootViewController: NotificationController())
         
         
+        self.tabBar.tintColor = .black
+        
+        
         profileVC.tabBarItem.image = #imageLiteral(resourceName: "home_unselected")
-        searchVC.tabBarItem.image = #imageLiteral(resourceName: "search_unselected")
+        profileVC.tabBarItem.selectedImage = #imageLiteral(resourceName: "home_selected")
+        
+        searchVC.tabBarItem.image = #imageLiteral(resourceName: "search")
+        
         messageVC.tabBarItem.image = #imageLiteral(resourceName: "ic_mail_outline_white_2x-1")
-        notificationVC.tabBarItem.image = #imageLiteral(resourceName: "like")
+        
+        notificationVC.tabBarItem.image = #imageLiteral(resourceName: "unselected_heart")
+        notificationVC.tabBarItem.selectedImage = #imageLiteral(resourceName: "selected_heart")
         
         viewControllers = [profileVC, searchVC,notificationVC, messageVC]
         
