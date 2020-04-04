@@ -237,7 +237,7 @@ class ChatCell: UICollectionViewCell {
         timeStamp.translatesAutoresizingMaskIntoConstraints = false
         timeStamp.topAnchor.constraint(equalTo: topAnchor, constant: 25).isActive = true
         timeStamp.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
-
+        
         
         
         addSubview(lastMessageLabel)

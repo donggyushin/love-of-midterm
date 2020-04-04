@@ -95,8 +95,8 @@ class ChangeProfileController: UIViewController {
         let tv = GrowingTextView()
         tv.maxLength = 225
         tv.trimWhiteSpaceWhenEndEditing = true
-        tv.minHeight = 100
-        tv.maxHeight = 150
+        tv.minHeight = 40
+        tv.maxHeight = 100
         tv.font = UIFont(name: "BMJUAOTF", size: 12)
         tv.textColor = .black
         tv.backgroundColor = .veryLightGray
