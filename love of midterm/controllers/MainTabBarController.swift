@@ -99,11 +99,11 @@ class MainTabBarController: UITabBarController {
     }
     
     func listenRequests(){
-        RequestService.shared.listenRequests { (error, request) in
+        RequestService.shared.listenRequests { (error, requests) in
             if let error = error {
                 self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
             }else {
-                self.requests.append(request!)
+                self.requests = requests!
                 let notificationNavigationController = self.viewControllers?[2] as? UINavigationController
                 let notificationController = notificationNavigationController?.viewControllers.first as! NotificationController
                 notificationController.requests = self.requests
@@ -188,6 +188,8 @@ class MainTabBarController: UITabBarController {
         
         
         self.tabBar.tintColor = .black
+        self.tabBar.barTintColor = .veryLightGray
+        
         
         
         profileVC.tabBarItem.image = #imageLiteral(resourceName: "home_unselected")

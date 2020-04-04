@@ -57,14 +57,14 @@ class OthersMessageCell: UICollectionViewCell {
     lazy var textBubbleView:UIView = {
         let view = UIView()
         view.backgroundColor = .veryLightGray
-        view.layer.cornerRadius = 15
+        view.layer.cornerRadius = 4
         view.layer.masksToBounds = true
         return view
     }()
     
     lazy var messageTextView:UILabel = {
         let text = UILabel()
-        text.font = UIFont(name: "BMJUAOTF", size: 16)
+        text.font = UIFont(name: "BMJUAOTF", size: 14)
         text.lineBreakMode = .byWordWrapping
         text.numberOfLines = 0
         text.textColor = .black

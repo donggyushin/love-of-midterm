@@ -18,22 +18,21 @@ struct RequestService {
         db.collection("requests").document(id).updateData(["checked" : true])
     }
     
-    func listenRequests(completion:@escaping(Error?, Request?) -> Void){
+    func listenRequests(completion:@escaping(Error?, [Request]?) -> Void){
         guard let myId = Auth.auth().currentUser?.uid else { return }
         
         db.collection("requests").whereField("to", isEqualTo: myId).order(by: "date", descending: true).addSnapshotListener { (querySnapshot, error) in
             if let error = error {
                 completion(error, nil)
             }else {
-                
-                // 추가되는 데이터들만 확인하기
-                querySnapshot!.documentChanges.forEach { (diff) in
-                    if (diff.type == .added){
-                        let data = diff.document.data()
-                        let request = Request(data: data)
-                        completion(nil, request)
-                    }
+                var requests = [Request]()
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    let request = Request(data: data)
+                    requests.append(request)
                 }
+                completion(nil, requests)
+                
             }
         }
     }

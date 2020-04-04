@@ -10,6 +10,39 @@ import Foundation
 import UIKit
 import PopupDialog
 
+extension UIApplication {
+var statusBarUIView: UIView? {
+
+    if #available(iOS 13.0, *) {
+        let tag = 3848245
+
+        let keyWindow = UIApplication.shared.connectedScenes
+            .map({$0 as? UIWindowScene})
+            .compactMap({$0})
+            .first?.windows.first
+
+        if let statusBar = keyWindow?.viewWithTag(tag) {
+            return statusBar
+        } else {
+            let height = keyWindow?.windowScene?.statusBarManager?.statusBarFrame ?? .zero
+            let statusBarView = UIView(frame: height)
+            statusBarView.tag = tag
+            statusBarView.layer.zPosition = 999999
+
+            keyWindow?.addSubview(statusBarView)
+            return statusBarView
+        }
+
+    } else {
+
+        if responds(to: Selector(("statusBar"))) {
+            return value(forKey: "statusBar") as? UIView
+        }
+    }
+    return nil
+  }
+}
+
 extension UIColor {
     static let tinderColor = UIColor(hex: "#FE3C72")
     static let tinderColor2 = UIColor(red:1.00, green:0.35, blue:0.39, alpha:1.0)

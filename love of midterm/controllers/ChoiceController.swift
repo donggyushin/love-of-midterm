@@ -158,7 +158,7 @@ class ChoiceController: UIViewController {
     @objc func startConversationButtonTapped(){
         
         
-        
+        UserService.shared.matchingUser(userId: self.user.id)
         RequestService.shared.updateRequestCheckedStatus(id: self.request.id)
         ChatService.shared.createNewChat(userId: self.user.id) { (error, chat) in
             RequestService.shared.updateRequestCheckedStatus(id: self.request.id)
@@ -294,8 +294,11 @@ class ChoiceController: UIViewController {
         self.navigationItem.title = "\(user.username)님의 요청"
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.backButton)
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
+        
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
         
     }
     

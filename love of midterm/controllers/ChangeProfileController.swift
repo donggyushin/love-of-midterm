@@ -8,10 +8,13 @@
 
 import UIKit
 import SDWebImage
+import GrowingTextView
 
 class ChangeProfileController: UIViewController {
     
     // MARK: Properties
+    let user:User
+    let address:Address
     
     // MARK: UIKits
     lazy var backButton:UIButton = {
@@ -28,6 +31,7 @@ class ChangeProfileController: UIViewController {
         let iv = UIImageView()
         iv.backgroundColor = .veryLightGray
         iv.layer.cornerRadius = 8
+        iv.clipsToBounds = true 
         return iv
     }()
     
@@ -41,9 +45,9 @@ class ChangeProfileController: UIViewController {
     
     lazy var usernameTextField:UITextField = {
         let tf = UITextField()
-        tf.font = UIFont(name: "BMJUAOTF", size: 16)
-        tf.textColor = .tinderColor
-        tf.text = "신동규"
+        tf.font = UIFont(name: "BMJUAOTF", size: 14)
+        tf.textColor = .lightGray
+        tf.text = ""
         tf.autocorrectionType = .no
         tf.placeholder = "사용자들에게 보여지게 됩니다"
         return tf
@@ -54,8 +58,73 @@ class ChangeProfileController: UIViewController {
         view.backgroundColor = .tinderColor
         return view
     }()
+    
+    lazy var addressIcon:UIImageView = {
+        let iv = UIImageView()
+        iv.image = #imageLiteral(resourceName: "home_unselected")
+        iv.image = iv.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        iv.tintColor = .tinderColor
+        return iv
+    }()
+    
+    lazy var addressLabel:UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = UIFont(name: "BMJUAOTF", size: 14)
+        label.textColor = .lightGray
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        return label
+    }()
+    
+    lazy var dividerUnderAddress:UIView = {
+        let view = UIView()
+        view.backgroundColor = .tinderColor
+        return view
+    }()
+    
+    lazy var shortBioLabel:UILabel = {
+        let label = UILabel()
+        label.text = "짧은 자기소개"
+        label.textColor = .lightGray
+        label.font = UIFont(name: "BMJUAOTF", size: 14)
+        return label
+    }()
+    
+    lazy var shortBioTextView:GrowingTextView = {
+        let tv = GrowingTextView()
+        tv.maxLength = 225
+        tv.trimWhiteSpaceWhenEndEditing = true
+        tv.minHeight = 100
+        tv.maxHeight = 150
+        tv.font = UIFont(name: "BMJUAOTF", size: 12)
+        tv.textColor = .black
+        tv.backgroundColor = .veryLightGray
+        tv.autocorrectionType = .no
+        return tv
+    }()
+    
+    lazy var submitButton:UIButton = {
+        let button = UIButton(type: UIButton.ButtonType.system)
+        button.setTitle("프로필 변경하기", for: UIControl.State.normal)
+        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
+        button.setTitleColor(UIColor.tinderColor, for: UIControl.State.normal)
+        button.addTarget(self, action: #selector(submitButtonTapped), for: UIControl.Event.touchUpInside)
+        return button
+    }()
 
     // MARK: Life cycles
+    
+    init(user:User, address:Address) {
+        self.user = user
+        self.address = address
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
@@ -75,7 +144,31 @@ class ChangeProfileController: UIViewController {
     
     
     
+    
     // MARK: Selectors
+    
+    @objc func submitButtonTapped(){
+        print("submit button tapped")
+    }
+    
+    @objc override func keyboardWillShow(notification: NSNotification) {
+        
+        if shortBioTextView.isFirstResponder {
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+                if self.view.frame.origin.y == self.topBarHeight {
+                    self.view.frame.origin.y -= keyboardSize.height / 2
+                }
+            }
+        }
+        
+    }
+
+    @objc override func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = self.topBarHeight
+        }
+    }
+    
     @objc func backButtonTapped(){
         navigationController?.popViewController(animated: true)
     }
@@ -86,10 +179,26 @@ class ChangeProfileController: UIViewController {
         .lightContent
     }
     
+    func configureUser(){
+        if let url = URL(string: user.profileImageUrl) {
+            profileView.sd_setImage(with: url, completed: nil)
+        }
+        usernameTextField.text = user.username
+        shortBioTextView.text = user.bio
+        addressLabel.text = address.address
+    }
+    
     func configure(){
         hideKeyboardWhenTappedAround()
         configureUI()
         configureNavigationBar()
+        configureUser()
+        shortBioTextView.delegate = self
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
     }
     
     func configureNavigationBar(){
@@ -129,6 +238,42 @@ class ChangeProfileController: UIViewController {
         dividerUnderUsername.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 22).isActive = true
         dividerUnderUsername.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -22).isActive = true
         dividerUnderUsername.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        
+        
+        view.addSubview(addressIcon)
+        addressIcon.translatesAutoresizingMaskIntoConstraints = false
+        addressIcon.topAnchor.constraint(equalTo: dividerUnderUsername.bottomAnchor, constant: 20).isActive = true
+        addressIcon.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        
+        view.addSubview(addressLabel)
+        addressLabel.translatesAutoresizingMaskIntoConstraints = false
+        addressLabel.topAnchor.constraint(equalTo: dividerUnderUsername.bottomAnchor, constant: 22).isActive = true
+        addressLabel.leftAnchor.constraint(equalTo: addressIcon.rightAnchor, constant: 10).isActive = true
+        addressLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        
+        view.addSubview(dividerUnderAddress)
+        dividerUnderAddress.translatesAutoresizingMaskIntoConstraints = false
+        dividerUnderAddress.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 8).isActive = true
+        dividerUnderAddress.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
+        dividerUnderAddress.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -22).isActive = true
+        dividerUnderAddress.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        
+        view.addSubview(shortBioLabel)
+        shortBioLabel.translatesAutoresizingMaskIntoConstraints = false
+        shortBioLabel.topAnchor.constraint(equalTo: dividerUnderAddress.bottomAnchor, constant: 40).isActive = true
+        shortBioLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        
+        view.addSubview(shortBioTextView)
+        shortBioTextView.translatesAutoresizingMaskIntoConstraints = false
+        shortBioTextView.topAnchor.constraint(equalTo: shortBioLabel.bottomAnchor, constant: 30).isActive = true
+        shortBioTextView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        shortBioTextView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        
+        view.addSubview(submitButton)
+        submitButton.translatesAutoresizingMaskIntoConstraints = false
+        submitButton.topAnchor.constraint(equalTo: shortBioTextView.bottomAnchor, constant: 50).isActive = true
+        submitButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
+        submitButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50).isActive = true
     }
     
 
@@ -139,4 +284,8 @@ extension ChangeProfileController:UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         return true 
     }
+}
+
+extension ChangeProfileController:UITextViewDelegate {
+    
 }

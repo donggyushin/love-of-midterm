@@ -181,38 +181,57 @@ class ProfileControllerTypeTwo: UIViewController {
         guard let user = user else { return }
         guard let me = me else { return }
         
-        let alert = UIAlertController(title: "\(user.username)님과 대화하시겠습니까?", message: "다른 유저와 대화하기 위해서는 해당 유저가 출제한 문제를 7문제 이상 맞추셔야 합니다. 그리고 한 유저에게는 하루에 한 번만 도전가능합니다.", preferredStyle: UIAlertController.Style.actionSheet)
         
-        let agreeAction = UIAlertAction(title: "도전해볼래요", style: UIAlertAction.Style.default) { (action) in
-            if user.id == me.id {
-                self.popupDialog(title: "죄송합니다", message: "본인에게는 도전할 수 없습니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))
-                return
-            }
-            
-            // 내가 이 유저한테 당일날 말을 걸었는지 안걸었는지를 알아야함.
-            TryService.shared.checkWhetherUserCanTry(userId: user.id) { (error, bool) in
-                if let error = error {
-                    self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
-                }else {
-                    guard let bool = bool else { return }
-                    if bool == true {
-                        let testVC = TestController(user:user)
-                        testVC.delegate = self
-                        let popup = PopupDialog(viewController: testVC, preferredWidth: 400, tapGestureDismissal: false, panGestureDismissal: false)
-                        
-                        self.present(popup, animated: true, completion: nil)
-                    }else {
-                        self.popupDialog(title: "죄송합니다", message: "하루에 같은 유저에게 두 번 이상 도전하실 수 없습니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))
-                    }
-                }
+        var checked = true
+        
+        for matchedUserId in me.matchedUsers {
+            if matchedUserId == user.id {
+                checked = false
             }
         }
         
-        let disagreeAction = UIAlertAction(title: "조금 더 생각해볼래요", style: UIAlertAction.Style.cancel, handler: nil)
         
-        alert.addAction(agreeAction)
-        alert.addAction(disagreeAction)
-        present(alert, animated: true, completion: nil)
+        
+        if checked == false {
+            
+            // 바로 채팅창으로 넘겨주자
+            self.popupDialog(title: "이미 매칭된 유저입니다", message: "이미 매칭된 유저의 시험문제는 다시 풀 수 없습니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            
+        }else {
+            let alert = UIAlertController(title: "\(user.username)님과 대화하시겠습니까?", message: "다른 유저와 대화하기 위해서는 해당 유저가 출제한 문제를 7문제 이상 맞추셔야 합니다. 그리고 한 유저에게는 하루에 한 번만 도전가능합니다.", preferredStyle: UIAlertController.Style.actionSheet)
+            
+            let agreeAction = UIAlertAction(title: "도전해볼래요", style: UIAlertAction.Style.default) { (action) in
+                if user.id == me.id {
+                    self.popupDialog(title: "죄송합니다", message: "본인에게는 도전할 수 없습니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+                    return
+                }
+                
+                // 내가 이 유저한테 당일날 말을 걸었는지 안걸었는지를 알아야함.
+                TryService.shared.checkWhetherUserCanTry(userId: user.id) { (error, bool) in
+                    if let error = error {
+                        self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+                    }else {
+                        guard let bool = bool else { return }
+                        if bool == true {
+                            let testVC = TestController(user:user)
+                            testVC.delegate = self
+                            let popup = PopupDialog(viewController: testVC, preferredWidth: 400, tapGestureDismissal: false, panGestureDismissal: false)
+                            
+                            self.present(popup, animated: true, completion: nil)
+                        }else {
+                            self.popupDialog(title: "죄송합니다", message: "하루에 같은 유저에게 두 번 이상 도전하실 수 없습니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+                        }
+                    }
+                }
+            }
+            
+            let disagreeAction = UIAlertAction(title: "조금 더 생각해볼래요", style: UIAlertAction.Style.cancel, handler: nil)
+            
+            alert.addAction(agreeAction)
+            alert.addAction(disagreeAction)
+            present(alert, animated: true, completion: nil)
+        }
+        
         
     }
     

@@ -28,6 +28,7 @@ struct User {
     let requestsIReceived:[String]
     let chatIds:[String]
     let unreadMessages:[String]
+    let matchedUsers:[String]
     
     init(data:[String:Any]) {
         let email = data["email"] as? String ?? ""
@@ -47,6 +48,7 @@ struct User {
         let requestsIReceived = data["requestsIReceived"] as? [String] ?? []
         let chatIds = data["chatIds"] as? [String] ?? []
         let unreadMessages = data["unreadMessages"] as? [String] ?? []
+        let matchedUsers = data["matchedUsers"] as? [String] ?? []
         
         
         self.email = email
@@ -66,6 +68,7 @@ struct User {
         self.requestsIReceived = requestsIReceived
         self.chatIds = chatIds
         self.unreadMessages = unreadMessages
+        self.matchedUsers = matchedUsers
         
     }
     

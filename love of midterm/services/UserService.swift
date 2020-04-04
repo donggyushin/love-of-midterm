@@ -16,6 +16,12 @@ struct UserService {
     
     static let shared = UserService()
     
+    func matchingUser(userId:String){
+        guard let myId = Auth.auth().currentUser?.uid else { return }
+        db.collection("users").document(myId).updateData(["matchedUsers" : FieldValue.arrayUnion([userId])])
+        db.collection("users").document(userId).updateData(["matchedUsers" : FieldValue.arrayUnion([myId])])
+    }
+    
     func fetchUserWithId(id:String, completion:@escaping(Error?, User?) -> Void) {
         db.collection("users").document(id).getDocument { (querySnapshot, error) in
             if let error = error {

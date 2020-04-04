@@ -29,6 +29,9 @@ class ProfileController: UIViewController {
             configureUser()
             fetchBackgroundImages()
             fetchAddress()
+            if let sideMenuVC = sideMenu.viewControllers.first as? SideMenuViewController {
+                sideMenuVC.user = self.user
+            }
         }
     }
     
@@ -37,6 +40,9 @@ class ProfileController: UIViewController {
     var address:Address? {
         didSet {
             configureAddress()
+            if let sideMenuVC = sideMenu.viewControllers.first as? SideMenuViewController {
+                sideMenuVC.address = self.address
+            }
         }
     }
     
@@ -177,6 +183,7 @@ class ProfileController: UIViewController {
         configure()
     }
     
+    
     // MARK: Helpers
     
     func deleteBackgroundImage(index:Int){
@@ -223,17 +230,19 @@ class ProfileController: UIViewController {
     
     @objc func plusButtonTapped(){
         var config = YPImagePickerConfiguration()
+        // 1장만 선택하게하고싶을때에는 밑에꺼 주석처리
         config.library.maxNumberOfItems = 7
         config.screens = [.library]
         config.wordings.libraryTitle = "사진첩"
         config.wordings.cameraTitle = "카메라"
+        config.wordings.filter = "필터"
         config.wordings.next = "다음"
         config.wordings.cancel = "취소"
         config.hidesBottomBar = true
-        let attributes = [NSAttributedString.Key.font : UIFont(name: "BMJUAOTF", size: 18) ]
-        UINavigationBar.appearance().titleTextAttributes = attributes as [NSAttributedString.Key : Any] // Title fonts
-        UIBarButtonItem.appearance().setTitleTextAttributes(attributes as [NSAttributedString.Key : Any], for: .normal) // Bar Button fonts
-        config.colors.tintColor = .tinderColor // Right bar buttons (actions)
+//        let attributes = [NSAttributedString.Key.font : UIFont(name: "BMJUAOTF", size: 18) ]
+//        UINavigationBar.appearance().titleTextAttributes = attributes as [NSAttributedString.Key : Any] // Title fonts
+//        UIBarButtonItem.appearance().setTitleTextAttributes(attributes as [NSAttributedString.Key : Any], for: .normal) // Bar Button fonts
+        config.colors.tintColor = .lightGray // Right bar buttons (actions)
         let picker = YPImagePicker(configuration: config)
         picker.didFinishPicking { [unowned picker] items, cancelled in
             for item in items {

@@ -18,6 +18,7 @@ class ChatController: UICollectionViewController {
     
     // MARK: properties
     let chat:Chat
+    
     var user:User? {
         didSet {
             configureUser()
@@ -84,6 +85,31 @@ class ChatController: UICollectionViewController {
     
     
     // MARK: Selectors
+    @objc override func keyboardWillShow(notification: NSNotification) {
+        
+        
+        if iMessageInputBar.inputTextView.isFirstResponder {
+            
+            if collectionView.contentInset.bottom == 10 {
+                // TODO: 정확한 키보드의 사이즈를 구하기가 힘듬
+                
+
+                collectionView.contentInset.bottom = 280
+                
+            }
+        }
+        
+    }
+
+    @objc override func keyboardWillHide(notification: NSNotification) {
+        
+        
+        if collectionView.contentInset.bottom != 10 {
+            collectionView.contentInset.bottom = 10
+        }
+    }
+    
+    
     @objc func backbuttonTapped(){
         navigationController?.popViewController(animated: true)
     }
@@ -153,6 +179,10 @@ class ChatController: UICollectionViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissIMessageeKeyboard))
         view.addGestureRecognizer(tap)
         
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
     }
     
     override var inputAccessoryView: UIView? {
@@ -164,7 +194,7 @@ class ChatController: UICollectionViewController {
     }
     
     func configureUI(){
-        
+        collectionView.contentInset.bottom = 10
     }
     
     
@@ -179,8 +209,11 @@ class ChatController: UICollectionViewController {
     func configureNavigation(){
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         
-         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.isTranslucent = true
+        
+//         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
         
     }
 
@@ -209,7 +242,7 @@ class ChatController: UICollectionViewController {
         
         let messageText = messages[indexPath.row].text
 
-        let font = UIFont(name: "BMJUAOTF", size: 16)
+        let font = UIFont(name: "BMJUAOTF", size: 14)
         
         let estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: messageText, width: 250, font: font!)
         
@@ -220,7 +253,7 @@ class ChatController: UICollectionViewController {
             
             let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierMyMessage, for: indexPath) as! MyMessageCell
             myCell.message = message
-            myCell.textBubbleViewWidthAnchor?.constant = estimatedFrame.width + 20
+            myCell.textBubbleViewWidthAnchor?.constant = estimatedFrame.width + 15
             
             // 밑에 메시지가 나의 메시지인데 서로 시간이 같으면 지워주기
             if messages.count - 1 != indexPath.row {
@@ -260,7 +293,7 @@ class ChatController: UICollectionViewController {
             othersMessage.message = message
             othersMessage.userId = message.sender
             othersMessage.delegate = self
-            othersMessage.textBubbleViewWidthAnchor?.constant = estimatedFrame.width + 20
+            othersMessage.textBubbleViewWidthAnchor?.constant = estimatedFrame.width + 15
             
             // 위의 메시지가 내 메시지인데 서로 같은 유저이면 프로필 이미지 안보이게 바꿔주기
             if indexPath.row != 0 {
@@ -317,7 +350,7 @@ extension ChatController:UICollectionViewDelegateFlowLayout {
         
         
         let messageText = messages[indexPath.row].text
-        guard let font = UIFont(name: "BMJUAOTF", size: 16) else {
+        guard let font = UIFont(name: "BMJUAOTF", size: 14) else {
             
             return CGSize(width: view.frame.width, height: 100)
         }

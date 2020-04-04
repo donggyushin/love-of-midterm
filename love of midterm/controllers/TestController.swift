@@ -385,10 +385,10 @@ class TestController: UIViewController {
         
         let font = UIFont(name: "BMJUAOTF", size: 15)
         
-        let height1 = test.title.height(withConstrainedWidth: view.frame.width * 0.75, font: font!)
-        let height2 = test.questionOne.height(withConstrainedWidth: view.frame.width * 0.7, font: font!)
-        let height3 = test.questionTwo.height(withConstrainedWidth: view.frame.width * 0.7, font: font!)
-        let height4 = test.questionThree.height(withConstrainedWidth: view.frame.width * 0.7, font: font!)
+        let height1 = test.title.height(withConstrainedWidth: view.frame.width * 0.65, font: font!)
+        let height2 = test.questionOne.height(withConstrainedWidth: view.frame.width * 0.6, font: font!)
+        let height3 = test.questionTwo.height(withConstrainedWidth: view.frame.width * 0.6, font: font!)
+        let height4 = test.questionThree.height(withConstrainedWidth: view.frame.width * 0.6, font: font!)
         
         self.scrollView.contentSize = CGSize(width: view.frame.width, height: 300 + height1 + height2 + height3 + height4)
         
@@ -450,8 +450,7 @@ class TestController: UIViewController {
         questionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         questionTitleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 7).isActive = true
         questionTitleLabel.leftAnchor.constraint(equalTo: questionIcon.rightAnchor, constant: 8).isActive = true
-        questionTitleLabel.widthAnchor.constraint(equalToConstant: view.frame.width * 0.75).isActive = true
-        
+        questionTitleLabel.widthAnchor.constraint(equalToConstant: view.frame.width * 0.65).isActive = true
         
         
         scrollView.addSubview(optionOneIcon)
@@ -463,8 +462,7 @@ class TestController: UIViewController {
         optionOneLabel.translatesAutoresizingMaskIntoConstraints = false
         optionOneLabel.topAnchor.constraint(equalTo: questionTitleLabel.bottomAnchor, constant: 34).isActive = true
         optionOneLabel.leftAnchor.constraint(equalTo: optionOneIcon.rightAnchor, constant: 5).isActive = true
-        optionOneLabel.widthAnchor.constraint(equalToConstant: view.frame.width * 0.7).isActive = true
-        
+        optionOneLabel.widthAnchor.constraint(equalToConstant: view.frame.width * 0.6).isActive = true
         
         scrollView.addSubview(optionTwoIcon)
         optionTwoIcon.translatesAutoresizingMaskIntoConstraints = false

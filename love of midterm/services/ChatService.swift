@@ -14,6 +14,8 @@ struct ChatService {
     
     let db = Firestore.firestore()
     
+    
+    
     func listenChats(completion:@escaping(Error?, [Chat]?) -> Void){
         guard let myId = Auth.auth().currentUser?.uid else { return }
         db.collection("chats").whereField("users", arrayContains: myId).order(by: "updatedAt", descending: true).addSnapshotListener { (querySnapshot, error) in

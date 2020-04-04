@@ -11,6 +11,8 @@ import Firebase
 
 class SideMenuViewController: UIViewController {
     
+    var user:User?
+    var address:Address?
     
     // MARK
     lazy var logoutButton:UIButton = {
@@ -59,6 +61,8 @@ class SideMenuViewController: UIViewController {
     }()
     
     // MARK: life cycles
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
@@ -81,7 +85,9 @@ class SideMenuViewController: UIViewController {
     
     @objc func changeProfileButtonTapped(){
         print("changeProfileButtonTapped")
-        let changeProfileVC = ChangeProfileController()
+        guard let user = user else { return }
+        guard let address = address else { return }
+        let changeProfileVC = ChangeProfileController(user: user, address: address)
         navigationController?.pushViewController(changeProfileVC, animated: true)
     }
     

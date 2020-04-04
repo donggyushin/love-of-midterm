@@ -34,7 +34,6 @@ class MessageController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configure()
 
     }
@@ -57,8 +56,9 @@ class MessageController: UICollectionViewController {
         ]
         self.navigationItem.title = "대화"
         
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
         
     }
 
