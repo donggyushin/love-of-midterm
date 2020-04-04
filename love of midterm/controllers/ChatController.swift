@@ -121,13 +121,17 @@ class ChatController: UICollectionViewController {
     
     // MARK: helpers
     func makeSendButtonEnable(){
-        sendButton.setTitleColor(UIColor.black, for: UIControl.State.normal)
-        sendButton.isEnabled = true
+        
+        self.sendButton.setTitleColor(UIColor.black, for: UIControl.State.normal)
+        self.sendButton.isEnabled = true
+        
     }
     
     func makeSendButtonUnabled(){
-        sendButton.setTitleColor(UIColor.lightGray, for: UIControl.State.normal)
-        sendButton.isEnabled = false
+        
+        self.sendButton.setTitleColor(UIColor.lightGray, for: UIControl.State.normal)
+        self.sendButton.isEnabled = false
+    
     }
     
     // MARK: Selectors
@@ -137,6 +141,7 @@ class ChatController: UICollectionViewController {
         guard let user = user else { return }
         guard let message = chatInputTextView.text else { return }
         chatInputTextView.text = ""
+        makeSendButtonUnabled()
         
         MessageService.shared.postMessage(chatId: chat.id, sender: me.id, text: message, receiver: user.id) { (error) in
             if let error = error {
@@ -159,6 +164,9 @@ class ChatController: UICollectionViewController {
                 collectionView.contentInset.bottom = keyboardHeight! + chatContainerView.frame.height
                 self.chatContainerViewConstraint?.constant = -self.keyboardHeight!
                 self.view.layoutIfNeeded()
+                let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
+                let lastItemIndex = NSIndexPath(item: item, section: 0)
+                self.collectionView.scrollToItem(at: lastItemIndex as IndexPath, at: .top, animated: true)
             }
         }
 
