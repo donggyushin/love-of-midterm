@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 import InputBarAccessoryView
-
+import GrowingTextView
 
 private let reuseIdentifierMyMessage = "Cell1"
 private let reuseIdentifierOthersMessage = "Cell2"
@@ -37,6 +37,11 @@ class ChatController: UICollectionViewController {
         }
     }
     
+    var chatContainerViewHeightAnchor:NSLayoutConstraint?
+    var chatContainerViewConstraint:NSLayoutConstraint?
+    var keyboardHeight:CGFloat?
+    
+    
     // MARK: UIKits
     lazy var backButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
@@ -44,14 +49,45 @@ class ChatController: UICollectionViewController {
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
         button.setTitleColor(UIColor.tinderColor, for: .normal)
         button.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
+    
         return button
     }()
     
-    lazy var iMessageInputBar:IMeessageInputBar = {
-        let iMessage = IMeessageInputBar()
-        iMessage.delegate = self
-        return iMessage
+    lazy var chatInputTextView:GrowingTextView = {
+        let tv = GrowingTextView()
+        tv.maxLength = 225
+        tv.trimWhiteSpaceWhenEndEditing = true
+        tv.minHeight = 28
+        tv.maxHeight = 45
+        tv.font = UIFont(name: "BMJUAOTF", size: 14)
+        tv.textColor = .black
+        tv.backgroundColor = .white
+        tv.autocorrectionType = .no
+        tv.layer.cornerRadius = 4
+        tv.delegate = self
+        return tv
     }()
+    
+    lazy var sendButton:UIButton = {
+        let button = UIButton(type: UIButton.ButtonType.system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .systemYellow
+        button.setTitle("전송", for: UIControl.State.normal)
+        button.setTitleColor(.lightGray, for: UIControl.State.normal)
+        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
+        button.layer.cornerRadius = 4
+        button.addTarget(self, action: #selector(sendButtonTapped), for: UIControl.Event.touchUpInside)
+        button.isEnabled = false
+        return button
+    }()
+    
+    lazy var chatContainerView:UIView = {
+        let view = UIView()
+        view.backgroundColor = .veryLightGray
+        
+        return view
+    }()
+    
     
     
     // MARK: Life styles
@@ -75,38 +111,65 @@ class ChatController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        tabBarController?.tabBar.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        tabBarController?.tabBar.isHidden = false
     }
     
     // MARK: helpers
+    func makeSendButtonEnable(){
+        sendButton.setTitleColor(UIColor.black, for: UIControl.State.normal)
+        sendButton.isEnabled = true
+    }
     
+    func makeSendButtonUnabled(){
+        sendButton.setTitleColor(UIColor.lightGray, for: UIControl.State.normal)
+        sendButton.isEnabled = false
+    }
     
     // MARK: Selectors
-    @objc override func keyboardWillShow(notification: NSNotification) {
+    
+    @objc func sendButtonTapped(){
+        print("send button tapped")
+        guard let user = user else { return }
+        guard let message = chatInputTextView.text else { return }
+        chatInputTextView.text = ""
         
-        
-        if iMessageInputBar.inputTextView.isFirstResponder {
-            
-            if collectionView.contentInset.bottom == 10 {
-                // TODO: 정확한 키보드의 사이즈를 구하기가 힘듬
-                
-
-                collectionView.contentInset.bottom = 280
-                
+        MessageService.shared.postMessage(chatId: chat.id, sender: me.id, text: message, receiver: user.id) { (error) in
+            if let error = error {
+                self.popupDialog(title: "죄송해요", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
             }
         }
+    }
+    
+    @objc override func keyboardWillShow(notification: NSNotification) {
+
         
+        
+        if chatInputTextView.isFirstResponder {
+            
+            
+            // keyboard height 구하기
+            if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                keyboardHeight = keyboardRectangle.height
+                collectionView.contentInset.bottom = keyboardHeight! + chatContainerView.frame.height
+                self.chatContainerViewConstraint?.constant = -self.keyboardHeight!
+                self.view.layoutIfNeeded()
+            }
+        }
+
+
     }
 
     @objc override func keyboardWillHide(notification: NSNotification) {
-        
-        
-        if collectionView.contentInset.bottom != 10 {
-            collectionView.contentInset.bottom = 10
-        }
+
+        collectionView.contentInset.bottom = 50
+        self.chatContainerViewConstraint?.constant = 0
+        self.view.layoutIfNeeded()
     }
     
     
@@ -115,7 +178,8 @@ class ChatController: UICollectionViewController {
     }
     
     @objc func dismissIMessageeKeyboard() {
-        iMessageInputBar.inputTextView.resignFirstResponder()
+        chatInputTextView.resignFirstResponder()
+        
     }
     
     // MARK: APIs
@@ -167,6 +231,7 @@ class ChatController: UICollectionViewController {
     
     
     func configure(){
+        
         self.collectionView!.register(MyMessageCell.self, forCellWithReuseIdentifier: reuseIdentifierMyMessage)
         
         self.collectionView!.register(OthersMessageCell.self, forCellWithReuseIdentifier: reuseIdentifierOthersMessage)
@@ -177,24 +242,43 @@ class ChatController: UICollectionViewController {
         configureUI()
         fetchMessages()
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissIMessageeKeyboard))
-        view.addGestureRecognizer(tap)
+        collectionView.addGestureRecognizer(tap)
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
-    
-    override var inputAccessoryView: UIView? {
-        return iMessageInputBar
-    }
+
     
     override var canBecomeFirstResponder: Bool {
         return true
     }
     
     func configureUI(){
-        collectionView.contentInset.bottom = 10
+        
+        collectionView.contentInset.bottom = 50
+        view.addSubview(chatContainerView)
+        chatContainerView.translatesAutoresizingMaskIntoConstraints = false
+        chatContainerViewConstraint = chatContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        chatContainerViewConstraint?.isActive = true
+        chatContainerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        chatContainerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        chatContainerViewHeightAnchor = chatContainerView.heightAnchor.constraint(equalToConstant: 50)
+        chatContainerViewHeightAnchor?.isActive = true
+        
+        chatContainerView.addSubview(chatInputTextView)
+        chatInputTextView.translatesAutoresizingMaskIntoConstraints = false
+        chatInputTextView.topAnchor.constraint(equalTo: chatContainerView.topAnchor, constant: 10).isActive = true
+        chatInputTextView.leftAnchor.constraint(equalTo: chatContainerView.leftAnchor, constant: 8).isActive = true
+        chatInputTextView.rightAnchor.constraint(equalTo: chatContainerView.rightAnchor, constant: -70).isActive = true
+        
+        chatContainerView.addSubview(sendButton)
+        sendButton.translatesAutoresizingMaskIntoConstraints = false
+        sendButton.topAnchor.constraint(equalTo: chatContainerView.topAnchor, constant: 10).isActive = true
+        sendButton.rightAnchor.constraint(equalTo: chatContainerView.rightAnchor, constant: -6).isActive = true
+        sendButton.leftAnchor.constraint(equalTo: chatInputTextView.rightAnchor, constant: 6).isActive = true
+        chatInputTextView.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     
@@ -212,8 +296,6 @@ class ChatController: UICollectionViewController {
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.isTranslucent = true
         
-//         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
         
     }
 
@@ -381,20 +463,6 @@ extension ChatController:UICollectionViewDelegateFlowLayout {
 }
 
 
-// MARK: InputBarAccessoryViewDelegate
-extension ChatController:InputBarAccessoryViewDelegate {
-    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        guard let myId = Auth.auth().currentUser?.uid else { return }
-        guard let userId = self.user?.id else { return }
-        MessageService.shared.postMessage(chatId: chat.id, sender: myId, text: text, receiver: userId) { (error) in
-            if let error = error {
-                self.popupDialog(title: "죄송해요", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
-            }
-        }
-        iMessageInputBar.inputTextView.text = ""
-    }
-}
-
 // MARK: OthersMessageCellDelegate
 extension ChatController:OthersMessageCellDelegate {
     func profileImageTapped(cell: OthersMessageCell) {
@@ -411,5 +479,22 @@ extension ChatController:OthersMessageCellDelegate {
 extension ChatController:UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+}
+extension ChatController:UITextViewDelegate, GrowingTextViewDelegate {
+    
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if textView.text.count > 0 {
+            makeSendButtonEnable()
+        }else {
+            makeSendButtonUnabled()
+        }
+    }
+    
+    func textViewDidChangeHeight(_ textView: GrowingTextView, height: CGFloat) {
+        print(view.frame.height - keyboardHeight! - height - 20)
+        print(height)
+        chatContainerViewHeightAnchor?.constant = height + 20
     }
 }
