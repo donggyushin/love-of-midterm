@@ -16,6 +16,47 @@ struct UserService {
     
     static let shared = UserService()
     
+    
+    
+    func changeProfileImage(image:UIImage, user:User, completion:@escaping(Error?,String?) -> Void) {
+        guard let myId = Auth.auth().currentUser?.uid else { return }
+        let profileRef = storage.reference().child(user.profileImageReference)
+        profileRef.delete(completion: nil)
+        let uuid = UUID().uuidString + ".jpg"
+        let uploadProfileRef = storage.reference().child("profile_images").child(uuid)
+        let dataOp:Data? = image.jpegData(compressionQuality: 1)
+        guard let data = dataOp else {
+            completion(nil, "이용에 불편을 끼쳐드려서 죄송합니다. 프로필 이미지를 서버에 업로드하는데 실패하였습니다. 개발자에게 에러에 관해서 알려주세요.")
+            return
+        }
+        
+        let uploadTask = uploadProfileRef.putData(data, metadata: nil) { (metadata, error) in
+            if let error = error {
+                completion(error, nil)
+            }else {
+                uploadProfileRef.downloadURL { (url, error) in
+                    if let error = error {
+                        completion(error, nil)
+                    }else {
+                        let downloadUrl = url!.absoluteString
+                        
+                        self.db.collection("users").document(myId).updateData(["profileImageUrl" : downloadUrl, "profileImageReference" : "profile_images/\(uuid)"]) { (error) in
+                            if let error = error {
+                                completion(error, nil)
+                            }else {
+                                completion(nil, nil)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        uploadTask.resume()
+        
+        
+    }
+    
     func matchingUser(userId:String){
         guard let myId = Auth.auth().currentUser?.uid else { return }
         db.collection("users").document(myId).updateData(["matchedUsers" : FieldValue.arrayUnion([userId])])
@@ -82,6 +123,66 @@ struct UserService {
                 completion(nil)
             }
         }
+    }
+    
+    func changeUserProfile(image:UIImage, username:String, address:Address, bio:String,user:User, completion:(@escaping(Error?, String?) -> Void)) {
+        guard let myId = Auth.auth().currentUser?.uid else { return }
+        self.db.collection("addresses").document(user.addressId).delete(completion: nil)
+        let profileImageUidString = UUID().uuidString + ".jpg"
+        let profileImageRef = storage.reference().child("profile_images").child(profileImageUidString)
+        storage.reference().child(user.profileImageReference).delete(completion: nil)
+        let dataOp:Data? = image.jpegData(compressionQuality: 1)
+        var addressRef:DocumentReference?
+        guard let data = dataOp else {
+            completion(nil, "이용에 불편을 끼쳐드려서 죄송합니다. 프로필 이미지를 서버에 업로드하는데 실패했습니다. 개발자에게 에러에 관해서 알려주세요.")
+            return
+        }
+        
+        let uploadTask = profileImageRef.putData(data, metadata: nil) { (metadata, error) in
+            if let error = error {
+                completion(error, nil)
+            }else {
+                profileImageRef.downloadURL { (url, error) in
+                    if let error = error {
+                        completion(error, nil)
+                    }else {
+                        let downloadUrl = url!.absoluteString
+                        
+                        addressRef = self.db.collection("addresses").addDocument(data: [
+                        "title":address.title,
+                        "link":address.link,
+                        "userId":myId,
+                        "category":address.category,
+                        "description":address.description,
+                        "telephone":address.telephone,
+                        "address":address.address,
+                        "roadAddress":address.roadAddress,
+                        "mapx":address.mapx,
+                        "mapy":address.mapy
+                        ]) { (error) in
+                            if let error = error {
+                                completion(error, nil)
+                            }else {
+                                self.db.collection("users").document(myId).updateData([
+                                    "username" : username,
+                                    "profileImageReference": "profile_images/\(profileImageUidString)",
+                                    "profileImageUrl" : downloadUrl,
+                                    "bio":bio,
+                                    "addressId": addressRef!.documentID
+                                ]) { (error) in
+                                    if let error = error {
+                                        completion(error, nil)
+                                    }else {
+                                        completion(nil,nil)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        uploadTask.resume()
     }
     
     func requestToNewUser(email:String, password:String, profileImage:UIImage, username:String, gender:String,

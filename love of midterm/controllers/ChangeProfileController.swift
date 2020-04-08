@@ -9,12 +9,14 @@
 import UIKit
 import SDWebImage
 import GrowingTextView
+import YPImagePicker
+import LoadingShimmer
 
 class ChangeProfileController: UIViewController {
     
     // MARK: Properties
     let user:User
-    let address:Address
+    var address:Address
     
     // MARK: UIKits
     lazy var backButton:UIButton = {
@@ -31,7 +33,10 @@ class ChangeProfileController: UIViewController {
         let iv = UIImageView()
         iv.backgroundColor = .veryLightGray
         iv.layer.cornerRadius = 8
-        iv.clipsToBounds = true 
+        iv.clipsToBounds = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
+        iv.isUserInteractionEnabled = true
+        iv.addGestureRecognizer(tap)
         return iv
     }()
     
@@ -64,6 +69,9 @@ class ChangeProfileController: UIViewController {
         iv.image = #imageLiteral(resourceName: "home_unselected")
         iv.image = iv.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         iv.tintColor = .tinderColor
+        let tap = UITapGestureRecognizer(target: self, action: #selector(goToSearchAddressViewController))
+        iv.isUserInteractionEnabled = true
+        iv.addGestureRecognizer(tap)
         return iv
     }()
     
@@ -74,6 +82,9 @@ class ChangeProfileController: UIViewController {
         label.textColor = .lightGray
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
+        let tap = UITapGestureRecognizer(target: self, action: #selector(goToSearchAddressViewController))
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(tap)
         return label
     }()
     
@@ -129,11 +140,13 @@ class ChangeProfileController: UIViewController {
         super.viewDidLoad()
         configure()
         navigationController?.setNavigationBarHidden(false, animated: true)
+        extendedLayoutIncludesOpaqueBars = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.tabBarController?.tabBar.isHidden = true
+        navigationController?.navigationBar.barTintColor = .tinderColor
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -146,9 +159,75 @@ class ChangeProfileController: UIViewController {
     
     
     // MARK: Selectors
+    @objc func goToSearchAddressViewController(){
+        let searchAddressVC = SearchAddressController()
+        searchAddressVC.delegate = self
+        self.navigationController?.pushViewController(searchAddressVC, animated: true)
+    }
+    
+    @objc func profileImageTapped(){
+        var config = YPImagePickerConfiguration()
+        config.screens = [.library]
+        config.wordings.libraryTitle = "사진첩"
+        config.wordings.albumsTitle = "앨범"
+        config.wordings.cameraTitle = "카메라"
+        config.wordings.filter = "필터"
+        config.wordings.next = "다음"
+        config.wordings.cancel = "취소"
+        config.hidesBottomBar = true
+        config.colors.tintColor = .lightGray
+        let picker = YPImagePicker(configuration: config)
+        picker.didFinishPicking { [unowned picker] items, cancelled in
+            
+            for item in items {
+                switch item {
+                case .photo(let photo):
+                    if let modifiedImage = photo.modifiedImage {
+                        self.profileView.image = modifiedImage
+                    }else {
+                        
+                        let originalImage = photo.originalImage
+                        self.profileView.image = originalImage
+                    }
+                    
+                case .video(_):
+                    print("video picked")
+                    
+                }
+            }
+            
+            picker.dismiss(animated: true, completion: nil)
+                         
+        }
+        picker.modalPresentationStyle = .overCurrentContext
+        present(picker, animated:true, completion: nil)
+        
+        
+    }
     
     @objc func submitButtonTapped(){
         print("submit button tapped")
+        LoadingShimmer.startCovering(self.view, with: nil)
+        guard let profileImage = self.profileView.image else { return }
+        guard let username = usernameTextField.text else { return }
+        guard let bio = shortBioTextView.text else { return }
+        
+        if username == "" {
+            self.popupDialog(title: "죄송합니다", message: "이름을 입력해주세요", image: #imageLiteral(resourceName: "logo"))
+            return
+        }
+    
+        UserService.shared.changeUserProfile(image: profileImage, username: username, address: address, bio: bio, user: user) { (error, errorString) in
+            LoadingShimmer.stopCovering(self.view)
+            if let error = error {
+                self.popupDialog(title: "이용에 불편을 끼쳐드려 죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "logo"))
+            }else if let errorString = errorString {
+                self.popupDialog(title: "이용에 불편을 끼쳐드려 죄송합니다", message: errorString, image: #imageLiteral(resourceName: "logo"))
+            }else {
+                RootViewController.rootViewController.fetchUser()
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
     }
     
     @objc override func keyboardWillShow(notification: NSNotification) {
@@ -214,7 +293,7 @@ class ChangeProfileController: UIViewController {
         
         view.addSubview(profileView)
         profileView.translatesAutoresizingMaskIntoConstraints = false
-        profileView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+        profileView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
         profileView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         profileView.widthAnchor.constraint(equalToConstant: 80).isActive = true
         profileView.heightAnchor.constraint(equalToConstant: 80).isActive = true
@@ -287,5 +366,14 @@ extension ChangeProfileController:UIGestureRecognizerDelegate {
 }
 
 extension ChangeProfileController:UITextViewDelegate {
+    
+}
+
+extension ChangeProfileController:SearchAddressControllerDelegate {
+    func addressDidSelected(address: Address) {
+        self.address = address
+        addressLabel.text = address.address
+    }
+    
     
 }

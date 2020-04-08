@@ -36,7 +36,7 @@ class SearchAddressController: UICollectionViewController {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("돌아가기", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 17)
+        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 14)
         button.isUserInteractionEnabled = true
         button.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
         return button
@@ -56,6 +56,19 @@ class SearchAddressController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        navigationController?.navigationBar.barTintColor = .white
+        extendedLayoutIncludesOpaqueBars = true
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     // MARK: configure()

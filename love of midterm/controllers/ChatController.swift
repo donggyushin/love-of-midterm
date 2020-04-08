@@ -58,7 +58,7 @@ class ChatController: UICollectionViewController {
         tv.maxLength = 225
         tv.trimWhiteSpaceWhenEndEditing = true
         tv.minHeight = 28
-        tv.maxHeight = 45
+        tv.maxHeight = 50
         tv.font = UIFont(name: "BMJUAOTF", size: 14)
         tv.textColor = .black
         tv.backgroundColor = .white
@@ -501,8 +501,6 @@ extension ChatController:UITextViewDelegate, GrowingTextViewDelegate {
     }
     
     func textViewDidChangeHeight(_ textView: GrowingTextView, height: CGFloat) {
-        print(view.frame.height - keyboardHeight! - height - 20)
-        print(height)
         chatContainerViewHeightAnchor?.constant = height + 20
     }
 }

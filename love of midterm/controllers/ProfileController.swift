@@ -235,6 +235,7 @@ class ProfileController: UIViewController {
         config.screens = [.library]
         config.wordings.libraryTitle = "사진첩"
         config.wordings.cameraTitle = "카메라"
+        config.wordings.albumsTitle = "앨범"
         config.wordings.filter = "필터"
         config.wordings.next = "다음"
         config.wordings.cancel = "취소"
