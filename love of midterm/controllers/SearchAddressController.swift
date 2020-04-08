@@ -71,11 +71,16 @@ class SearchAddressController: UICollectionViewController {
         self.tabBarController?.tabBar.isHidden = false
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
+    
     // MARK: configure()
     func configure(){
         collectionView.backgroundColor = .white
         makeNavigationItem()
         collectionView.register(AddressCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        searchController.searchBar.searchTextField.textColor = .black
     }
     
     func makeNavigationItem(){

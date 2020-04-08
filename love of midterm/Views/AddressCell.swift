@@ -21,7 +21,8 @@ class AddressCell: UICollectionViewCell {
     lazy var titleLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 17)
+        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.textColor = .black
         return label
     }()
     
@@ -37,6 +38,7 @@ class AddressCell: UICollectionViewCell {
         let label = UILabel()
         label.text = ""
         label.font = UIFont(name: "BMJUAOTF", size: 14)
+        label.textColor = .black
         return label
     }()
     
