@@ -10,6 +10,14 @@ import Foundation
 import UIKit
 import PopupDialog
 
+extension UICollectionViewController {
+    func scrollToBottom(){
+        let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
+        let lastItemIndex = NSIndexPath(item: item, section: 0)
+        self.collectionView.scrollToItem(at: lastItemIndex as IndexPath, at: .top, animated: true)
+    }
+}
+
 extension UIApplication {
 var statusBarUIView: UIView? {
 
