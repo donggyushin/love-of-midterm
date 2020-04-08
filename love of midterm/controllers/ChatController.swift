@@ -29,9 +29,16 @@ class ChatController: UICollectionViewController {
         didSet {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
-                let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
-                let lastItemIndex = NSIndexPath(item: item, section: 0)
-                self.collectionView.scrollToItem(at: lastItemIndex as IndexPath, at: .top, animated: true)
+                let height = self.collectionView.frame.height
+                let contentYoffset = self.collectionView.contentOffset.y
+                let distanceFromBottom = self.collectionView.contentSize.height - contentYoffset
+                
+                if height > distanceFromBottom + 50 {
+                    let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
+                    let lastItemIndex = NSIndexPath(item: item, section: 0)
+                    self.collectionView.scrollToItem(at: lastItemIndex as IndexPath, at: .top, animated: true)
+                }
+                
             }
             
         }
