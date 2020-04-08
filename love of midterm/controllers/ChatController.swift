@@ -164,9 +164,16 @@ class ChatController: UICollectionViewController {
                 collectionView.contentInset.bottom = keyboardHeight! + chatContainerView.frame.height
                 self.chatContainerViewConstraint?.constant = -self.keyboardHeight!
                 self.view.layoutIfNeeded()
-                let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
-                let lastItemIndex = NSIndexPath(item: item, section: 0)
-                self.collectionView.scrollToItem(at: lastItemIndex as IndexPath, at: .top, animated: true)
+                
+                let height = collectionView.frame.height
+                let contentYoffset = collectionView.contentOffset.y
+                let distanceFromBottom = collectionView.contentSize.height - contentYoffset
+                
+                if height > distanceFromBottom + 50 {
+                    let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
+                    let lastItemIndex = NSIndexPath(item: item, section: 0)
+                    self.collectionView.scrollToItem(at: lastItemIndex as IndexPath, at: .top, animated: true)
+                }
             }
         }
 
