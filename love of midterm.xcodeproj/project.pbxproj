@@ -26,6 +26,7 @@
 		703851DB24252E11005ABE28 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703851DA24252E11005ABE28 /* TestController.swift */; };
 		70510208241E980B00C2ADFF /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510207241E980B00C2ADFF /* AddressCell.swift */; };
 		7051020B241EA34800C2ADFF /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051020A241EA34800C2ADFF /* Secrets.swift */; };
+		7053106C2440402E005DA85D /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7053106B2440402E005DA85D /* TestViewController.swift */; };
 		705395562429872D00126726 /* DenyRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705395552429872D00126726 /* DenyRequestCell.swift */; };
 		706B59B7241E600B00117106 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706B59B6241E600B00117106 /* Address.swift */; };
 		70733FD12424083C006A545F /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70733FD02424083C006A545F /* UserCell.swift */; };
@@ -90,6 +91,7 @@
 		703851DA24252E11005ABE28 /* TestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
 		70510207241E980B00C2ADFF /* AddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCell.swift; sourceTree = "<group>"; };
 		7051020A241EA34800C2ADFF /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		7053106B2440402E005DA85D /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		705395552429872D00126726 /* DenyRequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DenyRequestCell.swift; sourceTree = "<group>"; };
 		706B59B6241E600B00117106 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		70733FD02424083C006A545F /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				70202E8F242AEFB3009A6E9A /* ChatController.swift */,
 				702B12712434E2E1008CE5B3 /* LogoSample.swift */,
 				702E55FB243611B900C5880F /* ChangeProfileController.swift */,
+				7053106B2440402E005DA85D /* TestViewController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -456,6 +459,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				709FA0072424FFE500F46C12 /* LoginController.swift in Sources */,
+				7053106C2440402E005DA85D /* TestViewController.swift in Sources */,
 				70109D132428DCD80020C144 /* RequestCell.swift in Sources */,
 				709FA0052424FFE500F46C12 /* MainTabBarController.swift in Sources */,
 				70D1B34F242C6F0C001EFD64 /* Message.swift in Sources */,

@@ -97,6 +97,9 @@ class SideMenuViewController: UIViewController {
     
     @objc func seeTestsButtonTapped(){
         print("seeTestsButtonTapped")
+        guard let user = user else { return }
+        let testViewController = TestViewController(user: user)
+        navigationController?.pushViewController(testViewController, animated: true)
     }
     
     @objc func logoButtonTapped(){
@@ -123,23 +126,23 @@ class SideMenuViewController: UIViewController {
         editProfileButton.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         
         
-        view.addSubview(changeTests)
-        changeTests.translatesAutoresizingMaskIntoConstraints = false
-        changeTests.topAnchor.constraint(equalTo: editProfileButton.bottomAnchor, constant: 20).isActive = true
-        changeTests.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        changeTests.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        
-        
-        
         view.addSubview(seeTests)
         seeTests.translatesAutoresizingMaskIntoConstraints = false
-        seeTests.topAnchor.constraint(equalTo: changeTests.bottomAnchor, constant: 20).isActive = true
+        seeTests.topAnchor.constraint(equalTo: editProfileButton.bottomAnchor, constant: 20).isActive = true
         seeTests.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         seeTests.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         
+        
+        
+        view.addSubview(changeTests)
+        changeTests.translatesAutoresizingMaskIntoConstraints = false
+        changeTests.topAnchor.constraint(equalTo: seeTests.bottomAnchor, constant: 20).isActive = true
+        changeTests.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        changeTests.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        
         view.addSubview(logoutButton)
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
-        logoutButton.topAnchor.constraint(equalTo: seeTests.bottomAnchor, constant: 20).isActive = true
+        logoutButton.topAnchor.constraint(equalTo: changeTests.bottomAnchor, constant: 20).isActive = true
         logoutButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         logoutButton.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         

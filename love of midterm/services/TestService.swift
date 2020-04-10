@@ -13,6 +13,7 @@ struct TestService {
     static let shared = TestService()
     let db = Firestore.firestore()
     
+    
     func fetchTestWithNumAndUserId(userId:String, num:Int, completion:@escaping(Error?, Test?) -> Void){
         db.collection("users").document(userId).getDocument { (querySnapshot, error) in
             if let error = error {
