@@ -55,9 +55,25 @@ struct MessageService {
         }
     }
     
+    func fetchOldMessages(chatId:String, lastMessage:Message, completion:@escaping(Error?, [Message]?) -> Void) {
+        db.collection("messages").whereField("chatId", isEqualTo: chatId).order(by: "createdAt", descending: true).start(at: [lastMessage.createdAt]).limit(to: 20).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(error, nil)
+            }else {
+                var messages = [Message]()
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    let message = Message(data: data)
+                    messages.insert(message, at: 0)
+                }
+                completion(nil, messages)
+            }
+        }
+    }
+    
     func listenMessages(chatId:String, completion:@escaping(Error?, Message?, Message?) -> Void){
         
-        db.collection("messages").whereField("chatId", isEqualTo: chatId).order(by: "createdAt", descending: false).addSnapshotListener { (querySnapshot, error) in
+        db.collection("messages").whereField("chatId", isEqualTo: chatId).order(by: "createdAt", descending: false).limit(toLast: 50).addSnapshotListener { (querySnapshot, error) in
             if let error = error {
                 completion(error, nil, nil)
             }else {

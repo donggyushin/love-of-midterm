@@ -24,18 +24,21 @@ class ChatController: UICollectionViewController {
             configureUser()
         }
     }
+    
+    var loading = true
+    
     let me:User
     var messages = [Message]() {
         didSet {
             DispatchQueue.main.async {
-                self.collectionView.reloadData()
-                let height = self.collectionView.frame.height
-                let contentYoffset = self.collectionView.contentOffset.y
-                let distanceFromBottom = self.collectionView.contentSize.height - contentYoffset
-                
-                if height > distanceFromBottom + 50 {
-                    self.scrollToBottom()
-                }
+//                self.collectionView.reloadData()
+//                let height = self.collectionView.frame.height
+//                let contentYoffset = self.collectionView.contentOffset.y
+//                let distanceFromBottom = self.collectionView.contentSize.height - contentYoffset
+//
+//                if height > distanceFromBottom + 50 {
+//                    self.scrollToBottom()
+//                }
                 
             }
             
@@ -109,7 +112,9 @@ class ChatController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3.0) {
+            self.loading = false
+        }
         configure()
         
     }
@@ -213,6 +218,15 @@ class ChatController: UICollectionViewController {
                 }else if let message = updatedMessage {
                     self.messages.remove(at: self.messages.count - 1)
                     self.messages.append(message)
+                }
+                
+                self.collectionView.reloadData()
+                let height = self.collectionView.frame.height
+                let contentYoffset = self.collectionView.contentOffset.y
+                let distanceFromBottom = self.collectionView.contentSize.height - contentYoffset
+                
+                if height > distanceFromBottom + 50 {
+                    self.scrollToBottom()
                 }
                 
             }
@@ -333,6 +347,27 @@ class ChatController: UICollectionViewController {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if loading == false {
+            if scrollView.contentOffset.y < -80 {
+                loading = true
+                // 새로운 데이터를 추가로 불러온다.
+                let lastMessage = self.messages[0]
+                MessageService.shared.fetchOldMessages(chatId: self.chat.id, lastMessage: lastMessage) { (error, messages) in
+                    if let error = error {
+                        self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+                    }else {
+                        self.messages.insert(contentsOf: messages!, at: 0)
+                        self.collectionView.reloadData()
+                        let indexPath = IndexPath(row: messages!.count, section: 0)
+                        self.collectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: false)
+                        self.loading = false
+                    }
+                }
+            }
+        }
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
