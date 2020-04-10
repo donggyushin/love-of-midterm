@@ -61,10 +61,17 @@ struct MessageService {
                 completion(error, nil)
             }else {
                 var messages = [Message]()
+                var i = 0
                 for document in querySnapshot!.documents {
-                    let data = document.data()
-                    let message = Message(data: data)
-                    messages.insert(message, at: 0)
+                    if i == 0 {
+                        i += 1
+                        
+                    }else {
+                        let data = document.data()
+                        let message = Message(data: data)
+                        messages.insert(message, at: 0)
+                    }
+                    
                 }
                 completion(nil, messages)
             }

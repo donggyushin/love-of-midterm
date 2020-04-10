@@ -28,22 +28,7 @@ class ChatController: UICollectionViewController {
     var loading = true
     
     let me:User
-    var messages = [Message]() {
-        didSet {
-            DispatchQueue.main.async {
-//                self.collectionView.reloadData()
-//                let height = self.collectionView.frame.height
-//                let contentYoffset = self.collectionView.contentOffset.y
-//                let distanceFromBottom = self.collectionView.contentSize.height - contentYoffset
-//
-//                if height > distanceFromBottom + 50 {
-//                    self.scrollToBottom()
-//                }
-                
-            }
-            
-        }
-    }
+    var messages = [Message]() 
     
     var chatContainerViewHeightAnchor:NSLayoutConstraint?
     var chatContainerViewConstraint:NSLayoutConstraint?
