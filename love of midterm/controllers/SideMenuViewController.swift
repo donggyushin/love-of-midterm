@@ -84,7 +84,7 @@ class SideMenuViewController: UIViewController {
     }
     
     @objc func changeProfileButtonTapped(){
-        print("changeProfileButtonTapped")
+        
         guard let user = user else { return }
         guard let address = address else { return }
         let changeProfileVC = ChangeProfileController(user: user, address: address)
@@ -92,11 +92,13 @@ class SideMenuViewController: UIViewController {
     }
     
     @objc func changeTestsButtonTapped(){
-        print("changeTestsButtonTapped")
+        guard let user = self.user else { return }
+        let testCollectionViewController = TestCollectionViewController(user: user)
+        navigationController?.pushViewController(testCollectionViewController, animated: true)
     }
     
     @objc func seeTestsButtonTapped(){
-        print("seeTestsButtonTapped")
+        
         guard let user = user else { return }
         let testViewController = TestViewController(user: user)
         navigationController?.pushViewController(testViewController, animated: true)

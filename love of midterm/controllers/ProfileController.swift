@@ -183,6 +183,10 @@ class ProfileController: UIViewController {
         configure()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
     
     // MARK: Helpers
     

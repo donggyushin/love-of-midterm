@@ -43,6 +43,22 @@ struct TestService {
         }
     }
     
+    func fetchAllMyTests(user:User, completion:@escaping(Error?, [Test]?) -> Void){
+        db.collection("tests").whereField("userId", isEqualTo: user.id).order(by: "num", descending: false).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(error, nil)
+            }else {
+                var tests = [Test]()
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    let test = Test(data: data)
+                    tests.append(test)
+                }
+                completion(nil, tests)
+            }
+        }
+    }
+    
     func fetchTestWithNum(num:Int, completion:@escaping(Error?,Test?) -> Void){
         guard let userId = Auth.auth().currentUser?.uid else { return }
         db.collection("users").document(userId).getDocument { (querySnapshot, error) in
