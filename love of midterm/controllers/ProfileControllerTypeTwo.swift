@@ -194,7 +194,6 @@ class ProfileControllerTypeTwo: UIViewController {
         
         if checked == false {
             
-            // 바로 채팅창으로 넘겨주자
             self.popupDialog(title: "이미 매칭된 유저입니다", message: "이미 매칭된 유저의 시험문제는 다시 풀 수 없습니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))
             
         }else {
@@ -387,53 +386,6 @@ class ProfileControllerTypeTwo: UIViewController {
         challengeButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         challengeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
         
-//        view.addSubview(profileImageView)
-//        profileImageView.translatesAutoresizingMaskIntoConstraints = false
-//        profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-//        profileImageView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-//        profileImageView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-//        profileImageView.heightAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-//
-//        view.addSubview(moreProfileImageButton)
-//        moreProfileImageButton.translatesAutoresizingMaskIntoConstraints = false
-//        moreProfileImageButton.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 6).isActive = true
-//        moreProfileImageButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
-//
-//
-//        view.addSubview(usernameLabel)
-//        usernameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 25).isActive = true
-//        usernameLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
-//
-//        view.addSubview(genderIcon)
-//        genderIcon.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 25).isActive = true
-//        genderIcon.leftAnchor.constraint(equalTo: usernameLabel.rightAnchor, constant: 8).isActive = true
-//
-//        view.addSubview(birthdayLabel)
-//        birthdayLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 10).isActive = true
-//        birthdayLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
-//
-//        view.addSubview(distanceLabel)
-//        distanceLabel.translatesAutoresizingMaskIntoConstraints = false
-//        distanceLabel.topAnchor.constraint(equalTo: birthdayLabel.bottomAnchor, constant: 10).isActive = true
-//        distanceLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
-//
-//
-//        view.addSubview(divider)
-//        divider.translatesAutoresizingMaskIntoConstraints = false
-//        divider.topAnchor.constraint(equalTo: distanceLabel.bottomAnchor, constant: 15).isActive = true
-//        divider.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//
-//        view.addSubview(bioLabel)
-//        bioLabel.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: 15).isActive = true
-//        bioLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 12).isActive = true
-//        bioLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -12).isActive = true
-//
-//
-//
-//        view.addSubview(challengeButton)
-//        challengeButton.translatesAutoresizingMaskIntoConstraints = false
-//        challengeButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
-//        challengeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
     }
     
 }
@@ -456,7 +408,6 @@ extension ProfileControllerTypeTwo:TestControllerDelegate {
         let resultVC = ResultController(user: user, correctCount: correctCount)
         let popup = PopupDialog(viewController: resultVC)
         
-//        let popup = PopupDialog(viewController: testVC, preferredWidth: 400, tapGestureDismissal: false, panGestureDismissal: false)
         
         self.present(popup, animated: true, completion: nil)
     }

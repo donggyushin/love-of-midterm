@@ -424,6 +424,7 @@ class TestController: UIViewController {
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 8).isActive = true
         closeButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8).isActive = true
+        closeButton.isHidden = true 
         
         
         view.addSubview(indexLabel)
