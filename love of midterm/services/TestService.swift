@@ -13,6 +13,23 @@ struct TestService {
     static let shared = TestService()
     let db = Firestore.firestore()
     
+    func updateTest(testId:String, newAnswer:Int, newTitle:String ,newQuestionOne:String, newQuestionTwo:String, newQuestionThree:String, newQuestionFour:String, completion:@escaping(Error?) -> Void){
+        db.collection("tests").document(testId).updateData([
+            "title" : newTitle,
+            "questionOne" : newQuestionOne,
+            "questionTwo" : newQuestionTwo,
+            "questionThree" : newQuestionThree,
+            "questionFour" : newQuestionFour,
+            "answer" : newAnswer
+        ]) { (error) in
+            if let error = error {
+                completion(error)
+            }else {
+                completion(nil)
+            }
+        }
+    }
+    
     
     func fetchTestWithNumAndUserId(userId:String, num:Int, completion:@escaping(Error?, Test?) -> Void){
         db.collection("users").document(userId).getDocument { (querySnapshot, error) in

@@ -270,6 +270,7 @@ PODS:
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
   - NextGrowingTextView (1.5.0)
+  - OneSignal (2.13.1)
   - PopupDialog (1.1.1):
     - DynamicBlurView (~> 4.0)
   - PryntTrimmerView (4.0.0)
@@ -298,6 +299,7 @@ DEPENDENCIES:
   - LoadingShimmer
   - MDatePickerView
   - NextGrowingTextView
+  - OneSignal (< 3.0, >= 2.11.2)
   - PopupDialog (~> 1.1)
   - SDWebImage (~> 5.0)
   - SideMenu (~> 6.0)
@@ -338,6 +340,7 @@ SPEC REPOS:
     - MDatePickerView
     - nanopb
     - NextGrowingTextView
+    - OneSignal
     - PopupDialog
     - PryntTrimmerView
     - SDWebImage
@@ -379,6 +382,7 @@ SPEC CHECKSUMS:
   MDatePickerView: e26233885de2f13659c6101b3ed265eacf92c078
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   NextGrowingTextView: 0e267e80bc203e813dc637fd1b011111ad572d57
+  OneSignal: fa98eaa90372bb367b6a4a1c1622ffb9832c7600
   PopupDialog: 720c92befd8bc23c13442254945213db5612f149
   PryntTrimmerView: 67e67573ffd4c073f1308effa66aefd0cfa667a0
   SDWebImage: 21b19f56b4226cdfe3aefe4e6848dc43ed129a86
@@ -387,6 +391,6 @@ SPEC CHECKSUMS:
   YPImagePicker: accf310f9526641a84372c0ecf943547d9b1e52c
   ZKCarousel: e54cdf2a5da6400c7e95bd6df5cbb001dc28883e
 
-PODFILE CHECKSUM: df834b1e7224257116014262ea9e8e9abaf0aed4
+PODFILE CHECKSUM: 8a1bfe83b89e40f19cdf21f0c13fe1d35c613ddf
 
 COCOAPODS: 1.8.4

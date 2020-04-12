@@ -25,4 +25,15 @@ pod 'NextGrowingTextView'
 pod 'GrowingTextView', '0.7.2'
 pod 'InputBarAccessoryView'
 pod 'Dismissable'
+pod 'OneSignal', '>= 2.11.2', '<3.0'
+
+
+target 'OneSignalNotificationServiceExtension' do
+pod 'OneSignal', '>= 2.11.2', '< 3.0'
 end
+
+
+end
+
+
+

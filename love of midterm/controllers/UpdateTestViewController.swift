@@ -7,19 +7,123 @@
 //
 
 import UIKit
+import GrowingTextView
+import LoadingShimmer
+
+protocol UpdateTestViewControllerDelegate:class {
+    func updateTest(cell:UpdateTestViewController)
+}
 
 class UpdateTestViewController: UIViewController {
     
     // MARK: Properties
     let test:Test
+    var newAnswer:Int?
+    weak var delegate:UpdateTestViewControllerDelegate?
     
     // MARK: UIKits
+    
+    lazy var scrollView:UIScrollView = {
+        let sv = UIScrollView()
+        return sv
+    }()
+    
     lazy var backButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("뒤로", for: UIControl.State.normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
         button.setTitleColor(UIColor.white, for: UIControl.State.normal)
         button.addTarget(self, action: #selector(backbuttonTapped), for: UIControl.Event.touchUpInside)
+        return button
+    }()
+    
+    lazy var titleTextView:GrowingTextView = {
+        let tv = GrowingTextView()
+        tv.maxLength = 225
+        tv.minHeight = 70
+        tv.maxHeight = 130
+        tv.autocorrectionType = .no
+        tv.backgroundColor = .veryLightGray
+        tv.font = UIFont(name: "BMJUAOTF", size: 15)
+        tv.layer.cornerRadius = 4.0
+        tv.textColor = .black
+        return tv
+    }()
+    
+    lazy var numberOneIcon:UIImageView = {
+        let iv = UIImageView()
+        iv.image = #imageLiteral(resourceName: "1")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(questionOneTapped))
+        iv.isUserInteractionEnabled = true
+        iv.addGestureRecognizer(tap)
+        return iv
+    }()
+    
+    lazy var numberOneTextField:UITextField = {
+        let tf = UITextField()
+        tf.autocorrectionType = .no
+        tf.textColor = .black
+
+        return tf
+    }()
+    
+    lazy var numberTwoIcon:UIImageView = {
+        let iv = UIImageView()
+        iv.image = #imageLiteral(resourceName: "2")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(questionTwoTapped))
+        iv.isUserInteractionEnabled = true
+        iv.addGestureRecognizer(tap)
+        return iv
+    }()
+    
+    lazy var numberTwoTextField:UITextField = {
+        let tf = UITextField()
+        tf.autocorrectionType = .no
+        tf.textColor = .black
+        
+        return tf
+    }()
+    
+    lazy var numberThreeIcon:UIImageView = {
+        let iv = UIImageView()
+        iv.image = #imageLiteral(resourceName: "3")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(questionThreeTapped))
+        iv.isUserInteractionEnabled = true
+        iv.addGestureRecognizer(tap)
+        return iv
+    }()
+    
+    lazy var numberThreeTextField:UITextField = {
+        let tf = UITextField()
+        tf.autocorrectionType = .no
+        tf.textColor = .black
+        
+        return tf
+    }()
+    
+    lazy var numberFourIcon:UIImageView = {
+        let iv = UIImageView()
+        iv.image = #imageLiteral(resourceName: "4")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(questionFourTapped))
+        iv.isUserInteractionEnabled = true
+        iv.addGestureRecognizer(tap)
+        return iv
+    }()
+    
+    lazy var numberFourTextField:UITextField = {
+        let tf = UITextField()
+        tf.autocorrectionType = .no
+        tf.textColor = .black
+        
+        return tf
+    }()
+    
+    lazy var updateButton:UIButton = {
+        let button = UIButton(type: UIButton.ButtonType.system)
+        button.setTitle("문제변경", for: UIControl.State.normal)
+        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 18)
+        button.setTitleColor(UIColor.tinderColor, for: UIControl.State.normal)
+        button.addTarget(self, action: #selector(updateButtonTapped), for: UIControl.Event.touchUpInside)
         return button
     }()
 
@@ -41,6 +145,7 @@ class UpdateTestViewController: UIViewController {
         title = "\(test.num)번 문제"
         
         configure()
+        self.hideKeyboardWhenTappedAround()
         
         guard let font = UIFont(name: "BMJUAOTF", size: 17) else { return }
         navigationController?.navigationBar.titleTextAttributes = [
@@ -66,17 +171,202 @@ class UpdateTestViewController: UIViewController {
     }
     
     // MARK: Selectors
+    
+    @objc func updateButtonTapped(){
+        guard let newAnswer = newAnswer,
+            let newTitle = titleTextView.text,
+            let newQuestionOne = numberOneTextField.text,
+            let newQuestionTwo = numberTwoTextField.text,
+            let newQuestionThree = numberThreeTextField.text,
+            let newQuestionFour = numberFourTextField.text else { return }
+        
+        LoadingShimmer.startCovering(self.view, with: nil)
+        
+        TestService.shared.updateTest(testId: test.id, newAnswer: newAnswer, newTitle: newTitle, newQuestionOne: newQuestionOne, newQuestionTwo: newQuestionTwo, newQuestionThree: newQuestionThree, newQuestionFour: newQuestionFour) { (error) in
+            LoadingShimmer.stopCovering(self.view)
+            if let error = error {
+                self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+            }else {
+                self.delegate?.updateTest(cell: self)
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
+    
+    @objc func questionFourTapped(){
+        makeAllQuestionBlack()
+        numberFourIcon.image = numberFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        numberFourIcon.tintColor = .tinderColor
+        numberFourTextField.textColor = .tinderColor
+        
+        newAnswer = 4
+    }
+    
+    @objc func questionThreeTapped(){
+        makeAllQuestionBlack()
+        numberThreeIcon.image = numberThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        numberThreeIcon.tintColor = .tinderColor
+        numberThreeTextField.textColor = .tinderColor
+        
+        newAnswer = 3
+    }
+    
+    @objc func questionTwoTapped(){
+        
+        makeAllQuestionBlack()
+        numberTwoIcon.image = numberTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        numberTwoIcon.tintColor = .tinderColor
+        numberTwoTextField.textColor = .tinderColor
+        
+        newAnswer = 2
+        
+    }
+    
+    @objc func questionOneTapped(){
+        makeAllQuestionBlack()
+        numberOneIcon.image = numberOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        numberOneIcon.tintColor = .tinderColor
+        numberOneTextField.textColor = .tinderColor
+        
+        newAnswer = 1
+    }
+    
     @objc func backbuttonTapped() {
         navigationController?.popViewController(animated: true)
     }
     
+    // MARK: Helpers
+    
+    func makeAllQuestionBlack(){
+        numberOneIcon.image = numberOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        numberOneIcon.tintColor = .black
+        numberOneTextField.textColor = .black
+        
+        numberTwoIcon.image = numberTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        numberTwoIcon.tintColor = .black
+        numberTwoTextField.textColor = .black
+        
+        numberThreeIcon.image = numberThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        numberThreeIcon.tintColor = .black
+        numberThreeTextField.textColor = .black
+        
+        numberFourIcon.image = numberFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        numberFourIcon.tintColor = .black
+        numberFourTextField.textColor = .black
+    }
+    
+    func setForTest(){
+        titleTextView.text = test.title
+        numberOneTextField.text = test.questionOne
+        numberTwoTextField.text = test.questionTwo
+        numberThreeTextField.text = test.questionThree
+        numberFourTextField.text = test.questionFour
+        
+        newAnswer = test.answer
+        
+        switch test.answer {
+        case 1:
+            numberOneIcon.image = numberOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberOneIcon.tintColor = .tinderColor
+            numberOneTextField.textColor = .tinderColor
+        case 2:
+            numberTwoIcon.image = numberTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberTwoIcon.tintColor = .tinderColor
+            numberTwoTextField.textColor = .tinderColor
+        case 3:
+            numberThreeIcon.image = numberThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberThreeIcon.tintColor = .tinderColor
+            numberThreeTextField.textColor = .tinderColor
+        case 4:
+            numberFourIcon.image = numberFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberFourIcon.tintColor = .tinderColor
+            numberFourTextField.textColor = .tinderColor
+        default:
+            print("nothing")
+        }
+    }
+    
     // MARK: configures
     func configure(){
+        setForTest()
         configureUI()
+        
     }
     
     func configureUI(){
         view.backgroundColor = .white
+        
+        
+        view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        
+        scrollView.addSubview(titleTextView)
+        titleTextView.translatesAutoresizingMaskIntoConstraints = false
+        titleTextView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 50).isActive = true
+        titleTextView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        titleTextView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
+        
+        scrollView.addSubview(numberOneIcon)
+        numberOneIcon.translatesAutoresizingMaskIntoConstraints = false
+        numberOneIcon.topAnchor.constraint(equalTo: titleTextView.bottomAnchor, constant: 50).isActive = true
+        numberOneIcon.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        numberOneIcon.widthAnchor.constraint(equalToConstant: 22).isActive = true
+        numberOneIcon.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        
+        scrollView.addSubview(numberOneTextField)
+        numberOneTextField.translatesAutoresizingMaskIntoConstraints = false
+        numberOneTextField.topAnchor.constraint(equalTo: titleTextView.bottomAnchor, constant: 50).isActive = true
+        numberOneTextField.leftAnchor.constraint(equalTo: numberOneIcon.rightAnchor, constant: 15).isActive = true
+        numberOneTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
+        
+        scrollView.addSubview(numberTwoIcon)
+        numberTwoIcon.translatesAutoresizingMaskIntoConstraints = false
+        numberTwoIcon.topAnchor.constraint(equalTo: numberOneTextField.bottomAnchor, constant: 25).isActive = true
+        numberTwoIcon.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        numberTwoIcon.widthAnchor.constraint(equalToConstant: 22).isActive = true
+        numberTwoIcon.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        
+        scrollView.addSubview(numberTwoTextField)
+        numberTwoTextField.translatesAutoresizingMaskIntoConstraints = false
+        numberTwoTextField.topAnchor.constraint(equalTo: numberOneTextField.bottomAnchor, constant: 25).isActive = true
+        numberTwoTextField.leftAnchor.constraint(equalTo: numberTwoIcon.rightAnchor, constant: 15).isActive = true
+        numberTwoTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
+        
+        scrollView.addSubview(numberThreeIcon)
+        numberThreeIcon.translatesAutoresizingMaskIntoConstraints = false
+        numberThreeIcon.topAnchor.constraint(equalTo: numberTwoTextField.bottomAnchor, constant: 25).isActive = true
+        numberThreeIcon.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        numberThreeIcon.widthAnchor.constraint(equalToConstant: 22).isActive = true
+        numberThreeIcon.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        
+        scrollView.addSubview(numberThreeTextField)
+        numberThreeTextField.translatesAutoresizingMaskIntoConstraints = false
+        numberThreeTextField.topAnchor.constraint(equalTo: numberTwoTextField.bottomAnchor, constant: 25).isActive = true
+        numberThreeTextField.leftAnchor.constraint(equalTo: numberThreeIcon.rightAnchor, constant: 15).isActive = true
+        numberThreeTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
+        
+        scrollView.addSubview(numberFourIcon)
+        numberFourIcon.translatesAutoresizingMaskIntoConstraints = false
+        numberFourIcon.topAnchor.constraint(equalTo: numberThreeTextField.bottomAnchor, constant: 25).isActive = true
+        numberFourIcon.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        numberFourIcon.widthAnchor.constraint(equalToConstant: 22).isActive = true
+        numberFourIcon.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        
+        scrollView.addSubview(numberFourTextField)
+        numberFourTextField.translatesAutoresizingMaskIntoConstraints = false
+        numberFourTextField.topAnchor.constraint(equalTo: numberThreeTextField.bottomAnchor, constant: 25).isActive = true
+        numberFourTextField.leftAnchor.constraint(equalTo: numberFourIcon.rightAnchor, constant: 15).isActive = true
+        numberFourTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
+        
+        scrollView.addSubview(updateButton)
+        updateButton.translatesAutoresizingMaskIntoConstraints = false
+        updateButton.topAnchor.constraint(equalTo: numberFourTextField.bottomAnchor, constant: 50).isActive = true
+        updateButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
 
 }

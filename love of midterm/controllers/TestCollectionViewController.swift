@@ -112,6 +112,7 @@ class TestCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let test = tests[indexPath.row]
         let updateTestViewController = UpdateTestViewController(test: test)
+        updateTestViewController.delegate = self
         navigationController?.pushViewController(updateTestViewController, animated: true)
     }
     
@@ -142,5 +143,11 @@ extension TestCollectionViewController:UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+}
+
+extension TestCollectionViewController:UpdateTestViewControllerDelegate {
+    func updateTest(cell: UpdateTestViewController) {
+        fetchTests()
     }
 }
