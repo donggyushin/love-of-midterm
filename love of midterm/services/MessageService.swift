@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import OneSignal
 
 struct MessageService {
     static let shared = MessageService()
@@ -105,28 +106,40 @@ struct MessageService {
         }
     }
     
-    func postMessage(chatId:String, sender:String, text:String, receiver:String, completion:@escaping(Error?) -> Void){
-        
+    func postMessage(chatId:String, sender:User, text:String, receiver:User, completion:@escaping(Error?) -> Void){
         db.collection("chats").document(chatId).updateData(["lastMessage" : text, "updatedAt": FieldValue.serverTimestamp()])
-        
         let uuid = UUID().uuidString
-        
         db.collection("messages").document(uuid).setData([
-        "sender":sender,
-        "type":"TEXT",
-        "chatId":chatId,
-        "text":text,
-        "read":false,
-        "createdAt": FieldValue.serverTimestamp(),
-        "id":uuid
+            "sender":sender.id,
+            "type":"TEXT",
+            "chatId":chatId,
+            "text":text,
+            "read":false,
+            "createdAt": FieldValue.serverTimestamp(),
+            "id":uuid
         ]) { (error) in
             if let error = error {
                 completion(error)
             }else {
+                
+                if receiver.playerId != "" {
+                    
+                    OneSignal.postNotification([
+                    "contents" : ["en": text, "kr" : text],
+                    "subtitle": ["en": sender.username, "kr" : sender.username],
+                    "include_player_ids": [receiver.playerId],
+                    "ios_badgeType" : "Increase",
+                    "ios_badgeCount" : 1
+                    ], onSuccess: nil) { (error) in
+                        if let error = error {
+                            print(error.localizedDescription)
+                        }
+                    }
+                }
                 completion(nil)
             }
         }
-        db.collection("users").document(receiver).updateData(["unreadMessages" : FieldValue.arrayUnion([uuid])])
+        db.collection("users").document(receiver.id).updateData(["unreadMessages" : FieldValue.arrayUnion([uuid])])
 
     }
 }

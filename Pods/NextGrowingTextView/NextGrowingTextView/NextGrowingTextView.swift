@@ -72,6 +72,9 @@ open class NextGrowingTextView: UIScrollView {
   }
 
   open var isAutomaticScrollToBottomEnabled = true
+
+  /// Use this to enable/disable flash scroll indicators while scroll height is less than max height
+  open var isFlashScrollIndicatorsEnabled = false
   
   open var placeholderAttributedText: NSAttributedString? {
     get { return _textView.placeholderAttributedText }
@@ -214,9 +217,12 @@ open class NextGrowingTextView: UIScrollView {
 
     let newScrollViewFrame = measureFrame(actualTextViewSize)
 
-    if oldScrollViewFrame.height != newScrollViewFrame.height && newScrollViewFrame.height <= _maxHeight {
-      flashScrollIndicators()
+    if oldScrollViewFrame.height != newScrollViewFrame.height {
       delegates.willChangeHeight(newScrollViewFrame.height)
+      
+      if isFlashScrollIndicatorsEnabled, newScrollViewFrame.height <= _maxHeight {
+        flashScrollIndicators()
+      }
     }
 
     frame = newScrollViewFrame

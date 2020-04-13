@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import OneSignal
 
 class MainTabBarController: UITabBarController {
     
@@ -69,6 +70,15 @@ class MainTabBarController: UITabBarController {
         UserService.shared.fetchUser { (user) in
             
             self.user = user
+            
+            let status = OneSignal.getPermissionSubscriptionState()
+            if let playerId = status?.subscriptionStatus.userId {
+                UserService.shared.updatePlayerId(playerId: playerId)
+            }
+            
+            OneSignal.promptForPushNotifications(userResponse: { accepted in
+                print("User accepted notifications: \(accepted)")
+            })
         }
     }
     

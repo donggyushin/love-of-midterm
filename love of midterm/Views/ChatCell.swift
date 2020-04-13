@@ -47,6 +47,7 @@ class ChatCell: UICollectionViewCell {
         label.text = ""
         label.font = UIFont(name: "BMJUAOTF", size: 16)
         label.textColor = .black
+        
         return label
     }()
     
@@ -56,7 +57,7 @@ class ChatCell: UICollectionViewCell {
         iv.clipsToBounds = true
         iv.widthAnchor.constraint(equalToConstant: 15).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 15).isActive = true
-    
+        
         return iv
     }()
     
@@ -74,6 +75,7 @@ class ChatCell: UICollectionViewCell {
         label.text = ""
         label.font = UIFont(name: "BMJUAOTF", size: 12)
         label.textColor = .lightGray
+        
         return label
     }()
     
@@ -183,7 +185,7 @@ class ChatCell: UICollectionViewCell {
         if let timestampText = timeStamp.text {
             guard let font = UIFont(name: "BMJUAOTF", size: 12) else { return }
             let width = timestampText.width(withConstrainedHeight: 10, font: font)
-            self.timeStamp.widthAnchor.constraint(equalToConstant: width + 5).isActive = true
+            self.timeStamp.widthAnchor.constraint(equalToConstant: width + 10).isActive = true
         }
         
     }

@@ -402,10 +402,12 @@ extension ProfileControllerTypeTwo:TestControllerDelegate {
     
     func popupResultController(view: TestController) {
         
+        guard let me = me else { return }
+        
         let user = view.user
         let correctCount = view.correctCount
         
-        let resultVC = ResultController(user: user, correctCount: correctCount)
+        let resultVC = ResultController(user: user, me: me, correctCount: correctCount)
         let popup = PopupDialog(viewController: resultVC)
         
         

@@ -12,6 +12,7 @@ class ResultController: UIViewController {
     
     // MARK: properties
     let user:User
+    let me:User
     
     let correctCount:Int
     
@@ -53,8 +54,9 @@ class ResultController: UIViewController {
 
     // MARK: Life cycle
     
-    init(user:User, correctCount:Int) {
+    init(user:User, me:User, correctCount:Int) {
         self.user = user
+        self.me = me
         self.correctCount = correctCount
         super.init(nibName: nil, bundle: nil)
     }
@@ -72,7 +74,7 @@ class ResultController: UIViewController {
     // MARK: APIs
     
     func createNewRequest(){
-        RequestService.shared.createRequest(to: user.id) { (error) in
+        RequestService.shared.createRequest(me:me, to: user) { (error) in
             if let error = error {
                 self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
             }else {

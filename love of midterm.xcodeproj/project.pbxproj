@@ -129,6 +129,7 @@
 		705FBFEB24434679004FFBB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		705FBFF324434BD3004FFBB9 /* love of midterm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "love of midterm.entitlements"; sourceTree = "<group>"; };
 		706B59B6241E600B00117106 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
+		706BAAF72444C91800C587AC /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		70733FD02424083C006A545F /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		70790FC92428245900B08D40 /* ResultController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultController.swift; sourceTree = "<group>"; };
 		70790FCB2428283300B08D40 /* ResultControllerTypeTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultControllerTypeTwo.swift; sourceTree = "<group>"; };
@@ -222,6 +223,7 @@
 		705FBFE824434679004FFBB9 /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXGroup;
 			children = (
+				706BAAF72444C91800C587AC /* OneSignalNotificationServiceExtension.entitlements */,
 				705FBFE924434679004FFBB9 /* NotificationService.swift */,
 				705FBFEB24434679004FFBB9 /* Info.plist */,
 			);
@@ -700,9 +702,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 28355FD84CDB519110271EA1 /* Pods-love of midterm-OneSignalNotificationServiceExtension.debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CODE_SIGN_ENTITLEMENTS = OneSignalNotificationServiceExtension/OneSignalNotificationServiceExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YV58Q28W8Z;
 				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -720,9 +725,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A5DF7F6B665139D7151D8160 /* Pods-love of midterm-OneSignalNotificationServiceExtension.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CODE_SIGN_ENTITLEMENTS = OneSignalNotificationServiceExtension/OneSignalNotificationServiceExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YV58Q28W8Z;
 				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -860,6 +868,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YV58Q28W8Z;
 				INFOPLIST_FILE = "love of midterm/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -881,6 +890,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YV58Q28W8Z;
 				INFOPLIST_FILE = "love of midterm/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

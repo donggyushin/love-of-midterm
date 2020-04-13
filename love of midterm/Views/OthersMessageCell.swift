@@ -57,7 +57,7 @@ class OthersMessageCell: UICollectionViewCell {
     lazy var textBubbleView:UIView = {
         let view = UIView()
         view.backgroundColor = .veryLightGray
-        view.layer.cornerRadius = 4
+        view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
         return view
     }()

@@ -17,6 +17,12 @@ struct UserService {
     static let shared = UserService()
     
     
+    func updatePlayerId(playerId:String){
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        db.collection("users").document(userId).updateData(["playerId" : playerId])
+    }
+    
+    
     
     func changeProfileImage(image:UIImage, user:User, completion:@escaping(Error?,String?) -> Void) {
         guard let myId = Auth.auth().currentUser?.uid else { return }

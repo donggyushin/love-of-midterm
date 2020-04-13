@@ -23,8 +23,8 @@ class MyMessageCell: UICollectionViewCell {
     
     lazy var textBubbleView:UIView = {
         let view = UIView()
-        view.backgroundColor = .systemYellow
-        view.layer.cornerRadius = 4
+        view.backgroundColor = .systemBlue
+        view.layer.cornerRadius = 10
         view.layer.masksToBounds = true
         return view
     }()
@@ -32,7 +32,7 @@ class MyMessageCell: UICollectionViewCell {
     lazy var messageTextView:UILabel = {
         let text = UILabel()
         text.font = UIFont(name: "BMJUAOTF", size: 14)
-        text.textColor = .black
+        text.textColor = .white
         text.lineBreakMode = .byWordWrapping
         text.numberOfLines = 0
         return text

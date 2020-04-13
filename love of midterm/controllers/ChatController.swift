@@ -40,7 +40,7 @@ class ChatController: UICollectionViewController {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("대화", for: .normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
-        button.setTitleColor(UIColor.tinderColor, for: .normal)
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
         button.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
     
         return button
@@ -64,11 +64,11 @@ class ChatController: UICollectionViewController {
     lazy var sendButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .systemYellow
+        button.backgroundColor = .systemBlue
         button.setTitle("전송", for: UIControl.State.normal)
         button.setTitleColor(.lightGray, for: UIControl.State.normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
-        button.layer.cornerRadius = 4
+        button.layer.cornerRadius = 8
         button.addTarget(self, action: #selector(sendButtonTapped), for: UIControl.Event.touchUpInside)
         button.isEnabled = false
         return button
@@ -102,22 +102,29 @@ class ChatController: UICollectionViewController {
         }
         configure()
         
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         tabBarController?.tabBar.isHidden = true
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         tabBarController?.tabBar.isHidden = false
+        if var textAttributes = navigationController?.navigationBar.titleTextAttributes {
+            textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.tinderColor
+            navigationController?.navigationBar.titleTextAttributes = textAttributes
+        }
+        
     }
     
     // MARK: helpers
     func makeSendButtonEnable(){
         
-        self.sendButton.setTitleColor(UIColor.black, for: UIControl.State.normal)
+        self.sendButton.setTitleColor(UIColor.white, for: UIControl.State.normal)
         self.sendButton.isEnabled = true
         
     }
@@ -138,7 +145,7 @@ class ChatController: UICollectionViewController {
         chatInputTextView.text = ""
         makeSendButtonUnabled()
         
-        MessageService.shared.postMessage(chatId: chat.id, sender: me.id, text: message, receiver: user.id) { (error) in
+        MessageService.shared.postMessage(chatId: chat.id, sender: me, text: message, receiver: user) { (error) in
             if let error = error {
                 self.popupDialog(title: "죄송해요", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
             }
@@ -200,9 +207,20 @@ class ChatController: UICollectionViewController {
 //                self.messages = messages!
                 if let message = message {
                     self.messages.append(message)
+                    
                 }else if let message = updatedMessage {
-                    self.messages.remove(at: self.messages.count - 1)
-                    self.messages.append(message)
+                    // 모든 메시지를 다 읽음 처리 해야하나?
+                    if message.read == true {
+                        var index = 0
+                        for item in self.messages {
+                            if message.id == item.id {
+                                break;
+                            }
+                            index += 1
+                        }
+                        self.messages.remove(at: index)
+                        self.messages.insert(message, at: index)
+                    }
                 }
                 
                 self.collectionView.reloadData()
@@ -305,6 +323,11 @@ class ChatController: UICollectionViewController {
                                                                         NSAttributedString.Key.foregroundColor:UIColor.tinderColor
         ]
         self.navigationItem.title = "\(user.username)"
+        if var textAttributes = navigationController?.navigationBar.titleTextAttributes {
+            textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.black
+            navigationController?.navigationBar.titleTextAttributes = textAttributes
+        }
+        
     }
     
     func configureNavigation(){
