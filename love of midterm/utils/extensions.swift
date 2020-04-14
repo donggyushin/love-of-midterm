@@ -61,6 +61,7 @@ extension UIColor {
     static let facebookBlue = UIColor(red:0.26, green:0.40, blue:0.70, alpha:1.0)
     static let spaceGray = UIColor(red:0.18, green:0.20, blue:0.21, alpha:1.0)
     static let veryLightGray = UIColor(red: 237/255, green: 237/255, blue: 237/255, alpha: 1.0)
+    static let myGreen = UIColor(red:0.00, green:0.38, blue:0.40, alpha:1.00)
     
     
     public convenience init?(hex: String) {

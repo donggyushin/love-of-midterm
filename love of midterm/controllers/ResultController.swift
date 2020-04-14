@@ -28,7 +28,8 @@ class ResultController: UIViewController {
     lazy var infoLabel:UILabel = {
         let label = UILabel()
         label.text = "총 10문제중 \(self.correctCount)문제를 맞추셨습니다."
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
@@ -37,7 +38,8 @@ class ResultController: UIViewController {
     lazy var resultLabel:UILabel = {
         let label = UILabel()
         label.text = "이제 \(self.user.username)님으로부터 앞으로의 대화 여부에 관한 동의를 얻으면 대화를 시작하실 수 있습니다."
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
+        label.textColor = .black
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label

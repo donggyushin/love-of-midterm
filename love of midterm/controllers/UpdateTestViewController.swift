@@ -44,7 +44,7 @@ class UpdateTestViewController: UIViewController {
         tv.maxHeight = 130
         tv.autocorrectionType = .no
         tv.backgroundColor = .veryLightGray
-        tv.font = UIFont(name: "BMJUAOTF", size: 15)
+        tv.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
         tv.layer.cornerRadius = 4.0
         tv.textColor = .black
         return tv

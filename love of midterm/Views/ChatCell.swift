@@ -45,7 +45,7 @@ class ChatCell: UICollectionViewCell {
     lazy var usernameLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 16)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
         label.textColor = .black
         
         return label
@@ -64,7 +64,7 @@ class ChatCell: UICollectionViewCell {
     lazy var lastMessageLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 14)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.textColor = .lightGray
         return label
     }()
@@ -73,7 +73,7 @@ class ChatCell: UICollectionViewCell {
     lazy var timeStamp:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 12)
+        label.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.medium)
         label.textColor = .lightGray
         
         return label
@@ -183,7 +183,7 @@ class ChatCell: UICollectionViewCell {
         }
         
         if let timestampText = timeStamp.text {
-            guard let font = UIFont(name: "BMJUAOTF", size: 12) else { return }
+            let font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.medium)
             let width = timestampText.width(withConstrainedHeight: 10, font: font)
             self.timeStamp.widthAnchor.constraint(equalToConstant: width + 10).isActive = true
         }

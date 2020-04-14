@@ -44,7 +44,7 @@ class OthersMessageCell: UICollectionViewCell {
     lazy var profileImageView:UIImageView = {
         let profileView = UIImageView()
         profileView.contentMode = .scaleAspectFill
-        profileView.backgroundColor = .systemGroupedBackground
+        profileView.backgroundColor = .veryLightGray
         profileView.layer.cornerRadius = 10
         profileView.layer.masksToBounds = true
         
@@ -64,7 +64,7 @@ class OthersMessageCell: UICollectionViewCell {
     
     lazy var messageTextView:UILabel = {
         let text = UILabel()
-        text.font = UIFont(name: "BMJUAOTF", size: 14)
+        text.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.semibold)
         text.lineBreakMode = .byWordWrapping
         text.numberOfLines = 0
         text.textColor = .black

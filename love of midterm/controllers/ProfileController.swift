@@ -145,15 +145,15 @@ class ProfileController: UIViewController {
     
     lazy var birthdayLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 13)
+        label.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.medium)
         label.textColor = .lightGray
-        label.text = "94년생"
+        label.text = "??년생"
         return label
     }()
     
     lazy var addressLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 13)
+        label.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.medium)
         label.text = "?? km"
         label.textColor = .lightGray
         return label
@@ -162,7 +162,7 @@ class ProfileController: UIViewController {
     
     lazy var bioTextLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 14)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 5
         label.textColor = .darkText

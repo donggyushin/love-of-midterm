@@ -49,6 +49,7 @@ class TestController: UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "BMJUAOTF", size: 14)
         label.text = "1/10"
+        label.textColor = .black
         return label
     }()
     
@@ -68,7 +69,8 @@ class TestController: UIViewController {
     lazy var questionTitleLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
+        label.textColor = .black
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         return label
@@ -86,7 +88,7 @@ class TestController: UIViewController {
     lazy var optionOneLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         let tap = UITapGestureRecognizer(target: self, action: #selector(oneTapped))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tap)
@@ -106,7 +108,7 @@ class TestController: UIViewController {
     lazy var optionTwoLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         let tap = UITapGestureRecognizer(target: self, action: #selector(twoTapped))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tap)
@@ -126,7 +128,7 @@ class TestController: UIViewController {
     lazy var optionThreeLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         let tap = UITapGestureRecognizer(target: self, action: #selector(threeTapped))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tap)
@@ -146,7 +148,7 @@ class TestController: UIViewController {
     lazy var optionFourLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         let tap = UITapGestureRecognizer(target: self, action: #selector(fourTapped))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tap)
@@ -157,7 +159,7 @@ class TestController: UIViewController {
     
     lazy var submitButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("제출하기", for: .normal)
+        button.setTitle("다음", for: .normal)
         button.setTitleColor(.tinderColor, for: .normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
         button.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)

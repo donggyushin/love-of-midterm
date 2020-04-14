@@ -72,8 +72,8 @@ class UserCell: UICollectionViewCell {
     
     lazy var bioTextLabel:UILabel = {
         let label = UILabel()
-        label.text = "이걸 앞으로 어떻게 만들어가야되냐... ui가 젤루 어려워"
-        label.font = UIFont(name: "BMJUAOTF", size: 13)
+        label.text = ""
+        label.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.semibold)
         label.textColor = .darkGray
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2

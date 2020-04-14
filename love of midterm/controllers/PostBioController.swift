@@ -38,10 +38,12 @@ class PostBioController: UIViewController {
     
     lazy var bioGrowingTextView:GrowingTextView = {
         let tv = GrowingTextView()
-        tv.font = UIFont(name: "BMJUAOTF", size: 15)
+        tv.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         tv.backgroundColor = .systemGroupedBackground
+        tv.textColor = .black
         tv.layer.cornerRadius = 8
         tv.placeholder = "간략한 자기소개를 해주세요!"
+        tv.backgroundColor = .white
         tv.minHeight = 100
         tv.maxHeight = 100
         tv.maxLength = 150
@@ -70,6 +72,7 @@ class PostBioController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        self.hideKeyboardWhenTappedAround()
     }
     
     // MARK: selectors

@@ -21,7 +21,7 @@ class AddressCell: UICollectionViewCell {
     lazy var titleLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.bold)
         label.textColor = .black
         return label
     }()
@@ -29,7 +29,7 @@ class AddressCell: UICollectionViewCell {
     lazy var categoryLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 12)
+        label.font = UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.light)
         label.textColor = .lightGray
         return label
     }()
@@ -37,7 +37,7 @@ class AddressCell: UICollectionViewCell {
     lazy var loadAddressLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 14)
+        label.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
         label.textColor = .black
         return label
     }()

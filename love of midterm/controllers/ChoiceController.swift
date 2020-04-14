@@ -100,7 +100,7 @@ class ChoiceController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 14)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 5
         label.textColor = .black

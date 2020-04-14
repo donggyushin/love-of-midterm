@@ -61,7 +61,7 @@ class LoginController: UIViewController {
         
         emailTextField.attributedPlaceholder = NSAttributedString(string: "Email@gmail.com",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        emailTextField.font = UIFont(name: "BMJUAOTF", size: 17)
+        emailTextField.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         emailTextField.textColor = .white
         view.addSubview(emailTextField)
         emailTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -103,7 +103,7 @@ class LoginController: UIViewController {
         passwordTextField.textColor = .white
         view.addSubview(passwordTextField)
         passwordTextField.isSecureTextEntry = true
-        passwordTextField.font = UIFont(name: "BMJUAOTF", size: 17)
+        passwordTextField.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         passwordTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 3).isActive = true
         passwordTextField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
@@ -234,13 +234,13 @@ class LoginController: UIViewController {
         
         view.addSubview(textGoToSignUpView1)
         textGoToSignUpView1.translatesAutoresizingMaskIntoConstraints = false
-        textGoToSignUpView1.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+        textGoToSignUpView1.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
         textGoToSignUpView1.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -30).isActive = true
         
         view.addSubview(textGoToSignUpView2)
         textGoToSignUpView2.translatesAutoresizingMaskIntoConstraints = false
         textGoToSignUpView2.leftAnchor.constraint(equalTo: textGoToSignUpView1.rightAnchor, constant: 5).isActive = true
-        textGoToSignUpView2.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+        textGoToSignUpView2.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
         
     }
     

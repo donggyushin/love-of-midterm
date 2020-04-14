@@ -43,7 +43,7 @@ class PostTestController: UIViewController {
     
     lazy var scrollView:UIScrollView = {
         let sv = UIScrollView()
-        sv.contentSize.height = 1000
+        sv.contentSize.height = 700
         return sv
     }()
     
@@ -51,6 +51,7 @@ class PostTestController: UIViewController {
     lazy var indexLabel:UILabel = {
         let label = UILabel()
         label.text = "\(self.currentIndex) / 10"
+        label.textColor = .black
         label.font = UIFont(name: "BMJUAOTF", size: 17)
         return label
     }()
@@ -67,10 +68,11 @@ class PostTestController: UIViewController {
     
     lazy var questionTitleGrowingTextView:GrowingTextView = {
         let tv = GrowingTextView()
-        tv.font = UIFont(name: "BMJUAOTF", size: 15)
-        tv.backgroundColor = .systemGroupedBackground
+        tv.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
+        tv.backgroundColor = .white
         tv.layer.cornerRadius = 8
         tv.placeholder = "다음중 내가 가장 좋아하는 동물은?"
+        tv.textColor = .black
         tv.minHeight = 50
         tv.maxLength = 150
         tv.autocorrectionType = .no
@@ -89,10 +91,15 @@ class PostTestController: UIViewController {
     
     lazy var optionOneGrowingLabel:TextField = {
         let tv = TextField()
-        tv.font = UIFont(name: "BMJUAOTF", size: 15)
-        tv.backgroundColor = .systemGroupedBackground
+        
+        tv.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
         tv.layer.cornerRadius = 8
-        tv.placeholder = "강아지"
+        
+        tv.textColor = .black
+        tv.attributedPlaceholder = NSAttributedString(string: "강아지",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        
+        
         tv.delegate = self
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
         tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -112,10 +119,15 @@ class PostTestController: UIViewController {
     
     lazy var optionTwoGrowingLabel:TextField = {
         let tv = TextField()
-        tv.font = UIFont(name: "BMJUAOTF", size: 15)
-        tv.backgroundColor = .systemGroupedBackground
+        tv.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
+        
         tv.layer.cornerRadius = 8
-        tv.placeholder = "고양이"
+        
+        tv.textColor = .black
+        tv.attributedPlaceholder = NSAttributedString(string: "고양이",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        
+        
         tv.delegate = self
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
         tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -135,10 +147,14 @@ class PostTestController: UIViewController {
     
     lazy var optionThreeGrowingLabel:TextField = {
         let tv = TextField()
-        tv.font = UIFont(name: "BMJUAOTF", size: 15)
-        tv.backgroundColor = .systemGroupedBackground
+        tv.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
+        
         tv.layer.cornerRadius = 8
-        tv.placeholder = "거북이"
+        
+        tv.textColor = .black
+        tv.attributedPlaceholder = NSAttributedString(string: "거북이",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        
         tv.delegate = self
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
         tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -159,11 +175,14 @@ class PostTestController: UIViewController {
     
     lazy var optionFourGrowingLabel:TextField = {
         let tv = TextField()
-        tv.font = UIFont(name: "BMJUAOTF", size: 15)
+        tv.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
         
-        tv.backgroundColor = .systemGroupedBackground
         tv.layer.cornerRadius = 8
-        tv.placeholder = "토끼"
+        
+        tv.textColor = .black
+        tv.attributedPlaceholder = NSAttributedString(string: "토끼",
+        attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        
         tv.delegate = self
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
         tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -175,18 +194,22 @@ class PostTestController: UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "BMJUAOTF", size: 17)
         label.text = "정답 :"
+        label.textColor = .black
         return label
     }()
     
     lazy var answerTextField:UITextField = {
         let tf = UITextField()
-        tf.backgroundColor = .systemGroupedBackground
+        
         tf.layer.cornerRadius = 8
         tf.widthAnchor.constraint(equalToConstant: 50).isActive = true
         tf.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tf.keyboardType = .numberPad
         tf.textAlignment = .center
-        tf.font = UIFont(name: "BMJUAOTF", size: 17)
+        tf.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
+        tf.backgroundColor = .veryLightGray
+        tf.textColor = .black
+        
         return tf
     }()
     
@@ -330,7 +353,7 @@ class PostTestController: UIViewController {
         customNavigationBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
         customNavigationBar.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         customNavigationBar.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        customNavigationBar.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        customNavigationBar.heightAnchor.constraint(equalToConstant: 80).isActive = true
         
         view.addSubview(logoLabel)
         logoLabel.translatesAutoresizingMaskIntoConstraints = false

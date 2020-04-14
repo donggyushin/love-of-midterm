@@ -56,6 +56,10 @@ class MoreUserImageController: UICollectionViewController {
         configureUI()
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .darkContent
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         hideTabbarController()
     }

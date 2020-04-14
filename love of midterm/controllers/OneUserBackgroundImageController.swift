@@ -51,11 +51,12 @@ class OneUserBackgroundImageController: UIViewController {
     }
     
     func configureUI(){
+        view.backgroundColor = .spaceGray
         view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         imageView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         imageView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: view.frame.width).isActive = true
     }
 }

@@ -40,7 +40,7 @@ class ChatController: UICollectionViewController {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("대화", for: .normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
-        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.setTitleColor(UIColor.white, for: .normal)
         button.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
     
         return button
@@ -52,21 +52,29 @@ class ChatController: UICollectionViewController {
         tv.trimWhiteSpaceWhenEndEditing = true
         tv.minHeight = 28
         tv.maxHeight = 50
-        tv.font = UIFont(name: "BMJUAOTF", size: 14)
-        tv.textColor = .black
-        tv.backgroundColor = .white
+        tv.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
         tv.autocorrectionType = .no
         tv.layer.cornerRadius = 4
         tv.delegate = self
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            tv.backgroundColor = .spaceGray
+            tv.textColor = .white
+        }else {
+            tv.backgroundColor = .veryLightGray
+            tv.textColor = .black
+        }
+        
+        
         return tv
     }()
     
     lazy var sendButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = .lightGray
         button.setTitle("전송", for: UIControl.State.normal)
-        button.setTitleColor(.lightGray, for: UIControl.State.normal)
+        button.setTitleColor(.gray, for: UIControl.State.normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
         button.layer.cornerRadius = 8
         button.addTarget(self, action: #selector(sendButtonTapped), for: UIControl.Event.touchUpInside)
@@ -76,7 +84,12 @@ class ChatController: UICollectionViewController {
     
     lazy var chatContainerView:UIView = {
         let view = UIView()
-        view.backgroundColor = .veryLightGray
+        if self.traitCollection.userInterfaceStyle == .dark {
+            view.backgroundColor = .spaceGray
+        }else {
+            view.backgroundColor = .veryLightGray
+        }
+        
         
         return view
     }()
@@ -105,15 +118,22 @@ class ChatController: UICollectionViewController {
         
     }
     
+
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         tabBarController?.tabBar.isHidden = true
-        
+        navigationController?.navigationBar.barTintColor = .myGreen
+        if var textAttributes = navigationController?.navigationBar.titleTextAttributes {
+            textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.white
+            navigationController?.navigationBar.titleTextAttributes = textAttributes
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         tabBarController?.tabBar.isHidden = false
+        navigationController?.navigationBar.barTintColor = .white
         if var textAttributes = navigationController?.navigationBar.titleTextAttributes {
             textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.tinderColor
             navigationController?.navigationBar.titleTextAttributes = textAttributes
@@ -125,13 +145,15 @@ class ChatController: UICollectionViewController {
     func makeSendButtonEnable(){
         
         self.sendButton.setTitleColor(UIColor.white, for: UIControl.State.normal)
+        self.sendButton.backgroundColor = .systemBlue
         self.sendButton.isEnabled = true
         
     }
     
     func makeSendButtonUnabled(){
         
-        self.sendButton.setTitleColor(UIColor.lightGray, for: UIControl.State.normal)
+        self.sendButton.setTitleColor(UIColor.gray, for: UIControl.State.normal)
+        self.sendButton.backgroundColor = .lightGray
         self.sendButton.isEnabled = false
     
     }
@@ -260,7 +282,7 @@ class ChatController: UICollectionViewController {
     // MARK: configures
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
+        .lightContent
     }
     
     
@@ -293,6 +315,7 @@ class ChatController: UICollectionViewController {
     func configureUI(){
         
         collectionView.contentInset.bottom = 50
+        collectionView.backgroundColor = UIColor.myGreen
         view.addSubview(chatContainerView)
         chatContainerView.translatesAutoresizingMaskIntoConstraints = false
         chatContainerViewConstraint = chatContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -324,7 +347,7 @@ class ChatController: UICollectionViewController {
         ]
         self.navigationItem.title = "\(user.username)"
         if var textAttributes = navigationController?.navigationBar.titleTextAttributes {
-            textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.black
+            textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.white
             navigationController?.navigationBar.titleTextAttributes = textAttributes
         }
         
@@ -333,8 +356,8 @@ class ChatController: UICollectionViewController {
     func configureNavigation(){
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         
-        navigationController?.navigationBar.barTintColor = .white
-        navigationController?.navigationBar.isTranslucent = true
+//        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.isTranslucent = false
         
         
     }
@@ -362,18 +385,22 @@ class ChatController: UICollectionViewController {
             if scrollView.contentOffset.y < -80 {
                 loading = true
                 // 새로운 데이터를 추가로 불러온다.
-                let lastMessage = self.messages[0]
-                MessageService.shared.fetchOldMessages(chatId: self.chat.id, lastMessage: lastMessage) { (error, messages) in
-                    if let error = error {
-                        self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
-                    }else {
-                        self.messages.insert(contentsOf: messages!, at: 0)
-                        self.collectionView.reloadData()
-                        let indexPath = IndexPath(row: messages!.count, section: 0)
-                        self.collectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: false)
-                        self.loading = false
+                
+                
+                if let lastMessage = self.messages[0] as Message? {
+                    MessageService.shared.fetchOldMessages(chatId: self.chat.id, lastMessage: lastMessage) { (error, messages) in
+                        if let error = error {
+                            self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+                        }else {
+                            self.messages.insert(contentsOf: messages!, at: 0)
+                            self.collectionView.reloadData()
+                            let indexPath = IndexPath(row: messages!.count, section: 0)
+                            self.collectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: false)
+                            self.loading = false
+                        }
                     }
                 }
+                
             }
         }
     }
@@ -385,9 +412,9 @@ class ChatController: UICollectionViewController {
         
         let messageText = messages[indexPath.row].text
 
-        let font = UIFont(name: "BMJUAOTF", size: 14)
+        let font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.semibold)
         
-        let estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: messageText, width: 250, font: font!)
+        let estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: messageText, width: 250, font: font)
         
         let calendar = Calendar.current
         
@@ -431,7 +458,7 @@ class ChatController: UICollectionViewController {
             
         }else {
            // 내 메시지가 아닐때
-            let estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: messageText, width: 200, font: font!)
+            let estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: messageText, width: 200, font: font)
             let othersMessage = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierOthersMessage, for: indexPath) as! OthersMessageCell
             othersMessage.message = message
             othersMessage.userId = message.sender
@@ -493,10 +520,9 @@ extension ChatController:UICollectionViewDelegateFlowLayout {
         
         
         let messageText = messages[indexPath.row].text
-        guard let font = UIFont(name: "BMJUAOTF", size: 14) else {
-            
-            return CGSize(width: view.frame.width, height: 100)
-        }
+
+        
+        let font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.semibold)
 
         
         guard let myId = Auth.auth().currentUser?.uid else { return CGSize(width: collectionView.frame.width, height: 100) }

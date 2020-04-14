@@ -31,7 +31,7 @@ class MyMessageCell: UICollectionViewCell {
     
     lazy var messageTextView:UILabel = {
         let text = UILabel()
-        text.font = UIFont(name: "BMJUAOTF", size: 14)
+        text.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.semibold)
         text.textColor = .white
         text.lineBreakMode = .byWordWrapping
         text.numberOfLines = 0

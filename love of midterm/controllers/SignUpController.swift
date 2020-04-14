@@ -46,7 +46,7 @@ class SignUpController: UIViewController {
     lazy var scrollView:UIScrollView = {
         let sv = UIScrollView()
         sv.translatesAutoresizingMaskIntoConstraints = false
-        sv.contentSize.height = 1000
+        sv.contentSize.height = 850
         return sv
     }()
     
@@ -110,7 +110,7 @@ class SignUpController: UIViewController {
         
         emailTextField.attributedPlaceholder = NSAttributedString(string: "Email@gmail.com",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        emailTextField.font = UIFont(name: "BMJUAOTF", size: 17)
+        emailTextField.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         emailTextField.textColor = .white
         view.addSubview(emailTextField)
         emailTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -152,7 +152,7 @@ class SignUpController: UIViewController {
         
         usernameTextField.attributedPlaceholder = NSAttributedString(string: "다른 유저들에게 보여지게 됩니다.",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        usernameTextField.font = UIFont(name: "BMJUAOTF", size: 17)
+        usernameTextField.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         usernameTextField.textColor = .white
         view.addSubview(usernameTextField)
         usernameTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -194,10 +194,11 @@ class SignUpController: UIViewController {
         bottomLine.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         bottomLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
-        birthdayTextField.attributedPlaceholder = NSAttributedString(string: "생년월일을 입력해주세요.",
-        attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        birthdayTextField.font = UIFont(name: "BMJUAOTF", size: 17)
-        birthdayTextField.textColor = .white
+        birthdayTextField.attributedPlaceholder = NSAttributedString(string: "생년월일을 입력해주세요.", attributes: [
+            NSAttributedString.Key.foregroundColor: UIColor.white
+        ])
+        birthdayTextField.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
+        
         view.addSubview(birthdayTextField)
         birthdayTextField.translatesAutoresizingMaskIntoConstraints = false
         birthdayTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 1).isActive = true
@@ -205,10 +206,6 @@ class SignUpController: UIViewController {
         birthdayTextField.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         birthdayTextField.autocapitalizationType = .none
         birthdayTextField.autocorrectionType = .no
-        
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(datePickerTapped))
-//        view.isUserInteractionEnabled = true
-//        view.addGestureRecognizer(tap)
         
         return view
     }()
@@ -228,8 +225,8 @@ class SignUpController: UIViewController {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("남자", for: .normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 17)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .tinderColor
+        button.setTitleColor(.tinderColor, for: .normal)
+        button.backgroundColor = .white
         button.addTarget(self, action: #selector(maleButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -238,8 +235,8 @@ class SignUpController: UIViewController {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("여자", for: .normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 17)
-        button.setTitleColor(.tinderColor, for: .normal)
-        button.backgroundColor = .white
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .tinderColor
         button.addTarget(self, action: #selector(femaleButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -273,7 +270,7 @@ class SignUpController: UIViewController {
         bottomLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
         addressTextField.text = "주소를 입력해주세요"
-        addressTextField.font = UIFont(name: "BMJUAOTF", size: 17)
+        addressTextField.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         addressTextField.textColor = .white
         addressTextField.isUserInteractionEnabled = false
         view.addSubview(addressTextField)
@@ -323,7 +320,7 @@ class SignUpController: UIViewController {
         password1TextField.textColor = .white
         view.addSubview(password1TextField)
         password1TextField.isSecureTextEntry = true
-        password1TextField.font = UIFont(name: "BMJUAOTF", size: 17)
+        password1TextField.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         password1TextField.translatesAutoresizingMaskIntoConstraints = false
         password1TextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 3).isActive = true
         password1TextField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
@@ -366,7 +363,7 @@ class SignUpController: UIViewController {
         password2TextField.textColor = .white
         view.addSubview(password2TextField)
         password2TextField.isSecureTextEntry = true
-        password2TextField.font = UIFont(name: "BMJUAOTF", size: 17)
+        password2TextField.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         password2TextField.translatesAutoresizingMaskIntoConstraints = false
         password2TextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 3).isActive = true
         password2TextField.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: 15).isActive = true
@@ -418,20 +415,20 @@ class SignUpController: UIViewController {
     
     @objc func maleButtonTapped(){
         self.gender = "male"
-        self.maleButton.backgroundColor = .tinderColor
-        self.maleButton.setTitleColor(.white, for: .normal)
+        self.maleButton.backgroundColor = .white
+        self.maleButton.setTitleColor(.tinderColor, for: .normal)
         
-        self.femailButton.backgroundColor = .white
-        self.femailButton.setTitleColor(.tinderColor, for: .normal)
+        self.femailButton.backgroundColor = .tinderColor
+        self.femailButton.setTitleColor(.white, for: .normal)
     }
     
     @objc func femaleButtonTapped(){
         self.gender = "female"
-        self.femailButton.backgroundColor = .tinderColor
-        self.femailButton.setTitleColor(.white, for: .normal)
+        self.femailButton.backgroundColor = .white
+        self.femailButton.setTitleColor(.tinderColor, for: .normal)
         
-        self.maleButton.backgroundColor = .white
-        self.maleButton.setTitleColor(.tinderColor, for: .normal)
+        self.maleButton.backgroundColor = .tinderColor
+        self.maleButton.setTitleColor(.white, for: .normal)
     }
     
     @objc func profileImageViewTapped(){
@@ -531,8 +528,7 @@ class SignUpController: UIViewController {
         
         let customBtn = UIButton(type: UIButton.ButtonType.system)
         customBtn.setTitle("선택", for: .normal)
-        customBtn.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
-        customBtn.setTitleColor(.black, for: .normal)
+        customBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         customBtn.addTarget(self, action: #selector(datepickerDoneTapped), for: .touchUpInside)
         
         let doneBtn = UIBarButtonItem(customView: customBtn)
@@ -543,7 +539,6 @@ class SignUpController: UIViewController {
         birthdayTextField.inputAccessoryView = toolbar
         
         birthdayTextField.inputView = simpleDatePicker
-        birthdayTextField.inputView?.backgroundColor = .white
         
         simpleDatePicker.datePickerMode = .date
     }

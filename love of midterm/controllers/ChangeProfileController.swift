@@ -29,13 +29,20 @@ class ChangeProfileController: UIViewController {
     }()
     
     
+    lazy var scrollView:UIScrollView = {
+        let sv = UIScrollView()
+        sv.contentSize.height = 800
+        return sv
+    }()
+    
+    
     lazy var profileView:UIImageView = {
         let iv = UIImageView()
         iv.backgroundColor = .veryLightGray
-        iv.layer.cornerRadius = 8
         iv.clipsToBounds = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
         iv.isUserInteractionEnabled = true
+        iv.contentMode = .scaleAspectFill
         iv.addGestureRecognizer(tap)
         return iv
     }()
@@ -50,8 +57,8 @@ class ChangeProfileController: UIViewController {
     
     lazy var usernameTextField:UITextField = {
         let tf = UITextField()
-        tf.font = UIFont(name: "BMJUAOTF", size: 14)
-        tf.textColor = .lightGray
+        tf.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
+        tf.textColor = .black
         tf.text = ""
         tf.autocorrectionType = .no
         tf.placeholder = "사용자들에게 보여지게 됩니다"
@@ -78,7 +85,7 @@ class ChangeProfileController: UIViewController {
     lazy var addressLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 14)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
         label.textColor = .lightGray
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
@@ -97,7 +104,7 @@ class ChangeProfileController: UIViewController {
     lazy var shortBioLabel:UILabel = {
         let label = UILabel()
         label.text = "짧은 자기소개"
-        label.textColor = .lightGray
+        label.textColor = .black
         label.font = UIFont(name: "BMJUAOTF", size: 14)
         return label
     }()
@@ -108,7 +115,7 @@ class ChangeProfileController: UIViewController {
         tv.trimWhiteSpaceWhenEndEditing = true
         tv.minHeight = 40
         tv.maxHeight = 100
-        tv.font = UIFont(name: "BMJUAOTF", size: 12)
+        tv.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
         tv.textColor = .black
         tv.backgroundColor = .veryLightGray
         tv.autocorrectionType = .no
@@ -233,8 +240,11 @@ class ChangeProfileController: UIViewController {
     @objc override func keyboardWillShow(notification: NSNotification) {
         
         if shortBioTextView.isFirstResponder {
+            
             if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-                if self.view.frame.origin.y == self.topBarHeight {
+                
+                if self.view.frame.origin.y == 0.0 {
+                    
                     self.view.frame.origin.y -= keyboardSize.height / 2
                 }
             }
@@ -243,8 +253,8 @@ class ChangeProfileController: UIViewController {
     }
 
     @objc override func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = self.topBarHeight
+        if self.view.frame.origin.y != 0.0 {
+            self.view.frame.origin.y = 0.0
         }
     }
     
@@ -291,27 +301,35 @@ class ChangeProfileController: UIViewController {
     func configureUI(){
         self.view.backgroundColor = .white
         
-        view.addSubview(profileView)
-        profileView.translatesAutoresizingMaskIntoConstraints = false
-        profileView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        profileView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-        profileView.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        profileView.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
-        view.addSubview(nameIcon)
+        
+        scrollView.addSubview(profileView)
+        profileView.translatesAutoresizingMaskIntoConstraints = false
+        profileView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0).isActive = true
+        profileView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        profileView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        profileView.heightAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        
+        scrollView.addSubview(nameIcon)
         nameIcon.translatesAutoresizingMaskIntoConstraints = false
         nameIcon.topAnchor.constraint(equalTo: profileView.bottomAnchor, constant: 20).isActive = true
         nameIcon.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         nameIcon.widthAnchor.constraint(equalToConstant: 30).isActive = true
         nameIcon.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        view.addSubview(usernameTextField)
+        scrollView.addSubview(usernameTextField)
         usernameTextField.translatesAutoresizingMaskIntoConstraints = false
         usernameTextField.topAnchor.constraint(equalTo: profileView.bottomAnchor, constant: 27).isActive = true
         usernameTextField.leftAnchor.constraint(equalTo: nameIcon.rightAnchor, constant: 10).isActive = true
         usernameTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         
-        view.addSubview(dividerUnderUsername)
+        scrollView.addSubview(dividerUnderUsername)
         dividerUnderUsername.translatesAutoresizingMaskIntoConstraints = false
         dividerUnderUsername.topAnchor.constraint(equalTo: nameIcon.bottomAnchor, constant: 2).isActive = true
         dividerUnderUsername.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 22).isActive = true
@@ -319,36 +337,36 @@ class ChangeProfileController: UIViewController {
         dividerUnderUsername.heightAnchor.constraint(equalToConstant: 2).isActive = true
         
         
-        view.addSubview(addressIcon)
+        scrollView.addSubview(addressIcon)
         addressIcon.translatesAutoresizingMaskIntoConstraints = false
         addressIcon.topAnchor.constraint(equalTo: dividerUnderUsername.bottomAnchor, constant: 20).isActive = true
         addressIcon.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         
-        view.addSubview(addressLabel)
+        scrollView.addSubview(addressLabel)
         addressLabel.translatesAutoresizingMaskIntoConstraints = false
         addressLabel.topAnchor.constraint(equalTo: dividerUnderUsername.bottomAnchor, constant: 22).isActive = true
         addressLabel.leftAnchor.constraint(equalTo: addressIcon.rightAnchor, constant: 10).isActive = true
         addressLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         
-        view.addSubview(dividerUnderAddress)
+        scrollView.addSubview(dividerUnderAddress)
         dividerUnderAddress.translatesAutoresizingMaskIntoConstraints = false
         dividerUnderAddress.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 8).isActive = true
         dividerUnderAddress.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
         dividerUnderAddress.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -22).isActive = true
         dividerUnderAddress.heightAnchor.constraint(equalToConstant: 2).isActive = true
         
-        view.addSubview(shortBioLabel)
+        scrollView.addSubview(shortBioLabel)
         shortBioLabel.translatesAutoresizingMaskIntoConstraints = false
         shortBioLabel.topAnchor.constraint(equalTo: dividerUnderAddress.bottomAnchor, constant: 40).isActive = true
         shortBioLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         
-        view.addSubview(shortBioTextView)
+        scrollView.addSubview(shortBioTextView)
         shortBioTextView.translatesAutoresizingMaskIntoConstraints = false
         shortBioTextView.topAnchor.constraint(equalTo: shortBioLabel.bottomAnchor, constant: 30).isActive = true
         shortBioTextView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         shortBioTextView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         
-        view.addSubview(submitButton)
+        scrollView.addSubview(submitButton)
         submitButton.translatesAutoresizingMaskIntoConstraints = false
         submitButton.topAnchor.constraint(equalTo: shortBioTextView.bottomAnchor, constant: 50).isActive = true
         submitButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true

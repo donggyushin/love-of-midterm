@@ -29,7 +29,7 @@ class TestCell: UICollectionViewCell {
     
     lazy var testTitleLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
         label.textColor = .black
         label.text = ""
         label.lineBreakMode = .byWordWrapping

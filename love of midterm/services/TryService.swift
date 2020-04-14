@@ -21,6 +21,7 @@ struct TryService {
                 completion(error, nil)
             }else {
                 let documents = querySnapshot!.documents
+                var count = 0
                 if documents.count == 0 {
                     completion(nil, true)
                     return
@@ -31,12 +32,14 @@ struct TryService {
                     let date = tryInstance.date
                     let today = Date()
                     if date.year() == today.year() && date.month() == today.month() && today.day() == date.day() {
-                        completion(nil, false)
-                        return
-                    }else {
-                        completion(nil, true)
-                        return 
+                        count += 1
                     }
+                }
+                
+                if count > 3 {
+                    completion(nil, false)
+                }else {
+                    completion(nil, true)
                 }
             }
         }
