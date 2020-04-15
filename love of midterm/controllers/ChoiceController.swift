@@ -22,9 +22,16 @@ class ChoiceController: UIViewController {
     lazy var backButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("알림", for: .normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
-        button.setTitleColor(.tinderColor, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.heavy)
         button.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            button.setTitleColor(.white, for: .normal)
+        }else {
+            button.setTitleColor(.black, for: .normal)
+        }
+        
+        
         return button
     }()
     
@@ -45,9 +52,16 @@ class ChoiceController: UIViewController {
     lazy var moreProfileImageButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("더 많은 사진 보러가기", for: .normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 13)
-        button.setTitleColor(UIColor.tinderColor, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.medium)
         button.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            button.setTitleColor(UIColor.white, for: .normal)
+        }else {
+            button.setTitleColor(UIColor.black, for: .normal)
+        }
+        
+        
         return button
     }()
     
@@ -56,7 +70,14 @@ class ChoiceController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = ""
         label.font = UIFont(name: "BMJUAOTF", size: 15)
-        label.textColor = .black
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
@@ -72,7 +93,7 @@ class ChoiceController: UIViewController {
     lazy var birthdayLabel:UILabel = {
         let label = UILabel()
         label.text = "??년생"
-        label.font = UIFont(name: "BMJUAOTF", size: 13)
+        label.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.medium)
         label.textColor = UIColor.lightGray
         return label
     }()
@@ -81,7 +102,7 @@ class ChoiceController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "나와의 거리 ??km"
-        label.font = UIFont(name: "BMJUAOTF", size: 13)
+        label.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.medium)
         label.textColor = .lightGray
         return label
     }()
@@ -100,28 +121,50 @@ class ChoiceController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = ""
-        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 5
-        label.textColor = .black
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .white
+        }
+        
         return label
     }()
     
     lazy var xLabel:UIButton = {
         let label = UIButton(type: UIButton.ButtonType.system)
         label.setTitle("거절할게요", for: .normal)
-        label.setTitleColor(.tinderColor, for: .normal)
         label.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
         label.addTarget(self, action: #selector(denyButtonTapped), for: .touchUpInside)
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.setTitleColor(.white, for: .normal)
+        }else {
+            label.setTitleColor(.black, for: .normal)
+        }
+        
+        
         return label
     }()
     
     lazy var oLabel:UIButton = {
         let label = UIButton(type: UIButton.ButtonType.system)
         label.setTitle("대화 시작하기", for: .normal)
-        label.setTitleColor(.facebookBlue, for: .normal)
         label.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
         label.addTarget(self, action: #selector(startConversationButtonTapped), for: .touchUpInside)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+
+            label.setTitleColor(.white, for: .normal)
+        }else {
+            label.setTitleColor(.black, for: .normal)
+        }
+        
+        
         return label
     }()
 
@@ -151,6 +194,44 @@ class ChoiceController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
         self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    // MARK: 테마가 바뀔 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두운 테마일때
+            self.navigationController?.navigationBar.barStyle = .black
+            backButton.setTitleColor(UIColor.white, for: UIControl.State.normal)
+            navigationController?.navigationBar.barTintColor = .black
+            self.view.backgroundColor = .black
+            moreProfileImageButton.setTitleColor(UIColor.white, for: UIControl.State.normal)
+            usernameLabel.textColor = .white
+            bioLabel.textColor = .white
+            xLabel.setTitleColor(UIColor.white, for: .normal)
+            oLabel.setTitleColor(UIColor.white, for: UIControl.State.normal)
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy),
+                                                                            NSAttributedString.Key.foregroundColor:UIColor.white
+            ]
+            self.navigationItem.title = "\(user.username)님의 요청"
+            navigationController?.navigationBar.barTintColor = .black
+        }else {
+            // 밝은 테마일때
+            self.navigationController?.navigationBar.barStyle = .default
+            navigationController?.navigationBar.barTintColor = .white
+            backButton.setTitleColor(UIColor.black, for: UIControl.State.normal)
+            self.view.backgroundColor = .white
+            moreProfileImageButton.setTitleColor(UIColor.black, for: UIControl.State.normal)
+            usernameLabel.textColor = .black
+            bioLabel.textColor = .black
+            xLabel.setTitleColor(UIColor.black, for: .normal)
+            oLabel.setTitleColor(UIColor.black, for: UIControl.State.normal)
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy),
+                                                                            NSAttributedString.Key.foregroundColor:UIColor.black
+            ]
+            self.navigationItem.title = "\(user.username)님의 요청"
+            navigationController?.navigationBar.barTintColor = .white
+        }
     }
     
     // MARK: Selectors
@@ -230,7 +311,11 @@ class ChoiceController: UIViewController {
     
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
+        if self.traitCollection.userInterfaceStyle == .dark {
+            return .lightContent
+        }else {
+            return .darkContent
+        }
     }
     
     
@@ -238,12 +323,22 @@ class ChoiceController: UIViewController {
         guard let font = UIFont(name: "BMJUAOTF", size: 14) else { return }
         
         let bioTextHeight = user.bio.height(withConstrainedWidth: view.frame.width * 0.9, font: font)
-        self.scrollView.contentSize = CGSize(width: view.frame.width, height: 620 + bioTextHeight)
+        self.scrollView.contentSize = CGSize(width: view.frame.width, height: 640 + bioTextHeight)
     }
     
     
     func configure(){
-        view.backgroundColor = .white
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            view.backgroundColor = .black
+        }else {
+            view.backgroundColor = .white
+        }
+        
+        
+        
+        
         if request.checked == true {
             disableButtons()
         }
@@ -288,17 +383,27 @@ class ChoiceController: UIViewController {
     }
     
     func configureNavigationBar(){
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "BMJUAOTF", size: 18)!,
-                                                                        NSAttributedString.Key.foregroundColor:UIColor.tinderColor
-        ]
-        self.navigationItem.title = "\(user.username)님의 요청"
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy),
+                                                                            NSAttributedString.Key.foregroundColor:UIColor.white
+            ]
+            self.navigationItem.title = "\(user.username)님의 요청"
+            navigationController?.navigationBar.barTintColor = .black
+        }else {
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy),
+                                                                            NSAttributedString.Key.foregroundColor:UIColor.black
+            ]
+            self.navigationItem.title = "\(user.username)님의 요청"
+            navigationController?.navigationBar.barTintColor = .white
+        }
+        
+        
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: self.backButton)
-        
-        navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.isTranslucent = true
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
+
         
     }
     

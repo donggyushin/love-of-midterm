@@ -39,8 +39,15 @@ class ChatController: UICollectionViewController {
     lazy var backButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("대화", for: .normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.heavy)
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            button.setTitleColor(UIColor.white, for: .normal)
+        }else {
+            button.setTitleColor(UIColor.black, for: .normal)
+        }
+        
         button.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
     
         return button
@@ -115,15 +122,66 @@ class ChatController: UICollectionViewController {
         }
         configure()
         
-        
+        if var textAttributes = self.navigationController?.navigationBar.titleTextAttributes {
+            textAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy)]
+            navigationController?.navigationBar.titleTextAttributes = textAttributes
+        }
     }
+    
+    // MARK: 테마가 변경될때
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        
+        if let previousTraitCollection = previousTraitCollection {
+            
+            // 어두운 테마일때
+            if previousTraitCollection.userInterfaceStyle == .light {
+                self.chatInputTextView.backgroundColor = .spaceGray
+                self.chatInputTextView.textColor = .white
+                self.chatContainerView.backgroundColor = .spaceGray
+                self.backButton.setTitleColor(UIColor.white, for: UIControl.State.normal)
+                self.collectionView.backgroundColor = .black
+                self.navigationController?.navigationBar.barTintColor = .black
+                
+                if var textAttributes = navigationController?.navigationBar.titleTextAttributes {
+                    textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.white
+                    navigationController?.navigationBar.titleTextAttributes = textAttributes
+                }
+                
+                navigationController?.navigationBar.barStyle = .black
+                
+            }else {
+                // 밝은 테마일때
+                self.chatInputTextView.backgroundColor = .veryLightGray
+                self.chatInputTextView.textColor = .black
+                self.chatContainerView.backgroundColor = .veryLightGray
+                self.backButton.setTitleColor(UIColor.black, for: UIControl.State.normal)
+                self.collectionView.backgroundColor = .white
+                self.navigationController?.navigationBar.barTintColor = .white
+                
+                if var textAttributes = navigationController?.navigationBar.titleTextAttributes {
+                    textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.black
+                    navigationController?.navigationBar.titleTextAttributes = textAttributes
+                }
+                
+                navigationController?.navigationBar.barStyle = .default
+            }
+        }
+    }
+    
+    
     
 
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         tabBarController?.tabBar.isHidden = true
-        navigationController?.navigationBar.barTintColor = .myGreen
+        if self.traitCollection.userInterfaceStyle == .dark {
+            navigationController?.navigationBar.barTintColor = .black
+        }else {
+            navigationController?.navigationBar.barTintColor = .white
+        }
+        
         if var textAttributes = navigationController?.navigationBar.titleTextAttributes {
             textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.white
             navigationController?.navigationBar.titleTextAttributes = textAttributes
@@ -133,11 +191,11 @@ class ChatController: UICollectionViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         tabBarController?.tabBar.isHidden = false
-        navigationController?.navigationBar.barTintColor = .white
-        if var textAttributes = navigationController?.navigationBar.titleTextAttributes {
-            textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.tinderColor
-            navigationController?.navigationBar.titleTextAttributes = textAttributes
-        }
+//        navigationController?.navigationBar.barTintColor = .white
+//        if var textAttributes = navigationController?.navigationBar.titleTextAttributes {
+//            textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.tinderColor
+//            navigationController?.navigationBar.titleTextAttributes = textAttributes
+//        }
         
     }
     
@@ -282,7 +340,11 @@ class ChatController: UICollectionViewController {
     // MARK: configures
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
+        if self.traitCollection.userInterfaceStyle == .dark {
+            return .lightContent
+        }else {
+            return .darkContent
+        }
     }
     
     
@@ -293,7 +355,6 @@ class ChatController: UICollectionViewController {
         
         self.collectionView!.register(OthersMessageCell.self, forCellWithReuseIdentifier: reuseIdentifierOthersMessage)
         
-        collectionView.backgroundColor = .white
         configureNavigation()
         fetchUser()
         configureUI()
@@ -314,8 +375,20 @@ class ChatController: UICollectionViewController {
     
     func configureUI(){
         
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            self.collectionView.backgroundColor = .black
+        }else {
+            self.collectionView.backgroundColor = .white
+        }
+        
+        
+        
+        
+        
+        
         collectionView.contentInset.bottom = 50
-        collectionView.backgroundColor = UIColor.myGreen
         view.addSubview(chatContainerView)
         chatContainerView.translatesAutoresizingMaskIntoConstraints = false
         chatContainerViewConstraint = chatContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -342,13 +415,18 @@ class ChatController: UICollectionViewController {
     
     func configureUser(){
         guard let user = user else { return }
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "BMJUAOTF", size: 18)!,
-                                                                        NSAttributedString.Key.foregroundColor:UIColor.tinderColor
-        ]
+        
         self.navigationItem.title = "\(user.username)"
         if var textAttributes = navigationController?.navigationBar.titleTextAttributes {
-            textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.white
-            navigationController?.navigationBar.titleTextAttributes = textAttributes
+            
+            if self.traitCollection.userInterfaceStyle == .dark {
+                textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.white
+                navigationController?.navigationBar.titleTextAttributes = textAttributes
+            }else {
+                textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.black
+                navigationController?.navigationBar.titleTextAttributes = textAttributes
+            }
+            
         }
         
     }
@@ -423,7 +501,7 @@ class ChatController: UICollectionViewController {
             
             let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifierMyMessage, for: indexPath) as! MyMessageCell
             myCell.message = message
-            myCell.textBubbleViewWidthAnchor?.constant = estimatedFrame.width + 15
+            myCell.textBubbleViewWidthAnchor?.constant = estimatedFrame.width + 25
             
             // 밑에 메시지가 나의 메시지인데 서로 시간이 같으면 지워주기
             if messages.count - 1 != indexPath.row {
@@ -463,7 +541,7 @@ class ChatController: UICollectionViewController {
             othersMessage.message = message
             othersMessage.userId = message.sender
             othersMessage.delegate = self
-            othersMessage.textBubbleViewWidthAnchor?.constant = estimatedFrame.width + 15
+            othersMessage.textBubbleViewWidthAnchor?.constant = estimatedFrame.width + 25
             
             // 위의 메시지가 내 메시지인데 서로 같은 유저이면 프로필 이미지 안보이게 바꿔주기
             if indexPath.row != 0 {

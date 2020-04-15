@@ -47,7 +47,7 @@ class TestController: UIViewController {
     
     lazy var indexLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 14)
+        label.font = UIFont(name: "BMJUAOTF", size: 15)
         label.text = "1/10"
         label.textColor = .black
         return label

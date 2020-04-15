@@ -54,7 +54,9 @@ var statusBarUIView: UIView? {
 }
 
 extension UIColor {
-    static let tinderColor = UIColor(hex: "#FE3C72")
+    // 얘가 오리지널
+//    static let tinderColor = UIColor(hex: "#FE3C72")
+    static let tinderColor = UIColor(hex: "#E91E63")
     static let tinderColor2 = UIColor(red:1.00, green:0.35, blue:0.39, alpha:1.0)
     static let tinderColor3 = UIColor(red:1.00, green:0.40, blue:0.36, alpha:1.0)
     

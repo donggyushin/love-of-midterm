@@ -38,21 +38,66 @@ class NotificationController: UICollectionViewController {
         configure()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        configureNavigationBar()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두운 테마일때
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy),
+                                                                            NSAttributedString.Key.foregroundColor:UIColor.white
+            ]
+            
+            navigationController?.navigationBar.barStyle = .black
+            navigationController?.navigationBar.barTintColor = .black
+            self.collectionView.backgroundColor = .black
+        }else {
+            // 밝은 테마일때
+            self.collectionView.backgroundColor = .white
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy),
+                                                                            NSAttributedString.Key.foregroundColor:UIColor.black
+            ]
+            
+            navigationController?.navigationBar.barStyle = .default
+            navigationController?.navigationBar.barTintColor = .white
+        }
+    }
+    
     // MARK: configures
     func configure(){
-        self.collectionView.backgroundColor = .white
+        
+        
+        
+        
         self.collectionView!.register(RequestCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.register(DenyRequestCell.self, forCellWithReuseIdentifier: reuseIdentifierForDenyRequest)
-        configureNavigationBar()
+
     }
 
     func configureNavigationBar(){
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "BMJUAOTF", size: 18)!,
-                                                                        NSAttributedString.Key.foregroundColor:UIColor.tinderColor
-        ]
         self.navigationItem.title = "알림"
+        if self.traitCollection.userInterfaceStyle == .dark {
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy),
+                                                                            NSAttributedString.Key.foregroundColor:UIColor.white
+            ]
+            self.collectionView.backgroundColor = .black
+            
+            navigationController?.navigationBar.barTintColor = .black
+        }else {
+            self.collectionView.backgroundColor = .white
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy),
+                                                                            NSAttributedString.Key.foregroundColor:UIColor.black
+            ]
+            
+            
+            navigationController?.navigationBar.barTintColor = .white
+            
+        }
         
-        navigationController?.navigationBar.barTintColor = .white
+        
+        
         navigationController?.navigationBar.isTranslucent = true
         
 //        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
@@ -61,7 +106,11 @@ class NotificationController: UICollectionViewController {
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
+        if self.traitCollection.userInterfaceStyle == .dark {
+            return .lightContent
+        }else {
+            return .darkContent
+        }
     }
     
     

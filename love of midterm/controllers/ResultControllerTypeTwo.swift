@@ -15,7 +15,7 @@ class ResultControllerTypeTwo: UIViewController {
         let label = UILabel()
         label.text = "아쉽네요 ㅠ_ㅠ"
         label.font = UIFont(name: "BMJUAOTF", size: 16)
-        label.textColor = .tinderColor
+        label.textColor = .white
         return label
     }()
     
@@ -25,6 +25,7 @@ class ResultControllerTypeTwo: UIViewController {
         label.font = UIFont(name: "BMJUAOTF", size: 15)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
+        label.textColor = .white
         return label
     }()
     
@@ -34,6 +35,7 @@ class ResultControllerTypeTwo: UIViewController {
         label.font = UIFont(name: "BMJUAOTF", size: 15)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
+        label.textColor = .white
         return label
     }()
     
@@ -64,6 +66,7 @@ class ResultControllerTypeTwo: UIViewController {
     }
     
     func configureUI(){
+        view.backgroundColor = .spaceGray
         view.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true

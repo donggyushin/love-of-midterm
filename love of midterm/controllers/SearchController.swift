@@ -39,6 +39,25 @@ class SearchController: UICollectionViewController {
         fetchUsers()
 
     }
+    
+    // MARK: 테마 바뀔 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        configureNavigationBar()
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두울 때
+            navigationController?.navigationBar.barStyle = .black
+            collectionView.backgroundColor = .black
+        }else {
+            // 밝을 때
+            navigationController?.navigationBar.barStyle = .default
+            collectionView.backgroundColor = .white
+        }
+    }
+    
+    
+    
+    
     // MARK: APIs
     
     func fetchUsers(){
@@ -82,22 +101,45 @@ class SearchController: UICollectionViewController {
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
+        if self.traitCollection.userInterfaceStyle == .dark {
+            return .lightContent
+        }else {
+            return .darkContent
+        }
+        
     }
     
     func configureNavigationBar(){
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "BMJUAOTF", size: 18)!,
-                                                                        NSAttributedString.Key.foregroundColor:UIColor.tinderColor
-        ]
-        navigationController?.navigationBar.barTintColor = .white
+        if self.traitCollection.userInterfaceStyle == .dark {
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy),
+                                                                            NSAttributedString.Key.foregroundColor:UIColor.white
+            ]
+            navigationController?.navigationBar.barTintColor = .black
+        }else {
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy),
+                                                                            NSAttributedString.Key.foregroundColor:UIColor.black
+            ]
+            navigationController?.navigationBar.barTintColor = .white
+        }
+        
+        
+        
+        
+        
         navigationController?.navigationBar.isTranslucent = true
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
+
+        
+        
         
     }
     
     func configureUI(){
-        collectionView.backgroundColor = .white
+        if self.traitCollection.userInterfaceStyle == .dark {
+            collectionView.backgroundColor = .black
+        }else {
+            collectionView.backgroundColor = .white
+        }
+        
     }
     
 

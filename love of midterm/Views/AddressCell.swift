@@ -22,7 +22,13 @@ class AddressCell: UICollectionViewCell {
         let label = UILabel()
         label.text = ""
         label.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.bold)
-        label.textColor = .black
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
@@ -30,7 +36,13 @@ class AddressCell: UICollectionViewCell {
         let label = UILabel()
         label.text = ""
         label.font = UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.light)
-        label.textColor = .lightGray
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
@@ -38,7 +50,11 @@ class AddressCell: UICollectionViewCell {
         let label = UILabel()
         label.text = ""
         label.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
-        label.textColor = .black
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
         return label
     }()
     
@@ -52,6 +68,22 @@ class AddressCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: 테마 바꼈을 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두운 테마일때
+            titleLabel.textColor = .white
+            categoryLabel.textColor = .white
+            loadAddressLabel.textColor = .white
+        }else {
+            // 밝은 테마일때
+            titleLabel.textColor = .black
+            categoryLabel.textColor = .black
+            loadAddressLabel.textColor = .black
+        }
     }
     
     // MARK: configure()

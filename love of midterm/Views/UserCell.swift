@@ -44,9 +44,15 @@ class UserCell: UICollectionViewCell {
     
     lazy var usernameLabel:UILabel = {
         let label = UILabel()
-        label.text = "신다혜"
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
-        label.textColor = .black
+        label.text = ""
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
@@ -65,18 +71,33 @@ class UserCell: UICollectionViewCell {
     lazy var distanceLabel:UILabel = {
         let label = UILabel()
         label.text = "?? km"
-        label.font = UIFont(name: "BMJUAOTF", size: 13)
-        label.textColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.medium)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
+        
         return label
     }()
     
     lazy var bioTextLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.semibold)
-        label.textColor = .darkGray
+        label.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
+        
+        
         return label
     }()
     
@@ -89,6 +110,26 @@ class UserCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
+    // MARK: 테마 바뀔 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두울 때
+            backgroundColor = .black
+            usernameLabel.textColor = .white
+            distanceLabel.textColor = .white
+            bioTextLabel.textColor = .white
+        }else {
+            // 밝을 때
+            backgroundColor = .white
+            usernameLabel.textColor = .black
+            distanceLabel.textColor = .black
+            bioTextLabel.textColor = .black
+        }
     }
     
     // MARK: helpers
@@ -138,7 +179,16 @@ class UserCell: UICollectionViewCell {
     }
     
     func configureUI(){
-        backgroundColor = .white
+        
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            backgroundColor = .black
+        }else {
+            backgroundColor = .white
+        }
+        
+        
         addSubview(profileImageView)
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         profileImageView.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true

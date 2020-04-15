@@ -196,9 +196,14 @@ class MainTabBarController: UITabBarController {
         let messageVC = UINavigationController(rootViewController: MessageController())
         let notificationVC = UINavigationController(rootViewController: NotificationController())
         
-        
-        self.tabBar.tintColor = .black
-        self.tabBar.barTintColor = .veryLightGray
+        if self.traitCollection.userInterfaceStyle == .dark {
+            
+            self.tabBar.tintColor = .white
+            self.tabBar.barTintColor = .spaceGray
+        }else {
+            self.tabBar.tintColor = .black
+            self.tabBar.barTintColor = .veryLightGray
+        }
         
         
         
@@ -216,6 +221,16 @@ class MainTabBarController: UITabBarController {
         
         fetchUser()
         
+    }
+    // 테마가 변경될때
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        if newCollection.userInterfaceStyle == .dark {
+            self.tabBar.tintColor = .white
+            self.tabBar.barTintColor = .spaceGray
+        }else {
+            self.tabBar.tintColor = .black
+            self.tabBar.barTintColor = .veryLightGray
+        }
     }
     
 }

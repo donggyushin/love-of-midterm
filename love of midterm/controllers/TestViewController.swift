@@ -23,9 +23,9 @@ class TestViewController: UIViewController {
     // MARK: UIKits
     lazy var backbutton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("뒤로", for: UIControl.State.normal)
+        button.setTitle("문제확인", for: UIControl.State.normal)
         button.setTitleColor(.white, for: UIControl.State.normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.heavy)
         button.addTarget(self, action: #selector(backbuttonTapped), for: UIControl.Event.touchUpInside)
         return button
     }()
@@ -37,43 +37,72 @@ class TestViewController: UIViewController {
     
     lazy var titleLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
-        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.text = ""
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
     lazy var numberOneLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
-        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.text = "1."
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
+        
         return label
     }()
     
     lazy var numberOneTextLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
-        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.text = ""
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
+        
         return label
     }()
     
     lazy var numberTwoLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
-        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.text = "2."
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
     lazy var numberTwoTextLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.textColor = .black
         label.text = ""
         label.lineBreakMode = .byWordWrapping
@@ -83,7 +112,7 @@ class TestViewController: UIViewController {
     
     lazy var numberThreeLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.textColor = .black
         label.text = "3."
         return label
@@ -91,7 +120,7 @@ class TestViewController: UIViewController {
     
     lazy var numberThreeTextLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.textColor = .black
         label.text = ""
         label.lineBreakMode = .byWordWrapping
@@ -101,7 +130,7 @@ class TestViewController: UIViewController {
     
     lazy var numberFourLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.textColor = .black
         label.text = "4."
         return label
@@ -109,7 +138,7 @@ class TestViewController: UIViewController {
     
     lazy var numberFourTextLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.textColor = .black
         label.text = ""
         label.lineBreakMode = .byWordWrapping
@@ -170,6 +199,22 @@ class TestViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
     }
     
+    // MARK: 테마 바꼈을 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두운 테마
+            view.backgroundColor = .black
+            titleLabel.textColor = .white
+            configureTest()
+        }else {
+            // 밝은 테마
+            view.backgroundColor = .white
+            titleLabel.textColor = .black
+            configureTest()
+        }
+    }
+    
     // MARK: Helpers
     
     func configureTest(){
@@ -182,49 +227,96 @@ class TestViewController: UIViewController {
         
         navigationItem.title = String(test.num)
         
-        
-        switch test.answer {
-        case 1:
-            numberOneTextLabel.textColor = .tinderColor
-            numberOneLabel.textColor = .tinderColor
-            numberTwoLabel.textColor = .black
-            numberTwoTextLabel.textColor = .black
-            numberThreeTextLabel.textColor = .black
-            numberThreeLabel.textColor = .black
-            numberFourLabel.textColor = .black
-            numberFourTextLabel.textColor = .black
-        case 2:
+        if self.traitCollection.userInterfaceStyle == .dark {
+            switch test.answer {
+                case 1:
+                    numberOneTextLabel.textColor = .tinderColor
+                    numberOneLabel.textColor = .tinderColor
+                    numberTwoLabel.textColor = .white
+                    numberTwoTextLabel.textColor = .white
+                    numberThreeTextLabel.textColor = .white
+                    numberThreeLabel.textColor = .white
+                    numberFourLabel.textColor = .white
+                    numberFourTextLabel.textColor = .white
+                case 2:
+                    
+                    numberOneTextLabel.textColor = .white
+                    numberOneLabel.textColor = .white
+                    numberTwoLabel.textColor = .tinderColor
+                    numberTwoTextLabel.textColor = .tinderColor
+                    numberThreeTextLabel.textColor = .white
+                    numberThreeLabel.textColor = .white
+                    numberFourLabel.textColor = .white
+                    numberFourTextLabel.textColor = .white
             
-            numberOneTextLabel.textColor = .black
-            numberOneLabel.textColor = .black
-            numberTwoLabel.textColor = .tinderColor
-            numberTwoTextLabel.textColor = .tinderColor
-            numberThreeTextLabel.textColor = .black
-            numberThreeLabel.textColor = .black
-            numberFourLabel.textColor = .black
-            numberFourTextLabel.textColor = .black
-    
-        case 3:
-            numberOneTextLabel.textColor = .black
-            numberOneLabel.textColor = .black
-            numberTwoLabel.textColor = .black
-            numberTwoTextLabel.textColor = .black
-            numberThreeTextLabel.textColor = .tinderColor
-            numberThreeLabel.textColor = .tinderColor
-            numberFourLabel.textColor = .black
-            numberFourTextLabel.textColor = .black
-        case 4:
-            numberOneTextLabel.textColor = .black
-            numberOneLabel.textColor = .black
-            numberTwoLabel.textColor = .black
-            numberTwoTextLabel.textColor = .black
-            numberThreeTextLabel.textColor = .black
-            numberThreeLabel.textColor = .black
-            numberFourLabel.textColor = .tinderColor
-            numberFourTextLabel.textColor = .tinderColor
-        default:
-            print("nothing")
+                case 3:
+                    numberOneTextLabel.textColor = .white
+                    numberOneLabel.textColor = .white
+                    numberTwoLabel.textColor = .white
+                    numberTwoTextLabel.textColor = .white
+                    numberThreeTextLabel.textColor = .tinderColor
+                    numberThreeLabel.textColor = .tinderColor
+                    numberFourLabel.textColor = .white
+                    numberFourTextLabel.textColor = .white
+                case 4:
+                    numberOneTextLabel.textColor = .white
+                    numberOneLabel.textColor = .white
+                    numberTwoLabel.textColor = .white
+                    numberTwoTextLabel.textColor = .white
+                    numberThreeTextLabel.textColor = .white
+                    numberThreeLabel.textColor = .white
+                    numberFourLabel.textColor = .tinderColor
+                    numberFourTextLabel.textColor = .tinderColor
+                default:
+                    print("nothing")
+                }
+        }else {
+            switch test.answer {
+                case 1:
+                    numberOneTextLabel.textColor = .tinderColor
+                    numberOneLabel.textColor = .tinderColor
+                    numberTwoLabel.textColor = .black
+                    numberTwoTextLabel.textColor = .black
+                    numberThreeTextLabel.textColor = .black
+                    numberThreeLabel.textColor = .black
+                    numberFourLabel.textColor = .black
+                    numberFourTextLabel.textColor = .black
+                case 2:
+                    
+                    numberOneTextLabel.textColor = .black
+                    numberOneLabel.textColor = .black
+                    numberTwoLabel.textColor = .tinderColor
+                    numberTwoTextLabel.textColor = .tinderColor
+                    numberThreeTextLabel.textColor = .black
+                    numberThreeLabel.textColor = .black
+                    numberFourLabel.textColor = .black
+                    numberFourTextLabel.textColor = .black
+            
+                case 3:
+                    numberOneTextLabel.textColor = .black
+                    numberOneLabel.textColor = .black
+                    numberTwoLabel.textColor = .black
+                    numberTwoTextLabel.textColor = .black
+                    numberThreeTextLabel.textColor = .tinderColor
+                    numberThreeLabel.textColor = .tinderColor
+                    numberFourLabel.textColor = .black
+                    numberFourTextLabel.textColor = .black
+                case 4:
+                    numberOneTextLabel.textColor = .black
+                    numberOneLabel.textColor = .black
+                    numberTwoLabel.textColor = .black
+                    numberTwoTextLabel.textColor = .black
+                    numberThreeTextLabel.textColor = .black
+                    numberThreeLabel.textColor = .black
+                    numberFourLabel.textColor = .tinderColor
+                    numberFourTextLabel.textColor = .tinderColor
+                default:
+                    print("nothing")
+                }
         }
+        
+        
+        
         
         if test.num == 1 {
             prevButton.isHidden = true
@@ -238,7 +330,7 @@ class TestViewController: UIViewController {
         }
         
         
-        guard let font = UIFont(name: "BMJUAOTF", size: 15) else { return }
+        let font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         
         let titleLabelFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: test.title, width: Int(view.frame.width) - 40, font: font)
         let questionOneFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: test.questionOne, width: Int(view.frame.width) - 48, font: font)
@@ -303,7 +395,12 @@ class TestViewController: UIViewController {
     }
     
     func configureUI(){
-        view.backgroundColor = .white
+        if self.traitCollection.userInterfaceStyle == .dark {
+            view.backgroundColor = .black
+        }else {
+            view.backgroundColor = .white
+        }
+        
         
         view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false

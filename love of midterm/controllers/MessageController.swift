@@ -38,25 +38,70 @@ class MessageController: UICollectionViewController {
 
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 다크 테마일때
+            self.navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor:UIColor.white
+            ]
+            
+            navigationController?.navigationBar.barStyle = .black
+            navigationController?.navigationBar.barTintColor = .black
+            collectionView.backgroundColor = .black
+        }else {
+            // 화이트 테마일때
+            self.navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor:UIColor.black
+            ]
+            navigationController?.navigationBar.barStyle = .default
+            navigationController?.navigationBar.barTintColor = .white
+            collectionView.backgroundColor = .white
+        }
+    }
+    
     // MARK: configures
     
     func configure(){
-        collectionView.backgroundColor = .white
+        if self.traitCollection.userInterfaceStyle == .dark {
+            // 어두운 테마일때
+            collectionView.backgroundColor = .black
+        }else {
+            // 밝은 테마일때
+            collectionView.backgroundColor = .white
+        }
+        
         configureNavigationBar()
         self.collectionView!.register(ChatCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
+        if self.traitCollection.userInterfaceStyle == .dark {
+            return .lightContent
+        }else {
+            return .darkContent
+        }
     }
     
     func configureNavigationBar(){
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "BMJUAOTF", size: 18)!,
-                                                                        NSAttributedString.Key.foregroundColor:UIColor.tinderColor
-        ]
-        self.navigationItem.title = "대화"
         
-        navigationController?.navigationBar.barTintColor = .white
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy),
+                                                                            NSAttributedString.Key.foregroundColor:UIColor.white
+            ]
+            self.navigationItem.title = "대화"
+            
+            navigationController?.navigationBar.barTintColor = .black
+        }else {
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy),
+                                                                            NSAttributedString.Key.foregroundColor:UIColor.black
+            ]
+            self.navigationItem.title = "대화"
+            
+            navigationController?.navigationBar.barTintColor = .white
+        }
+        
         navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.shadowImage = UIImage()
         

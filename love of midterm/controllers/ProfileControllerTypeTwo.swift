@@ -33,15 +33,31 @@ class ProfileControllerTypeTwo: UIViewController {
     
     lazy var scrollView:UIScrollView = {
         let sv = UIScrollView()
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            sv.backgroundColor = .black
+        }else {
+            sv.backgroundColor = .white
+        }
+        
+        
         return sv
     }()
     
     lazy var backButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("대화상대 찾기", for: .normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
-        button.setTitleColor(.tinderColor, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.heavy)
         button.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            button.setTitleColor(.white, for: .normal)
+        }else {
+            button.setTitleColor(.black, for: .normal)
+        }
+        
+        
         return button
     }()
     
@@ -55,9 +71,17 @@ class ProfileControllerTypeTwo: UIViewController {
     lazy var moreProfileImageButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("더 많은 사진 보러가기", for: .normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 13)
-        button.setTitleColor(UIColor.tinderColor, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.semibold)
         button.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            button.setTitleColor(UIColor.white, for: .normal)
+        }else {
+            button.setTitleColor(UIColor.black, for: .normal)
+        }
+        
+        
         return button
     }()
     
@@ -65,8 +89,14 @@ class ProfileControllerTypeTwo: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
-        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
@@ -82,8 +112,14 @@ class ProfileControllerTypeTwo: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 13)
-        label.textColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.medium)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
@@ -91,8 +127,15 @@ class ProfileControllerTypeTwo: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "나와의 거리 ??km"
-        label.font = UIFont(name: "BMJUAOTF", size: 13)
-        label.textColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.medium)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
+        
         return label
     }()
     
@@ -109,10 +152,17 @@ class ProfileControllerTypeTwo: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = ""
-        label.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.semibold)
+        label.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 5
-        label.textColor = .black
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
@@ -170,6 +220,32 @@ class ProfileControllerTypeTwo: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
+    }
+    
+    // MARK: 테마 바뀔 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            //  어두울 때
+            self.navigationController?.navigationBar.barStyle = .black
+            backButton.setTitleColor(UIColor.white, for: .normal)
+            scrollView.backgroundColor = .black
+            moreProfileImageButton.setTitleColor(UIColor.white, for: UIControl.State.normal)
+            usernameLabel.textColor = .white
+            birthdayLabel.textColor = .white
+            distanceLabel.textColor = .white
+            bioLabel.textColor = .white
+        }else {
+            // 밝을 때
+            self.navigationController?.navigationBar.barStyle = .default
+            backButton.setTitleColor(UIColor.black, for: .normal)
+            scrollView.backgroundColor = .white
+            moreProfileImageButton.setTitleColor(UIColor.black, for: UIControl.State.normal)
+            usernameLabel.textColor = .black
+            birthdayLabel.textColor = .black
+            distanceLabel.textColor = .black
+            bioLabel.textColor = .black
+        }
     }
     
     // MARK: selectors
@@ -324,7 +400,11 @@ class ProfileControllerTypeTwo: UIViewController {
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
+        if self.traitCollection.userInterfaceStyle == .dark {
+            return .lightContent
+        }else {
+            return .darkContent
+        }
     }
     
     

@@ -45,7 +45,7 @@ class OthersMessageCell: UICollectionViewCell {
         let profileView = UIImageView()
         profileView.contentMode = .scaleAspectFill
         profileView.backgroundColor = .veryLightGray
-        profileView.layer.cornerRadius = 10
+        profileView.layer.cornerRadius = 18
         profileView.layer.masksToBounds = true
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
@@ -56,25 +56,38 @@ class OthersMessageCell: UICollectionViewCell {
     
     lazy var textBubbleView:UIView = {
         let view = UIView()
-        view.backgroundColor = .veryLightGray
-        view.layer.cornerRadius = 10
+        if self.traitCollection.userInterfaceStyle == .dark {
+            view.backgroundColor = .black
+            view.layer.borderColor = UIColor.lightGray.cgColor
+        }else {
+            view.backgroundColor = .white
+            view.layer.borderColor = UIColor.veryLightGray.cgColor
+        }
+        
+        view.layer.cornerRadius = 18
+        view.layer.borderWidth = 1.5
         view.layer.masksToBounds = true
         return view
     }()
     
     lazy var messageTextView:UILabel = {
         let text = UILabel()
-        text.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.semibold)
+        text.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
         text.lineBreakMode = .byWordWrapping
         text.numberOfLines = 0
-        text.textColor = .black
+        if self.traitCollection.userInterfaceStyle == .dark {
+            text.textColor = .white
+        }else {
+            text.textColor = .black
+        }
+        
         return text
     }()
     
     lazy var timeStamp:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 12)
+        label.font = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.medium)
         label.textColor = .lightGray
         return label
     }()
@@ -96,6 +109,21 @@ class OthersMessageCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두운 테마일때
+            textBubbleView.backgroundColor = .black
+            textBubbleView.layer.borderColor = UIColor.lightGray.cgColor
+            messageTextView.textColor = .white
+        }else {
+            // 밝은 테마일때
+            textBubbleView.backgroundColor = .white
+            textBubbleView.layer.borderColor = UIColor.veryLightGray.cgColor
+            messageTextView.textColor = .black
+        }
     }
     
     // MARK: Selectors
@@ -137,10 +165,7 @@ class OthersMessageCell: UICollectionViewCell {
         }
         
         MessageService.shared.readMessage(messageId: message.id)
-        
-        
         self.yellowNumberLabel.isHidden = true
-        
         timeStamp.text = timestampText
     }
     
@@ -166,17 +191,17 @@ class OthersMessageCell: UICollectionViewCell {
         
         addSubview(messageTextView)
         messageTextView.translatesAutoresizingMaskIntoConstraints = false
-        messageTextView.leftAnchor.constraint(equalTo: textBubbleView.leftAnchor, constant: 7).isActive = true
+        messageTextView.leftAnchor.constraint(equalTo: textBubbleView.leftAnchor, constant: 12).isActive = true
         messageTextView.topAnchor.constraint(equalTo: textBubbleView.topAnchor, constant: 10).isActive = true
-        messageTextView.rightAnchor.constraint(equalTo: textBubbleView.rightAnchor, constant: -7).isActive = true
+        messageTextView.rightAnchor.constraint(equalTo: textBubbleView.rightAnchor, constant: -12).isActive = true
         
         
         addSubview(timeStamp)
         timeStamp.translatesAutoresizingMaskIntoConstraints = false
         timeStamp.leftAnchor.constraint(equalTo: textBubbleView.rightAnchor, constant: 2).isActive = true
         timeStamp.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -4).isActive = true
-        timestampeWidthAnchor = timeStamp.widthAnchor.constraint(equalToConstant: 75)
-        timestampeWidthAnchor?.isActive = true 
+//        timestampeWidthAnchor = timeStamp.widthAnchor.constraint(equalToConstant: 75)
+//        timestampeWidthAnchor?.isActive = true 
         
         addSubview(yellowNumberLabel)
         yellowNumberLabel.translatesAutoresizingMaskIntoConstraints = false

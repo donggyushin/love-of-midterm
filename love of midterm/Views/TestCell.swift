@@ -23,17 +23,28 @@ class TestCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont(name: "BMJUAOTF", size: 15)
         label.text = ""
-        label.textColor = .black
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
     lazy var testTitleLabel:UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
-        label.textColor = .black
         label.text = ""
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
@@ -47,6 +58,20 @@ class TestCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: 테마 바뀔 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두울 때
+            testNumberLabel.textColor = .white
+            testTitleLabel.textColor = .white
+        }else {
+            // 밝을때
+            testNumberLabel.textColor = .black
+            testTitleLabel.textColor = .black
+        }
     }
     
     // MARK: helpers

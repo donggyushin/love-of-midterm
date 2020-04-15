@@ -43,10 +43,17 @@ class UpdateTestViewController: UIViewController {
         tv.minHeight = 70
         tv.maxHeight = 130
         tv.autocorrectionType = .no
-        tv.backgroundColor = .veryLightGray
         tv.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
         tv.layer.cornerRadius = 4.0
-        tv.textColor = .black
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            tv.textColor = .white
+            tv.backgroundColor = .black
+        }else {
+            tv.textColor = .black
+            tv.backgroundColor = .white
+        }
+        
         return tv
     }()
     
@@ -143,7 +150,7 @@ class UpdateTestViewController: UIViewController {
         extendedLayoutIncludesOpaqueBars = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         title = "\(test.num)번 문제"
-        
+        makeAllQuestionBlack()
         configure()
         self.hideKeyboardWhenTappedAround()
         
@@ -168,6 +175,45 @@ class UpdateTestViewController: UIViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
+    }
+    
+    // MARK: 테마 바뀔 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        makeAllQuestionBlack()
+        switch test.answer {
+        case 1:
+            numberOneIcon.image = numberOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberOneIcon.tintColor = .tinderColor
+            numberOneTextField.textColor = .tinderColor
+        case 2:
+            numberTwoIcon.image = numberTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberTwoIcon.tintColor = .tinderColor
+            numberTwoTextField.textColor = .tinderColor
+        case 3:
+            numberThreeIcon.image = numberThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberThreeIcon.tintColor = .tinderColor
+            numberThreeTextField.textColor = .tinderColor
+        case 4:
+            numberFourIcon.image = numberFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberFourIcon.tintColor = .tinderColor
+            numberFourTextField.textColor = .tinderColor
+        default:
+            print("nothing")
+        }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            titleTextView.backgroundColor = .black
+            titleTextView.textColor = .white
+            view.backgroundColor = .black
+        }else {
+            titleTextView.backgroundColor = .white
+            titleTextView.textColor = .black
+            view.backgroundColor = .white
+        }
+        
+        
+        
+        
     }
     
     // MARK: Selectors
@@ -238,21 +284,41 @@ class UpdateTestViewController: UIViewController {
     // MARK: Helpers
     
     func makeAllQuestionBlack(){
-        numberOneIcon.image = numberOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        numberOneIcon.tintColor = .black
-        numberOneTextField.textColor = .black
         
-        numberTwoIcon.image = numberTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        numberTwoIcon.tintColor = .black
-        numberTwoTextField.textColor = .black
+        if self.traitCollection.userInterfaceStyle == .dark {
+            numberOneIcon.image = numberOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberOneIcon.tintColor = .white
+            numberOneTextField.textColor = .white
+            
+            numberTwoIcon.image = numberTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberTwoIcon.tintColor = .white
+            numberTwoTextField.textColor = .white
+            
+            numberThreeIcon.image = numberThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberThreeIcon.tintColor = .white
+            numberThreeTextField.textColor = .white
+            
+            numberFourIcon.image = numberFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberFourIcon.tintColor = .white
+            numberFourTextField.textColor = .white
+        }else {
+            numberOneIcon.image = numberOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberOneIcon.tintColor = .black
+            numberOneTextField.textColor = .black
+            
+            numberTwoIcon.image = numberTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberTwoIcon.tintColor = .black
+            numberTwoTextField.textColor = .black
+            
+            numberThreeIcon.image = numberThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberThreeIcon.tintColor = .black
+            numberThreeTextField.textColor = .black
+            
+            numberFourIcon.image = numberFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            numberFourIcon.tintColor = .black
+            numberFourTextField.textColor = .black
+        }
         
-        numberThreeIcon.image = numberThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        numberThreeIcon.tintColor = .black
-        numberThreeTextField.textColor = .black
-        
-        numberFourIcon.image = numberFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        numberFourIcon.tintColor = .black
-        numberFourTextField.textColor = .black
     }
     
     func setForTest(){
@@ -284,6 +350,10 @@ class UpdateTestViewController: UIViewController {
         default:
             print("nothing")
         }
+        
+        
+        
+        
     }
     
     // MARK: configures
@@ -294,7 +364,13 @@ class UpdateTestViewController: UIViewController {
     }
     
     func configureUI(){
-        view.backgroundColor = .white
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            view.backgroundColor = .black
+        }else {
+            view.backgroundColor = .white
+        }
+        
         
         
         view.addSubview(scrollView)

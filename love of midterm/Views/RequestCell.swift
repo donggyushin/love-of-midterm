@@ -49,14 +49,12 @@ class RequestCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        let attribute = [NSAttributedString.Key.font: UIFont(name: "BMJUAOTF", size: 15)]
-        let string = NSMutableAttributedString(string: "", attributes: attribute as [NSAttributedString.Key : Any])
-        let attrString = NSAttributedString(string: "", attributes: [NSAttributedString.Key.font : UIFont(name: "BMJUAOTF", size: 15) as Any,
-                                                                     NSAttributedString.Key.foregroundColor: UIColor.lightGray
-        ])
-        string.append(attrString)
-        label.attributedText = string
-        label.textColor = .black
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
@@ -76,6 +74,32 @@ class RequestCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: 테마 바뀔때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두운 테마일때
+            contentLabel.textColor = .white
+            if let request = request {
+                if request.checked == true {
+                    self.backgroundColor = .spaceGray
+                }else {
+                    self.backgroundColor = .black
+                }
+            }
+        }else {
+            // 밝은 테마일때
+            contentLabel.textColor = .black
+            if let request = request {
+                if request.checked == true {
+                    self.backgroundColor = .veryLightGray
+                }else {
+                    self.backgroundColor = .white
+                }
+            }
+        }
     }
     
     // MARK: APIs
@@ -114,16 +138,26 @@ class RequestCell: UICollectionViewCell {
         }
         
         
-        let attribute = [NSAttributedString.Key.font: UIFont(name: "BMJUAOTF", size: 16)]
+        let attribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.bold)]
         let string = NSMutableAttributedString(string: "\(user.username) ", attributes: attribute as [NSAttributedString.Key : Any])
-        let attrString = NSAttributedString(string: "님이 \(request.tryCount)번의 시도 후에 시험을 통과하였습니다.", attributes: [NSAttributedString.Key.font : UIFont(name: "BMJUAOTF", size: 14) as Any])
+        let attrString = NSAttributedString(string: "님이 \(request.tryCount)번의 시도 후에 시험을 통과하였습니다.", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium) as Any])
         string.append(attrString)
         contentLabel.attributedText = string
         
         if request.checked == true {
-            self.backgroundColor = .veryLightGray
+            if self.traitCollection.userInterfaceStyle == .dark {
+                self.backgroundColor = .spaceGray
+            }else {
+                self.backgroundColor = .veryLightGray
+            }
+            
         }else {
-            self.backgroundColor = .white
+            if self.traitCollection.userInterfaceStyle == .dark {
+                self.backgroundColor = .black
+            }else {
+                self.backgroundColor = .white
+            }
+            
         }
         
     }
@@ -144,7 +178,7 @@ class RequestCell: UICollectionViewCell {
         
         addSubview(contentLabel)
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentLabel.topAnchor.constraint(equalTo: topAnchor, constant: 36).isActive = true
+        contentLabel.topAnchor.constraint(equalTo: topAnchor, constant: 27).isActive = true
         contentLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 10).isActive = true
         contentLabel.rightAnchor.constraint(equalTo:rightAnchor, constant: -30).isActive = true
         

@@ -40,15 +40,23 @@ class PostBioController: UIViewController {
         let tv = GrowingTextView()
         tv.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         tv.backgroundColor = .systemGroupedBackground
-        tv.textColor = .black
         tv.layer.cornerRadius = 8
         tv.placeholder = "간략한 자기소개를 해주세요!"
-        tv.backgroundColor = .white
         tv.minHeight = 100
         tv.maxHeight = 100
         tv.maxLength = 150
         tv.widthAnchor.constraint(equalToConstant: self.view.frame.width * 0.75).isActive = true 
         tv.autocorrectionType = .no
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            tv.textColor = .white
+            tv.backgroundColor = .black
+        }else {
+            tv.textColor = .black
+            tv.backgroundColor = .white
+        }
+        
+        
         return tv
     }()
     
@@ -110,6 +118,23 @@ class PostBioController: UIViewController {
         
     }
     
+    // MARK: 테마 바뀔 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두울 때
+            view.backgroundColor = .black
+            bioGrowingTextView.backgroundColor = .black
+            bioGrowingTextView.textColor = .white
+        }else {
+            // 밝을 때
+            view.backgroundColor = .white
+            bioGrowingTextView.backgroundColor = .white
+            bioGrowingTextView.textColor = .black
+        }
+    }
+    
+    
     // MARK: configures
     
     func configure(){
@@ -117,7 +142,16 @@ class PostBioController: UIViewController {
     }
     
     func configureUI(){
-        view.backgroundColor = .white
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            view.backgroundColor = .black
+        }else {
+            view.backgroundColor = .white
+        }
+        
+        
+        view.layer.cornerRadius = 8
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.constraint(equalToConstant: 480).isActive = true
         

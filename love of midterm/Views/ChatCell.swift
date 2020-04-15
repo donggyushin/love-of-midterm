@@ -46,7 +46,12 @@ class ChatCell: UICollectionViewCell {
         let label = UILabel()
         label.text = ""
         label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
-        label.textColor = .black
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         
         return label
     }()
@@ -103,6 +108,18 @@ class ChatCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: 테마 바뀔때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두운 테마일때
+            usernameLabel.textColor = .white
+        }else {
+            // 밝은 테마일때
+            usernameLabel.textColor = .black
+        }
     }
     
     

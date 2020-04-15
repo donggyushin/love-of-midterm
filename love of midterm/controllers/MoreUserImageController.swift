@@ -22,10 +22,17 @@ class MoreUserImageController: UICollectionViewController {
     
     lazy var backButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("이전", for: .normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
-        button.setTitleColor(.tinderColor, for: .normal)
+        button.setTitle("이미지", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.heavy)
         button.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            button.setTitleColor(.white, for: .normal)
+        }else {
+            button.setTitleColor(.black, for: .normal)
+        }
+        
         return button
     }()
     
@@ -56,8 +63,28 @@ class MoreUserImageController: UICollectionViewController {
         configureUI()
     }
     
+    
+    // MARK: 테마 바뀔때
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .dark {
+            self.navigationController?.navigationBar.barStyle = .black
+            backButton.setTitleColor(UIColor.white, for: UIControl.State.normal)
+            self.collectionView.backgroundColor = .black
+        }else {
+            self.navigationController?.navigationBar.barStyle = .default
+            backButton.setTitleColor(UIColor.black, for: UIControl.State.normal)
+            self.collectionView.backgroundColor = .white
+        }
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
+        if self.traitCollection.userInterfaceStyle == .dark {
+            return .lightContent
+        }else {
+            return .darkContent
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,7 +116,14 @@ class MoreUserImageController: UICollectionViewController {
     
     func configureUI(){
         
-        collectionView.backgroundColor = .white
+        if self.traitCollection.userInterfaceStyle == .dark {
+            collectionView.backgroundColor = .black
+        }else {
+            collectionView.backgroundColor = .white
+        }
+        
+        
+        
         collectionView.addSubview(messageLabel)
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.topAnchor.constraint(equalTo: collectionView.topAnchor, constant: 80).isActive = true

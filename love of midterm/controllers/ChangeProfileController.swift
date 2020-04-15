@@ -58,10 +58,17 @@ class ChangeProfileController: UIViewController {
     lazy var usernameTextField:UITextField = {
         let tf = UITextField()
         tf.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
-        tf.textColor = .black
         tf.text = ""
         tf.autocorrectionType = .no
         tf.placeholder = "사용자들에게 보여지게 됩니다"
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            tf.textColor = .white
+        }else {
+            tf.textColor = .black
+        }
+        
+        
         return tf
     }()
     
@@ -85,13 +92,20 @@ class ChangeProfileController: UIViewController {
     lazy var addressLabel:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
-        label.textColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         let tap = UITapGestureRecognizer(target: self, action: #selector(goToSearchAddressViewController))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(tap)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
+        
         return label
     }()
     
@@ -116,9 +130,17 @@ class ChangeProfileController: UIViewController {
         tv.minHeight = 40
         tv.maxHeight = 100
         tv.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
-        tv.textColor = .black
-        tv.backgroundColor = .veryLightGray
         tv.autocorrectionType = .no
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            tv.textColor = .white
+            tv.backgroundColor = .black
+        }else {
+            tv.textColor = .black
+            tv.backgroundColor = .white
+        }
+        
+        
         return tv
     }()
     
@@ -162,6 +184,27 @@ class ChangeProfileController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
+    
+    
+    // MARK: 테마 바꼈을 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두운 테마일때
+            shortBioTextView.backgroundColor = .black
+            shortBioTextView.textColor = .white
+            view.backgroundColor = .black
+            usernameTextField.textColor = .white
+            addressLabel.textColor = .white
+        }else {
+            // 밝은 테마일때
+            shortBioTextView.backgroundColor = .white
+            shortBioTextView.textColor = .black
+            view.backgroundColor = .white
+            usernameTextField.textColor = .black
+            addressLabel.textColor = .black
+        }
+    }
     
     
     
@@ -213,7 +256,6 @@ class ChangeProfileController: UIViewController {
     }
     
     @objc func submitButtonTapped(){
-        print("submit button tapped")
         LoadingShimmer.startCovering(self.view, with: nil)
         guard let profileImage = self.profileView.image else { return }
         guard let username = usernameTextField.text else { return }
@@ -299,7 +341,13 @@ class ChangeProfileController: UIViewController {
     }
     
     func configureUI(){
-        self.view.backgroundColor = .white
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            self.view.backgroundColor = .black
+        }else {
+            self.view.backgroundColor = .white
+        }
+        
         
         view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false

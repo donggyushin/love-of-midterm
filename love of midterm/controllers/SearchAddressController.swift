@@ -34,11 +34,17 @@ class SearchAddressController: UICollectionViewController {
     
     lazy var backButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("돌아가기", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 14)
+        button.setTitle("주소검색", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.heavy)
         button.isUserInteractionEnabled = true
         button.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            button.setTitleColor(.white, for: .normal)
+        }else {
+            button.setTitleColor(.black, for: .normal)
+        }
+        
         return button
     }()
 
@@ -56,7 +62,13 @@ class SearchAddressController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        navigationController?.navigationBar.barTintColor = .white
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            navigationController?.navigationBar.barTintColor = .black
+        }else {
+            navigationController?.navigationBar.barTintColor = .white
+        }
+        
         extendedLayoutIncludesOpaqueBars = true
     }
     
@@ -71,19 +83,48 @@ class SearchAddressController: UICollectionViewController {
         self.tabBarController?.tabBar.isHidden = false
     }
     
+    // MARK: 테마 바꼈을 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두운 테마일때
+            self.navigationController?.navigationBar.barStyle = .black
+            navigationController?.navigationBar.barTintColor = .black
+            backButton.setTitleColor(UIColor.white, for: UIControl.State.normal)
+            collectionView.backgroundColor = .black
+        }else {
+            // 밝은 테마일때
+            self.navigationController?.navigationBar.barStyle = .default
+            navigationController?.navigationBar.barTintColor = .white
+            backButton.setTitleColor(UIColor.black, for: UIControl.State.normal)
+            collectionView.backgroundColor = .white
+        }
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
+        if self.traitCollection.userInterfaceStyle == .dark {
+            return .lightContent
+        }else {
+            return .darkContent
+        }
     }
     
     // MARK: configure()
     func configure(){
-        collectionView.backgroundColor = .white
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            collectionView.backgroundColor = .black
+        }else {
+            collectionView.backgroundColor = .white
+        }
+        
         makeNavigationItem()
         collectionView.register(AddressCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        searchController.searchBar.searchTextField.textColor = .black
+        
     }
     
     func makeNavigationItem(){
+        
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)

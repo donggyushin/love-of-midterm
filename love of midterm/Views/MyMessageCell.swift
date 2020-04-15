@@ -23,16 +23,26 @@ class MyMessageCell: UICollectionViewCell {
     
     lazy var textBubbleView:UIView = {
         let view = UIView()
-        view.backgroundColor = .systemBlue
-        view.layer.cornerRadius = 10
+        if self.traitCollection.userInterfaceStyle == .dark {
+            view.backgroundColor = .spaceGray
+        }else {
+            view.backgroundColor = .veryLightGray
+        }
+        
+        view.layer.cornerRadius = 18
         view.layer.masksToBounds = true
         return view
     }()
     
     lazy var messageTextView:UILabel = {
         let text = UILabel()
-        text.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.semibold)
-        text.textColor = .white
+        text.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
+        if self.traitCollection.userInterfaceStyle == .dark {
+            text.textColor = .white
+        }else {
+            text.textColor = .black
+        }
+        
         text.lineBreakMode = .byWordWrapping
         text.numberOfLines = 0
         return text
@@ -41,7 +51,7 @@ class MyMessageCell: UICollectionViewCell {
     lazy var timeStamp:UILabel = {
         let label = UILabel()
         label.text = ""
-        label.font = UIFont(name: "BMJUAOTF", size: 12)
+        label.font = UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.medium)
         label.textColor = .lightGray
         return label
     }()
@@ -65,7 +75,23 @@ class MyMessageCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: 테마가 변경될때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두운 테마일때
+            textBubbleView.backgroundColor = .spaceGray
+            messageTextView.textColor = .white
+        }else {
+            // 밝은 테마일때
+            textBubbleView.backgroundColor = .veryLightGray
+            messageTextView.textColor = .black
+        }
+    }
+    
     // MARK: configures
+    
+    
     
     func configureMessage(){
         guard let message = self.message else { return }
@@ -112,16 +138,16 @@ class MyMessageCell: UICollectionViewCell {
         addSubview(messageTextView)
         messageTextView.translatesAutoresizingMaskIntoConstraints = false
         messageTextView.topAnchor.constraint(equalTo: textBubbleView.topAnchor, constant: 10).isActive = true
-        messageTextView.rightAnchor.constraint(equalTo: textBubbleView.rightAnchor, constant: -7).isActive = true
-        messageTextView.leftAnchor.constraint(equalTo: textBubbleView.leftAnchor, constant: 7).isActive = true
+        messageTextView.rightAnchor.constraint(equalTo: textBubbleView.rightAnchor, constant: -12).isActive = true
+        messageTextView.leftAnchor.constraint(equalTo: textBubbleView.leftAnchor, constant: 12).isActive = true
         
         addSubview(timeStamp)
         timeStamp.translatesAutoresizingMaskIntoConstraints = false
-        timeStamp.rightAnchor.constraint(equalTo: textBubbleView.leftAnchor, constant: 0).isActive = true
+        timeStamp.rightAnchor.constraint(equalTo: textBubbleView.leftAnchor, constant: -4).isActive = true
         timeStamp.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4).isActive = true
-        timestampWidthAnchor = timeStamp.widthAnchor.constraint(equalToConstant: 75)
-        
-        timestampWidthAnchor?.isActive = true
+//        timestampWidthAnchor = timeStamp.widthAnchor.constraint(equalToConstant: 75)
+//
+//        timestampWidthAnchor?.isActive = true
         
         addSubview(yellowNumberLabel)
         yellowNumberLabel.translatesAutoresizingMaskIntoConstraints = false

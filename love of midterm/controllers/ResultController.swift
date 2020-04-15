@@ -21,14 +21,14 @@ class ResultController: UIViewController {
         let label = UILabel()
         label.text = "축하합니다!"
         label.font = UIFont(name: "BMJUAOTF", size: 16)
-        label.textColor = .tinderColor
+        label.textColor = .white
         return label
     }()
     
     lazy var infoLabel:UILabel = {
         let label = UILabel()
         label.text = "총 10문제중 \(self.correctCount)문제를 맞추셨습니다."
-        label.textColor = .black
+        label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
@@ -39,7 +39,7 @@ class ResultController: UIViewController {
         let label = UILabel()
         label.text = "이제 \(self.user.username)님으로부터 앞으로의 대화 여부에 관한 동의를 얻으면 대화를 시작하실 수 있습니다."
         label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
-        label.textColor = .black
+        label.textColor = .white
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
@@ -93,7 +93,7 @@ class ResultController: UIViewController {
     // MARK: configures
     func configure(){
         self.view.heightAnchor.constraint(equalToConstant: 300).isActive = true
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .spaceGray
         configureUI()
     }
     

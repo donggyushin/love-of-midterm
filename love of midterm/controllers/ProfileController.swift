@@ -128,8 +128,15 @@ class ProfileController: UIViewController {
     
     lazy var usernameLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 15)
-        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.heavy)
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
@@ -165,7 +172,14 @@ class ProfileController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 5
-        label.textColor = .darkText
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         
         
         
@@ -185,6 +199,24 @@ class ProfileController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    
+    
+    // MARK: 테마 바꼈을때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두운 테마
+            view.backgroundColor = .black
+            usernameLabel.textColor = .white
+            bioTextLabel.textColor = .white
+        }else {
+            // 밝은 테마
+            view.backgroundColor = .white
+            usernameLabel.textColor = .black
+            bioTextLabel.textColor = .black
+        }
     }
     
     
@@ -368,7 +400,7 @@ class ProfileController: UIViewController {
         sideMenu.menuWidth = view.frame.width * 0.73
 
         configureUI()
-        view.backgroundColor = .white
+        
         
         
     }
@@ -379,6 +411,12 @@ class ProfileController: UIViewController {
     }
     
     func configureUI(){
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            view.backgroundColor = .black
+        }else {
+            view.backgroundColor = .white
+        }
         
         navigationController?.navigationBar.barTintColor = .tinderColor
         navigationController?.navigationBar.isTranslucent = false

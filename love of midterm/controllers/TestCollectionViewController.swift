@@ -65,6 +65,17 @@ class TestCollectionViewController: UICollectionViewController {
 //        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
+    
+    // MARK: 테마 바뀔 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            collectionView.backgroundColor = .black
+        }else {
+            collectionView.backgroundColor = .white
+        }
+    }
+    
     // MARK: APIs
     func fetchTests(){
         TestService.shared.fetchAllMyTests(user: user) { (error, tests) in
@@ -122,7 +133,12 @@ class TestCollectionViewController: UICollectionViewController {
     }
     
     func configureUI(){
-        collectionView.backgroundColor = .white
+        if self.traitCollection.userInterfaceStyle == .dark {
+            collectionView.backgroundColor = .black
+        }else {
+            collectionView.backgroundColor = .white
+        }
+        
     }
 
 

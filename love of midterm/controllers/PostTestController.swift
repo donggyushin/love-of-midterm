@@ -44,6 +44,11 @@ class PostTestController: UIViewController {
     lazy var scrollView:UIScrollView = {
         let sv = UIScrollView()
         sv.contentSize.height = 700
+        if self.traitCollection.userInterfaceStyle == .dark {
+            sv.backgroundColor = .black
+        }else {
+            sv.backgroundColor = .white
+        }
         return sv
     }()
     
@@ -51,8 +56,15 @@ class PostTestController: UIViewController {
     lazy var indexLabel:UILabel = {
         let label = UILabel()
         label.text = "\(self.currentIndex) / 10"
-        label.textColor = .black
         label.font = UIFont(name: "BMJUAOTF", size: 17)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
+        
         return label
     }()
     
@@ -63,19 +75,37 @@ class PostTestController: UIViewController {
         iv.widthAnchor.constraint(equalToConstant: 40).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 40).isActive = true
         iv.image = #imageLiteral(resourceName: "pencil")
+        iv.image = iv.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            iv.tintColor = .white
+        }else {
+            iv.tintColor = .black
+        }
+        
         return iv
     }()
     
     lazy var questionTitleGrowingTextView:GrowingTextView = {
         let tv = GrowingTextView()
         tv.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
-        tv.backgroundColor = .white
         tv.layer.cornerRadius = 8
         tv.placeholder = "다음중 내가 가장 좋아하는 동물은?"
-        tv.textColor = .black
         tv.minHeight = 50
         tv.maxLength = 150
         tv.autocorrectionType = .no
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            tv.textColor = .white
+            tv.backgroundColor = .black
+        }else {
+            tv.textColor = .black
+            tv.backgroundColor = .white
+        }
+        
+        
         return tv
     }()
     
@@ -86,16 +116,22 @@ class PostTestController: UIViewController {
         iv.widthAnchor.constraint(equalToConstant: 25).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 25).isActive = true
         iv.image = #imageLiteral(resourceName: "1")
+        iv.image = iv.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            iv.tintColor = .white
+        }else {
+            iv.tintColor = .black
+        }
+        
         return iv
     }()
     
     lazy var optionOneGrowingLabel:TextField = {
         let tv = TextField()
         
-        tv.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
+        tv.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         tv.layer.cornerRadius = 8
-        
-        tv.textColor = .black
         tv.attributedPlaceholder = NSAttributedString(string: "강아지",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
@@ -104,6 +140,14 @@ class PostTestController: UIViewController {
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
         tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tv.autocorrectionType = .no
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            tv.textColor = .white
+        }else {
+            tv.textColor = .black
+        }
+        
+        
         return tv
     }()
     
@@ -114,16 +158,21 @@ class PostTestController: UIViewController {
         iv.widthAnchor.constraint(equalToConstant: 25).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 25).isActive = true
         iv.image = #imageLiteral(resourceName: "2")
+        iv.image = iv.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            iv.tintColor = .white
+        }else {
+            iv.tintColor = .black
+        }
+        
         return iv
     }()
     
     lazy var optionTwoGrowingLabel:TextField = {
         let tv = TextField()
-        tv.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
-        
+        tv.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         tv.layer.cornerRadius = 8
-        
-        tv.textColor = .black
         tv.attributedPlaceholder = NSAttributedString(string: "고양이",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
@@ -132,6 +181,14 @@ class PostTestController: UIViewController {
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
         tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tv.autocorrectionType = .no
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            tv.textColor = .white
+        }else {
+            tv.textColor = .black
+        }
+        
+        
         return tv
     }()
     
@@ -142,16 +199,20 @@ class PostTestController: UIViewController {
         iv.widthAnchor.constraint(equalToConstant: 25).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 25).isActive = true
         iv.image = #imageLiteral(resourceName: "3")
+        iv.image = iv.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            iv.tintColor = .white
+        }else {
+            iv.tintColor = .black
+        }
         return iv
     }()
     
     lazy var optionThreeGrowingLabel:TextField = {
         let tv = TextField()
-        tv.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
-        
+        tv.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         tv.layer.cornerRadius = 8
-        
-        tv.textColor = .black
         tv.attributedPlaceholder = NSAttributedString(string: "거북이",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
@@ -159,6 +220,12 @@ class PostTestController: UIViewController {
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
         tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tv.autocorrectionType = .no
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            tv.textColor = .white
+        }else {
+            tv.textColor = .black
+        }
         return tv
     }()
     
@@ -169,17 +236,21 @@ class PostTestController: UIViewController {
         iv.widthAnchor.constraint(equalToConstant: 25).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 25).isActive = true
         iv.image = #imageLiteral(resourceName: "4")
+        iv.image = iv.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            iv.tintColor = .white
+        }else {
+            iv.tintColor = .black
+        }
         return iv
     }()
 
     
     lazy var optionFourGrowingLabel:TextField = {
         let tv = TextField()
-        tv.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
-        
+        tv.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         tv.layer.cornerRadius = 8
-        
-        tv.textColor = .black
         tv.attributedPlaceholder = NSAttributedString(string: "토끼",
         attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
@@ -187,14 +258,26 @@ class PostTestController: UIViewController {
         tv.widthAnchor.constraint(equalToConstant: view.frame.width - 100).isActive = true
         tv.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tv.autocorrectionType = .no
+        if self.traitCollection.userInterfaceStyle == .dark {
+            tv.textColor = .white
+        }else {
+            tv.textColor = .black
+        }
         return tv
     }()
     
     lazy var answerLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "BMJUAOTF", size: 17)
+        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
         label.text = "정답 :"
-        label.textColor = .black
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
@@ -206,18 +289,26 @@ class PostTestController: UIViewController {
         tf.heightAnchor.constraint(equalToConstant: 30).isActive = true
         tf.keyboardType = .numberPad
         tf.textAlignment = .center
-        tf.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
-        tf.backgroundColor = .veryLightGray
-        tf.textColor = .black
+        tf.font = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.medium)
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            tf.backgroundColor = .spaceGray
+            tf.textColor = .white
+        }else {
+            tf.backgroundColor = .veryLightGray
+            tf.textColor = .black
+        }
+        
         
         return tf
     }()
     
     lazy var submitButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
-        button.backgroundColor = .tinderColor
+        
         button.setTitle("출제하기", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.tinderColor, for: .normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 17)
         button.widthAnchor.constraint(equalToConstant: 100).isActive = true
         button.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -246,6 +337,50 @@ class PostTestController: UIViewController {
         let popup = PopupDialog(viewController: postBioVC, preferredWidth: 400, tapGestureDismissal: false, panGestureDismissal: false)
         
         self.present(popup, animated: true, completion: nil)
+    }
+    
+    // MARK: 테마 바뀔 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 어두울 때
+            view.backgroundColor = .black
+            scrollView.backgroundColor = .black
+            indexLabel.textColor = .white
+            pencilIconImageView.tintColor = .white
+            questionTitleGrowingTextView.backgroundColor = .black
+            questionTitleGrowingTextView.textColor = .white
+            numberOneLabel.tintColor = .white
+            optionOneGrowingLabel.textColor = .white
+            numberTwoLabel.tintColor = .white
+            optionTwoGrowingLabel.textColor = .white
+            numberThreeLabel.tintColor = .white
+            optionThreeGrowingLabel.textColor = .white
+            numberFourLabel.tintColor = .white
+            optionFourGrowingLabel.textColor = .white
+            answerLabel.textColor = .white
+            answerTextField.backgroundColor = .spaceGray
+            answerTextField.textColor = .white
+        }else {
+            // 밝을 때
+            view.backgroundColor = .white
+            scrollView.backgroundColor = .white
+            indexLabel.textColor = .black
+            pencilIconImageView.tintColor = .black
+            questionTitleGrowingTextView.backgroundColor = .white
+            questionTitleGrowingTextView.textColor = .black
+            numberOneLabel.tintColor = .black
+            optionOneGrowingLabel.textColor = .black
+            numberTwoLabel.tintColor = .black
+            optionTwoGrowingLabel.textColor = .black
+            numberThreeLabel.tintColor = .black
+            optionThreeGrowingLabel.textColor = .black
+            numberFourLabel.tintColor = .black
+            optionFourGrowingLabel.textColor = .black
+            answerLabel.textColor = .black
+            answerTextField.backgroundColor = .veryLightGray
+            answerTextField.textColor = .black
+        }
     }
     
     // MARK: APIs
@@ -347,6 +482,12 @@ class PostTestController: UIViewController {
     }
     
     func configureUI(){
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            view.backgroundColor = .black
+        }else {
+            view.backgroundColor = .white
+        }
         
         view.addSubview(customNavigationBar)
         customNavigationBar.translatesAutoresizingMaskIntoConstraints = false
