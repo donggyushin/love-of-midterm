@@ -48,6 +48,7 @@ class MainTabBarController: UITabBarController {
     var requestCount = 0
     var requests = [Request]()
     var unreadMessagesCount = 0
+    
     var chats:[Chat]? {
         didSet {
             let messageNavigationController = self.viewControllers?[3] as? UINavigationController
@@ -56,6 +57,14 @@ class MainTabBarController: UITabBarController {
             
         }
     }
+    
+    
+    var totalBadgeCount = 0 {
+        didSet {
+            UIApplication.shared.applicationIconBadgeNumber = self.totalBadgeCount
+        }
+    }
+    
     
     // MARK: Life cycle
     override func viewDidLoad() {
@@ -103,6 +112,7 @@ class MainTabBarController: UITabBarController {
                     messageNavigationController?.tabBarItem.badgeValue = nil
                 }else {
                     messageNavigationController?.tabBarItem.badgeValue = "\(self.unreadMessagesCount)"
+                    self.totalBadgeCount += self.unreadMessagesCount
                 }
             }
         }
@@ -131,6 +141,7 @@ class MainTabBarController: UITabBarController {
                 
                 if self.requestCount != 0 {
                     notificationNavigationController?.tabBarItem.badgeValue = "\(self.requestCount)"
+                    self.totalBadgeCount += self.requestCount
                 } else {
                     notificationNavigationController?.tabBarItem.badgeValue = nil
                 }
