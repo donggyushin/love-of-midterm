@@ -15,6 +15,9 @@ struct RequestService {
     
     let db = Firestore.firestore()
     
+    
+    
+    
     func updateRequestCheckedStatus(id:String){
         db.collection("requests").document(id).updateData(["checked" : true])
     }
@@ -41,6 +44,17 @@ struct RequestService {
     func fetchRequestForCounting(completion:@escaping(Error?, Int?) -> Void){
         guard let myId = Auth.auth().currentUser?.uid else { return }
         db.collection("requests").whereField("to", isEqualTo: myId).whereField("checked", isEqualTo: false).addSnapshotListener { (querySnapshot, error) in
+            if let error = error {
+                completion(error, nil)
+            }else {
+                let documents = querySnapshot!.documents
+                completion(nil, documents.count)
+            }
+        }
+    }
+    
+    func getRequestsCount(userId:String, completion:@escaping(Error?, Int?) -> Void){
+        db.collection("requests").whereField("to", isEqualTo: userId).whereField("checked", isEqualTo: false).getDocuments { (querySnapshot, error) in
             if let error = error {
                 completion(error, nil)
             }else {
@@ -116,13 +130,27 @@ struct RequestService {
                             }else {
                                 completion(nil)
                                 if to.playerId != "" {
-                                    OneSignal.postNotification([
-                                        "contents" : ["en": "\(me.username)님이 \(tryCount)번 만에 시험을 모두 통과하였습니다!", "kr" : "\(me.username)님이 \(tryCount)번 만에 시험을 모두 통과하였습니다!"],
-                                        "subtitle": ["en": "축하합니다!", "kr" : "축하합니다!"],
-                                        "include_player_ids": [to.playerId],
-                                        "ios_badgeType" : "Increase",
-                                        "ios_badgeCount" : 1
-                                    ])
+                                    
+                                    RequestService.shared.getRequestsCount(userId: to.id) { (error, requestsCount) in
+                                        if let error = error {
+                                            print(error.localizedDescription)
+                                        }else {
+                                            MessageService.shared.getUnreadMessagesCount(userId: to.id) { (error, messagesCount) in
+                                                if let error = error {
+                                                    print(error.localizedDescription)
+                                                }else {
+                                                    OneSignal.postNotification([
+                                                        "contents" : ["en": "\(me.username)님이 \(tryCount)번 만에 시험을 모두 통과하였습니다!", "kr" : "\(me.username)님이 \(tryCount)번 만에 시험을 모두 통과하였습니다!"],
+                                                        "subtitle": ["en": "축하합니다!", "kr" : "축하합니다!"],
+                                                        "include_player_ids": [to.playerId],
+                                                        "ios_badgeType" : "SetTo",
+                                                        "ios_badgeCount" : requestsCount! + messagesCount!
+                                                    ])
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
                                 }
                             }
                         }

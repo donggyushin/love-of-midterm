@@ -632,11 +632,8 @@ extension ChatController:UICollectionViewDelegateFlowLayout {
 extension ChatController:OthersMessageCellDelegate {
     func profileImageTapped(cell: OthersMessageCell) {
         guard let user = cell.user else { return }
-        let profileTypeTwoVC = ProfileControllerTypeTwo()
-        profileTypeTwoVC.user = user
-        profileTypeTwoVC.me = self.me
-        profileTypeTwoVC.backButton.setTitle("\(user.username)", for: UIControl.State.normal)
-        navigationController?.pushViewController(profileTypeTwoVC, animated: true)
+        let profileTypeThreeVC = ProfileControllerTypeThree(user: user)
+        navigationController?.pushViewController(profileTypeThreeVC, animated: true)
     }
 }
 

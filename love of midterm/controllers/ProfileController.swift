@@ -194,6 +194,7 @@ class ProfileController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(true, animated: true)
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         configure()
     }
     
@@ -536,3 +537,5 @@ extension ProfileController:FSPagerViewDelegate, FSPagerViewDataSource {
 
 
 
+
+extension ProfileController:UIGestureRecognizerDelegate {}

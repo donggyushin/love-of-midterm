@@ -49,12 +49,24 @@ class TestController: UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "BMJUAOTF", size: 15)
         label.text = "1/10"
-        label.textColor = .black
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
     lazy var scrollView:UIScrollView = {
         let sv = UIScrollView()
+        if self.traitCollection.userInterfaceStyle == .dark {
+            sv.backgroundColor = .black
+        }else {
+            sv.backgroundColor = .white
+        }
         return sv
     }()
     
@@ -70,9 +82,16 @@ class TestController: UIViewController {
         let label = UILabel()
         label.text = ""
         label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
-        label.textColor = .black
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
+        
         return label
     }()
 
@@ -82,6 +101,14 @@ class TestController: UIViewController {
         iv.widthAnchor.constraint(equalToConstant: 24).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 24).isActive = true
         iv.image = #imageLiteral(resourceName: "1")
+        iv.image = iv.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            iv.tintColor = .white
+        }else {
+            iv.tintColor = .black
+        }
+        
         return iv
     }()
     
@@ -94,6 +121,13 @@ class TestController: UIViewController {
         label.addGestureRecognizer(tap)
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
@@ -102,6 +136,13 @@ class TestController: UIViewController {
         iv.widthAnchor.constraint(equalToConstant: 24).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 24).isActive = true
         iv.image = #imageLiteral(resourceName: "2")
+        iv.image = iv.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            iv.tintColor = .white
+        }else {
+            iv.tintColor = .black
+        }
         return iv
     }()
     
@@ -114,6 +155,15 @@ class TestController: UIViewController {
         label.addGestureRecognizer(tap)
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
+        
         return label
     }()
     
@@ -122,6 +172,13 @@ class TestController: UIViewController {
         iv.widthAnchor.constraint(equalToConstant: 24).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 24).isActive = true
         iv.image = #imageLiteral(resourceName: "3")
+        iv.image = iv.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            iv.tintColor = .white
+        }else {
+            iv.tintColor = .black
+        }
         return iv
     }()
     
@@ -134,6 +191,13 @@ class TestController: UIViewController {
         label.addGestureRecognizer(tap)
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
         return label
     }()
     
@@ -142,6 +206,13 @@ class TestController: UIViewController {
         iv.widthAnchor.constraint(equalToConstant: 24).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 24).isActive = true
         iv.image = #imageLiteral(resourceName: "4")
+        iv.image = iv.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            iv.tintColor = .white
+        }else {
+            iv.tintColor = .black
+        }
         return iv
     }()
     
@@ -154,6 +225,12 @@ class TestController: UIViewController {
         label.addGestureRecognizer(tap)
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
         return label
     }()
     
@@ -287,21 +364,43 @@ class TestController: UIViewController {
         
         self.selectedAnswer = 1
         
-        optionOneIcon.image = optionOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionOneIcon.tintColor = UIColor.tinderColor
-        optionOneLabel.textColor = UIColor.tinderColor
         
-        optionTwoIcon.image = optionTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionTwoIcon.tintColor = UIColor.black
-        optionTwoLabel.textColor = UIColor.black
+        if self.traitCollection.userInterfaceStyle == .dark {
+            optionOneIcon.image = optionOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionOneIcon.tintColor = UIColor.tinderColor
+            optionOneLabel.textColor = UIColor.tinderColor
+            
+            optionTwoIcon.image = optionTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionTwoIcon.tintColor = UIColor.white
+            optionTwoLabel.textColor = UIColor.white
+            
+            optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionThreeIcon.tintColor = UIColor.white
+            optionThreeLabel.textColor = UIColor.white
+            
+            optionFourIcon.image = optionFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionFourIcon.tintColor = UIColor.white
+            optionFourLabel.textColor = UIColor.white
+        }else {
+            optionOneIcon.image = optionOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionOneIcon.tintColor = UIColor.tinderColor
+            optionOneLabel.textColor = UIColor.tinderColor
+            
+            optionTwoIcon.image = optionTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionTwoIcon.tintColor = UIColor.black
+            optionTwoLabel.textColor = UIColor.black
+            
+            optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionThreeIcon.tintColor = UIColor.black
+            optionThreeLabel.textColor = UIColor.black
+            
+            optionFourIcon.image = optionFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionFourIcon.tintColor = UIColor.black
+            optionFourLabel.textColor = UIColor.black
+        }
         
-        optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionThreeIcon.tintColor = UIColor.black
-        optionThreeLabel.textColor = UIColor.black
         
-        optionFourIcon.image = optionFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionFourIcon.tintColor = UIColor.black
-        optionFourLabel.textColor = UIColor.black
+        
     }
     
     
@@ -309,66 +408,160 @@ class TestController: UIViewController {
         
         self.selectedAnswer = 2
         
-        optionTwoIcon.image = optionTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionTwoIcon.tintColor = UIColor.tinderColor
-        optionTwoLabel.textColor = UIColor.tinderColor
+        if self.traitCollection.userInterfaceStyle == .dark {
+            optionTwoIcon.image = optionTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionTwoIcon.tintColor = UIColor.tinderColor
+            optionTwoLabel.textColor = UIColor.tinderColor
+            
+            optionOneIcon.image = optionOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionOneIcon.tintColor = UIColor.white
+            optionOneLabel.textColor = UIColor.white
+            
+            optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionThreeIcon.tintColor = UIColor.white
+            optionThreeLabel.textColor = UIColor.white
+            
+            optionFourIcon.image = optionFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionFourIcon.tintColor = UIColor.white
+            optionFourLabel.textColor = UIColor.white
+        }else {
+            optionTwoIcon.image = optionTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionTwoIcon.tintColor = UIColor.tinderColor
+            optionTwoLabel.textColor = UIColor.tinderColor
+            
+            optionOneIcon.image = optionOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionOneIcon.tintColor = UIColor.black
+            optionOneLabel.textColor = UIColor.black
+            
+            optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionThreeIcon.tintColor = UIColor.black
+            optionThreeLabel.textColor = UIColor.black
+            
+            optionFourIcon.image = optionFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionFourIcon.tintColor = UIColor.black
+            optionFourLabel.textColor = UIColor.black
+        }
         
-        optionOneIcon.image = optionOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionOneIcon.tintColor = UIColor.black
-        optionOneLabel.textColor = UIColor.black
         
-        optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionThreeIcon.tintColor = UIColor.black
-        optionThreeLabel.textColor = UIColor.black
-        
-        optionFourIcon.image = optionFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionFourIcon.tintColor = UIColor.black
-        optionFourLabel.textColor = UIColor.black
     }
     
     @objc func threeTapped(){
         
         self.selectedAnswer = 3
         
-        optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionThreeIcon.tintColor = UIColor.tinderColor
-        optionThreeLabel.textColor = UIColor.tinderColor
+        if self.traitCollection.userInterfaceStyle == .dark {
+            optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionThreeIcon.tintColor = UIColor.tinderColor
+            optionThreeLabel.textColor = UIColor.tinderColor
+            
+            optionOneIcon.image = optionOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionOneIcon.tintColor = UIColor.white
+            optionOneLabel.textColor = UIColor.white
+            
+            optionTwoIcon.image = optionTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionTwoIcon.tintColor = UIColor.white
+            optionTwoLabel.textColor = UIColor.white
+            
+            optionFourIcon.image = optionFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionFourIcon.tintColor = UIColor.white
+            optionFourLabel.textColor = UIColor.white
+        }else {
+            optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionThreeIcon.tintColor = UIColor.tinderColor
+            optionThreeLabel.textColor = UIColor.tinderColor
+            
+            optionOneIcon.image = optionOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionOneIcon.tintColor = UIColor.black
+            optionOneLabel.textColor = UIColor.black
+            
+            optionTwoIcon.image = optionTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionTwoIcon.tintColor = UIColor.black
+            optionTwoLabel.textColor = UIColor.black
+            
+            optionFourIcon.image = optionFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionFourIcon.tintColor = UIColor.black
+            optionFourLabel.textColor = UIColor.black
+        }
         
-        optionOneIcon.image = optionOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionOneIcon.tintColor = UIColor.black
-        optionOneLabel.textColor = UIColor.black
         
-        optionTwoIcon.image = optionTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionTwoIcon.tintColor = UIColor.black
-        optionTwoLabel.textColor = UIColor.black
-        
-        optionFourIcon.image = optionFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionFourIcon.tintColor = UIColor.black
-        optionFourLabel.textColor = UIColor.black
     }
     
     @objc func fourTapped(){
         
         self.selectedAnswer = 4
         
-        optionFourIcon.image = optionFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionFourIcon.tintColor = UIColor.tinderColor
-        optionFourLabel.textColor = UIColor.tinderColor
+        if self.traitCollection.userInterfaceStyle == .dark {
+            optionFourIcon.image = optionFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionFourIcon.tintColor = UIColor.tinderColor
+            optionFourLabel.textColor = UIColor.tinderColor
+            
+            optionOneIcon.image = optionOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionOneIcon.tintColor = UIColor.white
+            optionOneLabel.textColor = UIColor.white
+            
+            optionTwoIcon.image = optionTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionTwoIcon.tintColor = UIColor.white
+            optionTwoLabel.textColor = UIColor.white
+            
+            optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionThreeIcon.tintColor = UIColor.white
+            optionThreeLabel.textColor = UIColor.white
+        }else {
+            optionFourIcon.image = optionFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionFourIcon.tintColor = UIColor.tinderColor
+            optionFourLabel.textColor = UIColor.tinderColor
+            
+            optionOneIcon.image = optionOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionOneIcon.tintColor = UIColor.black
+            optionOneLabel.textColor = UIColor.black
+            
+            optionTwoIcon.image = optionTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionTwoIcon.tintColor = UIColor.black
+            optionTwoLabel.textColor = UIColor.black
+            
+            optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionThreeIcon.tintColor = UIColor.black
+            optionThreeLabel.textColor = UIColor.black
+        }
         
-        optionOneIcon.image = optionOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionOneIcon.tintColor = UIColor.black
-        optionOneLabel.textColor = UIColor.black
         
-        optionTwoIcon.image = optionTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionTwoIcon.tintColor = UIColor.black
-        optionTwoLabel.textColor = UIColor.black
-        
-        optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionThreeIcon.tintColor = UIColor.black
-        optionThreeLabel.textColor = UIColor.black
     }
     
-    
+    // MARK: 테마 바꼈을 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .dark {
+            // 어두울 때
+            view.backgroundColor = .black
+            scrollView.backgroundColor = .black
+            indexLabel.textColor = .white
+            questionTitleLabel.textColor = .white
+            optionOneIcon.tintColor = .white
+            optionTwoIcon.tintColor = .white
+            optionThreeIcon.tintColor = .white
+            optionFourIcon.tintColor = .white
+            
+            optionOneLabel.textColor = .white
+            optionTwoLabel.textColor = .white
+            optionThreeLabel.textColor = .white
+            optionFourLabel.textColor = .white
+        }else {
+            // 밝을 때
+            view.backgroundColor = .white
+            scrollView.backgroundColor = .white
+            indexLabel.textColor = .black
+            questionTitleLabel.textColor = .black
+            optionOneIcon.tintColor = .black
+            optionTwoIcon.tintColor = .black
+            optionThreeIcon.tintColor = .black
+            optionFourIcon.tintColor = .black
+            
+            optionOneLabel.textColor = .black
+            optionTwoLabel.textColor = .black
+            optionThreeLabel.textColor = .black
+            optionFourLabel.textColor = .black
+        }
+    }
     
     
     // MARK: configure
@@ -385,35 +578,54 @@ class TestController: UIViewController {
         optionThreeLabel.text = test.questionThree
         optionFourLabel.text = test.questionFour
         
-        let font = UIFont(name: "BMJUAOTF", size: 15)
+        let font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         
-        let height1 = test.title.height(withConstrainedWidth: view.frame.width * 0.65, font: font!)
-        let height2 = test.questionOne.height(withConstrainedWidth: view.frame.width * 0.6, font: font!)
-        let height3 = test.questionTwo.height(withConstrainedWidth: view.frame.width * 0.6, font: font!)
-        let height4 = test.questionThree.height(withConstrainedWidth: view.frame.width * 0.6, font: font!)
+        let height1 = test.title.height(withConstrainedWidth: view.frame.width * 0.65, font: font)
+        let height2 = test.questionOne.height(withConstrainedWidth: view.frame.width * 0.6, font: font)
+        let height3 = test.questionTwo.height(withConstrainedWidth: view.frame.width * 0.6, font: font)
+        let height4 = test.questionThree.height(withConstrainedWidth: view.frame.width * 0.6, font: font)
         
         self.scrollView.contentSize = CGSize(width: view.frame.width, height: 300 + height1 + height2 + height3 + height4)
         
+        if self.traitCollection.userInterfaceStyle == .dark {
+            optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionThreeIcon.tintColor = UIColor.white
+            optionThreeLabel.textColor = UIColor.white
+
+            optionOneIcon.image = optionOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionOneIcon.tintColor = UIColor.white
+            optionOneLabel.textColor = UIColor.white
+
+            optionTwoIcon.image = optionTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionTwoIcon.tintColor = UIColor.white
+            optionTwoLabel.textColor = UIColor.white
+
+            optionFourIcon.image = optionFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionFourIcon.tintColor = UIColor.white
+            optionFourLabel.textColor = UIColor.white
+        }else {
+            optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionThreeIcon.tintColor = UIColor.black
+            optionThreeLabel.textColor = UIColor.black
+
+            optionOneIcon.image = optionOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionOneIcon.tintColor = UIColor.black
+            optionOneLabel.textColor = UIColor.black
+
+            optionTwoIcon.image = optionTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionTwoIcon.tintColor = UIColor.black
+            optionTwoLabel.textColor = UIColor.black
+
+            optionFourIcon.image = optionFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+            optionFourIcon.tintColor = UIColor.black
+            optionFourLabel.textColor = UIColor.black
+        }
         
-        optionThreeIcon.image = optionThreeIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionThreeIcon.tintColor = UIColor.black
-        optionThreeLabel.textColor = UIColor.black
-        
-        optionOneIcon.image = optionOneIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionOneIcon.tintColor = UIColor.black
-        optionOneLabel.textColor = UIColor.black
-        
-        optionTwoIcon.image = optionTwoIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionTwoIcon.tintColor = UIColor.black
-        optionTwoLabel.textColor = UIColor.black
-        
-        optionFourIcon.image = optionFourIcon.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
-        optionFourIcon.tintColor = UIColor.black
-        optionFourLabel.textColor = UIColor.black
+
     }
     
     func configure(){
-        view.backgroundColor = .white
+        
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.constraint(equalToConstant: 480).isActive = true
         
@@ -422,6 +634,13 @@ class TestController: UIViewController {
     }
     
     func configureUI(){
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            view.backgroundColor = .black
+        }else {
+            view.backgroundColor = .white
+        }
+        
         view.addSubview(closeButton)
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 8).isActive = true

@@ -31,7 +31,7 @@ class UpdateTestViewController: UIViewController {
     lazy var backButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("뒤로", for: UIControl.State.normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.heavy)
         button.setTitleColor(UIColor.white, for: UIControl.State.normal)
         button.addTarget(self, action: #selector(backbuttonTapped), for: UIControl.Event.touchUpInside)
         return button
@@ -147,6 +147,7 @@ class UpdateTestViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         extendedLayoutIncludesOpaqueBars = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         title = "\(test.num)번 문제"

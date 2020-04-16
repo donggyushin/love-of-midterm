@@ -22,7 +22,7 @@ class TestCollectionViewController: UICollectionViewController {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("뒤로", for: UIControl.State.normal)
         button.setTitleColor(UIColor.white, for: UIControl.State.normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.heavy)
         button.addTarget(self, action: #selector(backbuttonTapped), for: UIControl.Event.touchUpInside)
         return button
     }()

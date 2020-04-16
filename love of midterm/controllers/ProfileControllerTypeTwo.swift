@@ -273,7 +273,7 @@ class ProfileControllerTypeTwo: UIViewController {
             self.popupDialog(title: "이미 매칭된 유저입니다", message: "이미 매칭된 유저의 시험문제는 다시 풀 수 없습니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))
             
         }else {
-            let alert = UIAlertController(title: "\(user.username)님과 대화하시겠습니까?", message: "다른 유저와 대화하기 위해서는 해당 유저가 출제한 문제를 7문제 이상 맞추셔야 합니다. 그리고 한 유저에게는 하루에 세 번만 도전가능합니다.", preferredStyle: UIAlertController.Style.actionSheet)
+            let alert = UIAlertController(title: "\(user.username)님과 대화하시겠습니까?", message: "다른 유저와 대화하기 위해서는 해당 유저가 출제한 문제를 7문제 이상 맞추셔야 합니다. 그리고 한 유저에게는 하루에 네 번만 도전가능합니다.", preferredStyle: UIAlertController.Style.actionSheet)
             
             let agreeAction = UIAlertAction(title: "도전해볼래요", style: UIAlertAction.Style.default) { (action) in
                 if user.id == me.id {
@@ -287,11 +287,12 @@ class ProfileControllerTypeTwo: UIViewController {
                         self.popupDialog(title: "죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
                     }else {
                         guard let bool = bool else { return }
+                        
                         if bool == true {
                             let testVC = TestController(user:user)
                             testVC.delegate = self
                             let popup = PopupDialog(viewController: testVC, preferredWidth: 400, tapGestureDismissal: false, panGestureDismissal: false)
-                            
+
                             self.present(popup, animated: true, completion: nil)
                         }else {
                             self.popupDialog(title: "죄송합니다", message: "하루에 같은 유저에게 세 번까지만 도전하실 수 없습니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))

@@ -21,6 +21,7 @@
 		70202E96242AFEA7009A6E9A /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70202E95242AFEA7009A6E9A /* ChatCell.swift */; };
 		7024666B242DE9C400A9F641 /* MyMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7024666A242DE9C400A9F641 /* MyMessageCell.swift */; };
 		7024666D242DEA2100A9F641 /* OthersMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7024666C242DEA2100A9F641 /* OthersMessageCell.swift */; };
+		702A125E24488F0200D9932F /* ProfileControllerTypeThree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702A125D24488F0200D9932F /* ProfileControllerTypeThree.swift */; };
 		702B12722434E2E1008CE5B3 /* LogoSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702B12712434E2E1008CE5B3 /* LogoSample.swift */; };
 		702E55FC243611B900C5880F /* ChangeProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702E55FB243611B900C5880F /* ChangeProfileController.swift */; };
 		703851DB24252E11005ABE28 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703851DA24252E11005ABE28 /* TestController.swift */; };
@@ -117,6 +118,7 @@
 		70202E95242AFEA7009A6E9A /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		7024666A242DE9C400A9F641 /* MyMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMessageCell.swift; sourceTree = "<group>"; };
 		7024666C242DEA2100A9F641 /* OthersMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OthersMessageCell.swift; sourceTree = "<group>"; };
+		702A125D24488F0200D9932F /* ProfileControllerTypeThree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileControllerTypeThree.swift; sourceTree = "<group>"; };
 		702B12712434E2E1008CE5B3 /* LogoSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoSample.swift; sourceTree = "<group>"; };
 		702E55FB243611B900C5880F /* ChangeProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileController.swift; sourceTree = "<group>"; };
 		703851DA24252E11005ABE28 /* TestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
@@ -309,26 +311,27 @@
 		70D6D63B241B3ADD0092BD99 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
-				709F9FF02424FFE200F46C12 /* BackgroundViewController.swift */,
-				709F9FEE2424FFE100F46C12 /* ImagePickerController.swift */,
-				709F9FF82424FFE400F46C12 /* LoginController.swift */,
 				709F9FF62424FFE400F46C12 /* MainTabBarController.swift */,
-				709F9FF22424FFE300F46C12 /* MessageController.swift */,
+				709F9FF02424FFE200F46C12 /* BackgroundViewController.swift */,
 				709F9FF42424FFE300F46C12 /* MoreUserImageController.swift */,
+				709F9FEE2424FFE100F46C12 /* ImagePickerController.swift */,
+				709F9FF22424FFE300F46C12 /* MessageController.swift */,
 				709F9FEC2424FFE100F46C12 /* OneUserBackgroundImageController.swift */,
 				709F9FEF2424FFE100F46C12 /* PostBioController.swift */,
 				709F9FFA2424FFE500F46C12 /* PostTestController.swift */,
 				709F9FF52424FFE300F46C12 /* ProfileController.swift */,
 				709F9FED2424FFE100F46C12 /* ProfileControllerTypeTwo.swift */,
+				702A125D24488F0200D9932F /* ProfileControllerTypeThree.swift */,
+				70109D142428E77F0020C144 /* ChoiceController.swift */,
 				709F9FF12424FFE200F46C12 /* SearchAddressController.swift */,
 				709F9FF32424FFE300F46C12 /* SearchController.swift */,
 				709F9FF92424FFE400F46C12 /* SideMenuViewController.swift */,
 				709F9FF72424FFE400F46C12 /* SignUpController.swift */,
+				709F9FF82424FFE400F46C12 /* LoginController.swift */,
 				703851DA24252E11005ABE28 /* TestController.swift */,
 				70790FC92428245900B08D40 /* ResultController.swift */,
 				70790FCB2428283300B08D40 /* ResultControllerTypeTwo.swift */,
 				700EC938242850E0008BBC73 /* NotificationController.swift */,
-				70109D142428E77F0020C144 /* ChoiceController.swift */,
 				70202E8F242AEFB3009A6E9A /* ChatController.swift */,
 				702B12712434E2E1008CE5B3 /* LogoSample.swift */,
 				702E55FB243611B900C5880F /* ChangeProfileController.swift */,
@@ -658,6 +661,7 @@
 				70202E92242AF052009A6E9A /* ChatService.swift in Sources */,
 				70202E96242AFEA7009A6E9A /* ChatCell.swift in Sources */,
 				703851DB24252E11005ABE28 /* TestController.swift in Sources */,
+				702A125E24488F0200D9932F /* ProfileControllerTypeThree.swift in Sources */,
 				70D1B349242C6184001EFD64 /* IMessageInputBar.swift in Sources */,
 				709F9FFD2424FFE500F46C12 /* ImagePickerController.swift in Sources */,
 				70D1B34D242C6CD3001EFD64 /* MessageService.swift in Sources */,

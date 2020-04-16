@@ -43,6 +43,18 @@ struct MessageService {
         }
     }
     
+    func getUnreadMessagesCount(userId:String, completion:@escaping(Error?, Int?) -> Void){
+        db.collection("users").document(userId).getDocument { (querySnapshot, error) in
+            if let error = error {
+                completion(error, nil)
+            }else {
+                guard let data = querySnapshot!.data() else { return }
+                let user = User(data: data)
+                completion(nil, user.unreadMessages.count)
+            }
+        }
+    }
+    
     func listenUnreadMessagesCount(completion:@escaping(Error?, Int?) -> Void){
         guard let myId = Auth.auth().currentUser?.uid else { return }
         db.collection("users").document(myId).addSnapshotListener { (querySnapshot, error) in
@@ -124,17 +136,33 @@ struct MessageService {
                 
                 if receiver.playerId != "" {
                     
-                    OneSignal.postNotification([
-                    "contents" : ["en": text, "kr" : text],
-                    "subtitle": ["en": sender.username, "kr" : sender.username],
-                    "include_player_ids": [receiver.playerId],
-                    "ios_badgeType" : "Increase",
-                    "ios_badgeCount" : 1
-                    ], onSuccess: nil) { (error) in
+                    
+                    RequestService.shared.getRequestsCount(userId: receiver.id) { (error, unreadRequests) in
+                        
                         if let error = error {
                             print(error.localizedDescription)
+                        }else {
+                            MessageService.shared.getUnreadMessagesCount(userId: receiver.id) { (error, unreadMessages) in
+                                
+                                if let error = error {
+                                    print(error.localizedDescription)
+                                }else {
+                                    OneSignal.postNotification([
+                                    "contents" : ["en": text, "kr" : text],
+                                    "subtitle": ["en": sender.username, "kr" : sender.username],
+                                    "include_player_ids": [receiver.playerId],
+                                    "ios_badgeType" : "SetTo",
+                                    "ios_badgeCount" : unreadMessages! + unreadRequests!
+                                    ], onSuccess: nil) { (error) in
+                                        if let error = error {
+                                            print(error.localizedDescription)
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
+                    
                 }
                 completion(nil)
             }
