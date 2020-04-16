@@ -146,6 +146,7 @@ class ProfileControllerTypeThree: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        calculateHeight()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -191,6 +192,19 @@ class ProfileControllerTypeThree: UIViewController {
             birthdayLabel.textColor = .black
             bioTextLabel.textColor = .black
         }
+    }
+    
+    // MARK: Helpers
+    
+    func calculateHeight(){
+        var height:CGFloat = 0
+        height += view.frame.width
+        height += 200
+        height += EstimatedFrame.shared.getEstimatedFrame(messageText: self.user.bio, width: Int(view.frame.width - 20), font: UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)).height
+        
+        scrollView.contentSize.height = height
+        
+        
     }
     
     // MARK: Selectors
