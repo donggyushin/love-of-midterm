@@ -93,7 +93,7 @@ class ChatCell: UICollectionViewCell {
     
     lazy var unreadNumberLabel:UILabel = {
         let label = UILabel()
-        label.text = "4"
+        label.text = ""
         label.font = UIFont(name: "BMJUAOTF", size: 12)
         label.textColor = .white
         return label

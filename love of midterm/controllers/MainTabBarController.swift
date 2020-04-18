@@ -108,11 +108,11 @@ class MainTabBarController: UITabBarController {
             }else {
                 self.unreadMessagesCount = int!
                 let messageNavigationController = self.viewControllers?[3] as? UINavigationController
+                self.totalBadgeCount = self.requestCount + self.unreadMessagesCount
                 if self.unreadMessagesCount == 0 {
                     messageNavigationController?.tabBarItem.badgeValue = nil
                 }else {
                     messageNavigationController?.tabBarItem.badgeValue = "\(self.unreadMessagesCount)"
-                    self.totalBadgeCount += self.unreadMessagesCount
                 }
             }
         }
@@ -138,10 +138,9 @@ class MainTabBarController: UITabBarController {
             }else {
                 self.requestCount = requestCount!
                 let notificationNavigationController = self.viewControllers?[2] as? UINavigationController
-                
+                self.totalBadgeCount = self.requestCount + self.unreadMessagesCount
                 if self.requestCount != 0 {
                     notificationNavigationController?.tabBarItem.badgeValue = "\(self.requestCount)"
-                    self.totalBadgeCount += self.requestCount
                 } else {
                     notificationNavigationController?.tabBarItem.badgeValue = nil
                 }

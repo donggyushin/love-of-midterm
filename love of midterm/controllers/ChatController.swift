@@ -569,20 +569,25 @@ class ChatController: UICollectionViewController {
                     let minute2 = calendar.component(.minute, from: date2)
                     
                     if hour == hour2 && minutes == minute2 {
-                        othersMessage.timeStamp.isHidden = true
+                        
                         othersMessage.timestampeWidthAnchor?.constant = 0
+                        othersMessage.timeStamp.isHidden = true
+            
                     }else {
-                        othersMessage.timeStamp.isHidden = false
                         othersMessage.timestampeWidthAnchor?.constant = 75
+                        othersMessage.timeStamp.isHidden = false
+            
                     }
                     
                 }else {
-                    othersMessage.timeStamp.isHidden = false
                     othersMessage.timestampeWidthAnchor?.constant = 75
+                    othersMessage.timeStamp.isHidden = false
+        
                 }
             }else {
-                othersMessage.timeStamp.isHidden = false
                 othersMessage.timestampeWidthAnchor?.constant = 75
+                othersMessage.timeStamp.isHidden = false
+    
             }
             
             
