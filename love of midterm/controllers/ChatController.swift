@@ -11,6 +11,7 @@ import Firebase
 import InputBarAccessoryView
 import GrowingTextView
 
+
 private let reuseIdentifierMyMessage = "Cell1"
 private let reuseIdentifierOthersMessage = "Cell2"
 
@@ -503,33 +504,49 @@ class ChatController: UICollectionViewController {
             myCell.message = message
             myCell.textBubbleViewWidthAnchor?.constant = estimatedFrame.width + 25
             
+            let date = message.createdAt
+            let hour = calendar.component(.hour, from: date)
+            let minutes = calendar.component(.minute, from: date)
+            
+            
+            
+            // TODO: Get length of timestamp texts
+            var timestampText = ""
+            if hour == 12 {
+                timestampText = "오후 12시 \(minutes)분"
+            }else if hour > 12 {
+                timestampText = "오후 \(hour - 12)시 \(minutes)분"
+            }else {
+                timestampText = "오전 \(hour)시 \(minutes)분"
+            }
+            
+            let timestampTextEstimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: timestampText, width: 100, font: UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.medium))
+            
             // 밑에 메시지가 나의 메시지인데 서로 시간이 같으면 지워주기
             if messages.count - 1 != indexPath.row {
                 let nextMessage = messages[indexPath.row + 1]
+                let date2 = nextMessage.createdAt
+                let hour2 = calendar.component(.hour, from: date2)
+                let minute2 = calendar.component(.minute, from: date2)
                 if message.sender == nextMessage.sender {
                 
-                    let date = message.createdAt
-                    let hour = calendar.component(.hour, from: date)
-                    let minutes = calendar.component(.minute, from: date)
-                    let date2 = nextMessage.createdAt
-                    let hour2 = calendar.component(.hour, from: date2)
-                    let minute2 = calendar.component(.minute, from: date2)
+                    
                     
                     if hour == hour2 && minutes == minute2 {
                         myCell.timeStamp.isHidden = true
                         myCell.timestampWidthAnchor?.constant = 0
                     }else {
                         myCell.timeStamp.isHidden = false
-                        myCell.timestampWidthAnchor?.constant = 75
+                        myCell.timestampWidthAnchor?.constant = timestampTextEstimatedFrame.width + 5
                     }
                     
                 }else {
                     myCell.timeStamp.isHidden = false
-                    myCell.timestampWidthAnchor?.constant = 75
+                    myCell.timestampWidthAnchor?.constant = timestampTextEstimatedFrame.width + 5
                 }
             }else {
                 myCell.timeStamp.isHidden = false
-                myCell.timestampWidthAnchor?.constant = 75
+                myCell.timestampWidthAnchor?.constant = timestampTextEstimatedFrame.width + 5
             }
             
             return myCell
@@ -555,18 +572,33 @@ class ChatController: UICollectionViewController {
                 othersMessage.profileImageView.isHidden = false
             }
             
+            let date = message.createdAt
+            let hour = calendar.component(.hour, from: date)
+            let minutes = calendar.component(.minute, from: date)
+            
+            var timestampText = ""
+            if hour == 12 {
+                timestampText = "오후 12시 \(minutes)분"
+            }else if hour > 12 {
+                timestampText = "오후 \(hour - 12)시 \(minutes)분"
+            }else {
+                timestampText = "오전 \(hour)시 \(minutes)분"
+            }
+            
+            let timestampTextEstimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: timestampText, width: 100, font: UIFont.systemFont(ofSize: 10, weight: UIFont.Weight.medium))
+            
             
             // 밑에 메시지가 나의 메시지인데 서로 시간이 같으면 지워주기
             if messages.count - 1 != indexPath.row {
                 let nextMessage = messages[indexPath.row + 1]
                 if message.sender == nextMessage.sender {
                 
-                    let date = message.createdAt
-                    let hour = calendar.component(.hour, from: date)
-                    let minutes = calendar.component(.minute, from: date)
+                    
                     let date2 = nextMessage.createdAt
                     let hour2 = calendar.component(.hour, from: date2)
                     let minute2 = calendar.component(.minute, from: date2)
+                    
+                    
                     
                     if hour == hour2 && minutes == minute2 {
                         
@@ -574,18 +606,18 @@ class ChatController: UICollectionViewController {
                         othersMessage.timeStamp.isHidden = true
             
                     }else {
-                        othersMessage.timestampeWidthAnchor?.constant = 75
+                        othersMessage.timestampeWidthAnchor?.constant = timestampTextEstimatedFrame.width + 5
                         othersMessage.timeStamp.isHidden = false
             
                     }
                     
                 }else {
-                    othersMessage.timestampeWidthAnchor?.constant = 75
+                    othersMessage.timestampeWidthAnchor?.constant = timestampTextEstimatedFrame.width + 5
                     othersMessage.timeStamp.isHidden = false
         
                 }
             }else {
-                othersMessage.timestampeWidthAnchor?.constant = 75
+                othersMessage.timestampeWidthAnchor?.constant = timestampTextEstimatedFrame.width + 5
                 othersMessage.timeStamp.isHidden = false
     
             }

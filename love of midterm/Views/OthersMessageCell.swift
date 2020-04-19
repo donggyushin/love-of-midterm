@@ -200,7 +200,7 @@ class OthersMessageCell: UICollectionViewCell {
         timeStamp.translatesAutoresizingMaskIntoConstraints = false
         timeStamp.leftAnchor.constraint(equalTo: textBubbleView.rightAnchor, constant: 2).isActive = true
         timeStamp.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -4).isActive = true
-        timestampeWidthAnchor = timeStamp.widthAnchor.constraint(equalToConstant: 75)
+        timestampeWidthAnchor = timeStamp.widthAnchor.constraint(equalToConstant: 100)
         timestampeWidthAnchor?.isActive = true
         
         addSubview(yellowNumberLabel)
