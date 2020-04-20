@@ -28,7 +28,7 @@ class SideMenuViewController: UIViewController {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("프로필 변경", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
         button.addTarget(self, action: #selector(changeProfileButtonTapped), for: UIControl.Event.touchUpInside)
         return button
     }()
@@ -37,7 +37,7 @@ class SideMenuViewController: UIViewController {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("문제 변경", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
         button.addTarget(self, action: #selector(changeTestsButtonTapped), for: UIControl.Event.touchUpInside)
         return button
     }()
@@ -46,7 +46,7 @@ class SideMenuViewController: UIViewController {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("문제 확인", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
         button.addTarget(self, action: #selector(seeTestsButtonTapped), for: UIControl.Event.touchUpInside)
         return button
     }()
@@ -55,8 +55,18 @@ class SideMenuViewController: UIViewController {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("로고", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 16)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
         button.addTarget(self, action: #selector(logoButtonTapped), for: UIControl.Event.touchUpInside)
+        return button
+    }()
+    
+    lazy var developerButton:UIButton = {
+        let button = UIButton(type: UIButton.ButtonType.system)
+        button.setTitle("개발자 소개", for: UIControl.State.normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
+        button.setTitleColor(UIColor.white, for: UIControl.State.normal)
+        button.addTarget(self, action: #selector(developerButtonTapped), for: UIControl.Event.touchUpInside)
+        
         return button
     }()
     
@@ -69,6 +79,11 @@ class SideMenuViewController: UIViewController {
     }
     
     // MARK: Selectors
+    
+    @objc func developerButtonTapped(){
+        let developerViewController = DeveloperViewController()
+        navigationController?.pushViewController(developerViewController, animated: true)
+    }
     
     @objc func logoutTapped(){
         dismiss(animated: true, completion: nil)
@@ -133,12 +148,18 @@ class SideMenuViewController: UIViewController {
         changeTests.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         changeTests.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         
+        view.addSubview(developerButton)
+        developerButton.translatesAutoresizingMaskIntoConstraints = false
+        developerButton.topAnchor.constraint(equalTo: changeTests.bottomAnchor, constant: 20).isActive = true
+        developerButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        developerButton.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        
+        
         view.addSubview(logoutButton)
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
-        logoutButton.topAnchor.constraint(equalTo: changeTests.bottomAnchor, constant: 20).isActive = true
         logoutButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         logoutButton.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        
+        logoutButton.topAnchor.constraint(equalTo: developerButton.bottomAnchor, constant: 20).isActive = true 
         
         
     }

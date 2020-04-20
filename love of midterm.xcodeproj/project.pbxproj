@@ -75,6 +75,8 @@
 		70DA91BF244D34EB00BFA33B /* SeeTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DA91BE244D34EB00BFA33B /* SeeTestViewController.swift */; };
 		70DB0B5E24221DDC004AF0C5 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DB0B5D24221DDC004AF0C5 /* Test.swift */; };
 		70DB0B6024221F57004AF0C5 /* TestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DB0B5F24221F57004AF0C5 /* TestService.swift */; };
+		70E461CD244E347A00A1DF9E /* DeveloperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E461CC244E347A00A1DF9E /* DeveloperViewController.swift */; };
+		70E461CF244E4A2F00A1DF9E /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E461CE244E4A2F00A1DF9E /* WebViewController.swift */; };
 		70E51DA9241BAA6F00631E25 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E51DA8241BAA6F00631E25 /* UserService.swift */; };
 		70E51DAB241BAB1A00631E25 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70E51DAA241BAB1900631E25 /* GoogleService-Info.plist */; };
 		70E51DAE241BAFF700631E25 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E51DAD241BAFF700631E25 /* Errors.swift */; };
@@ -179,6 +181,8 @@
 		70DA91BE244D34EB00BFA33B /* SeeTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeTestViewController.swift; sourceTree = "<group>"; };
 		70DB0B5D24221DDC004AF0C5 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		70DB0B5F24221F57004AF0C5 /* TestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestService.swift; sourceTree = "<group>"; };
+		70E461CC244E347A00A1DF9E /* DeveloperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperViewController.swift; sourceTree = "<group>"; };
+		70E461CE244E4A2F00A1DF9E /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		70E51DA8241BAA6F00631E25 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		70E51DAA241BAB1900631E25 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70E51DAD241BAFF700631E25 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
@@ -344,6 +348,8 @@
 				70DA91BC244D311C00BFA33B /* TestCollectionViewControllerTypeTwo.swift */,
 				70D09482244096F8003CEB6E /* UpdateTestViewController.swift */,
 				70DA91BE244D34EB00BFA33B /* SeeTestViewController.swift */,
+				70E461CC244E347A00A1DF9E /* DeveloperViewController.swift */,
+				70E461CE244E4A2F00A1DF9E /* WebViewController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -643,6 +649,7 @@
 				70790FCA2428245900B08D40 /* ResultController.swift in Sources */,
 				700EC93724284F77008BBC73 /* Request.swift in Sources */,
 				70D09483244096F8003CEB6E /* UpdateTestViewController.swift in Sources */,
+				70E461CD244E347A00A1DF9E /* DeveloperViewController.swift in Sources */,
 				70E51DAE241BAFF700631E25 /* Errors.swift in Sources */,
 				709F9FFF2424FFE500F46C12 /* BackgroundViewController.swift in Sources */,
 				70733FD12424083C006A545F /* UserCell.swift in Sources */,
@@ -676,6 +683,7 @@
 				709F9FFE2424FFE500F46C12 /* PostBioController.swift in Sources */,
 				70109D152428E77F0020C144 /* ChoiceController.swift in Sources */,
 				709FA0032424FFE500F46C12 /* MoreUserImageController.swift in Sources */,
+				70E461CF244E4A2F00A1DF9E /* WebViewController.swift in Sources */,
 				70D6D62A241B3A8A0092BD99 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

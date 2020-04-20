@@ -16,6 +16,18 @@ struct UserService {
     
     static let shared = UserService()
     
+    func fetchDeveloper(completion:@escaping(Error?, User?) -> Void){
+        db.collection("users").whereField("email", isEqualTo: "donggyu@gmail.com").getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(error, nil)
+            }else {
+                let document = querySnapshot!.documents[0]
+                let data = document.data()
+                let user = User(data: data)
+                completion(nil, user)
+            }
+        }
+    }
     
     func updatePlayerId(playerId:String){
         guard let userId = Auth.auth().currentUser?.uid else { return }

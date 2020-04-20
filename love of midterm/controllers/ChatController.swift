@@ -142,7 +142,7 @@ class ChatController: UICollectionViewController {
         button.backgroundColor = .lightGray
         button.setTitle("전송", for: UIControl.State.normal)
         button.setTitleColor(.gray, for: UIControl.State.normal)
-        button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
         button.layer.cornerRadius = 8
         button.addTarget(self, action: #selector(sendButtonTapped), for: UIControl.Event.touchUpInside)
         button.isEnabled = false
@@ -183,9 +183,18 @@ class ChatController: UICollectionViewController {
         configure()
         listenChatDisappear()
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        collectionView.addGestureRecognizer(tap)
+        
         if var textAttributes = self.navigationController?.navigationBar.titleTextAttributes {
             textAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy)]
             navigationController?.navigationBar.titleTextAttributes = textAttributes
+        }
+    }
+    
+    @objc func hideKeyboard(){
+        if chatInputTextView.isFirstResponder {
+            self.view.endEditing(true)
         }
     }
     

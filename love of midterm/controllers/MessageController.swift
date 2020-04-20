@@ -102,7 +102,7 @@ class MessageController: UICollectionViewController {
             navigationController?.navigationBar.barTintColor = .white
         }
         
-        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.shadowImage = UIImage()
         
     }

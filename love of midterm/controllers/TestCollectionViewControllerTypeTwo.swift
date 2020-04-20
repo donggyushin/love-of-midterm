@@ -76,13 +76,13 @@ class TestCollectionViewControllerTypeTwo: UICollectionViewController {
             // 다크 테마
             collectionView.backgroundColor = .black
             backButton.setTitleColor(UIColor.white, for: UIControl.State.normal)
-            navigationController?.navigationBar.tintColor = .black
+            navigationController?.navigationBar.barTintColor = .black
             navigationController?.navigationBar.barStyle = .black
         }else {
             // 라이트 테마
             collectionView.backgroundColor = .white
             backButton.setTitleColor(UIColor.black, for: UIControl.State.normal)
-            navigationController?.navigationBar.tintColor = .white
+            navigationController?.navigationBar.barTintColor = .white
             navigationController?.navigationBar.barStyle = .default
         }
     }
@@ -115,9 +115,9 @@ class TestCollectionViewControllerTypeTwo: UICollectionViewController {
     func configureNavigationBar(){
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         if self.traitCollection.userInterfaceStyle == .dark {
-            navigationController?.navigationBar.tintColor = .black
+            navigationController?.navigationBar.barTintColor = .black
         }else {
-            navigationController?.navigationBar.tintColor = .white
+            navigationController?.navigationBar.barTintColor = .white
         }
         
         navigationController?.navigationBar.isTranslucent = false
