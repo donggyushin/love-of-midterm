@@ -21,17 +21,31 @@ class ResultController: UIViewController {
         let label = UILabel()
         label.text = "축하합니다!"
         label.font = UIFont(name: "BMJUAOTF", size: 16)
-        label.textColor = .white
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
     lazy var infoLabel:UILabel = {
         let label = UILabel()
         label.text = "총 10문제중 \(self.correctCount)문제를 맞추셨습니다."
-        label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
+        
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .white
+        }
+        
+        
         return label
     }()
     
@@ -39,9 +53,16 @@ class ResultController: UIViewController {
         let label = UILabel()
         label.text = "이제 \(self.user.username)님으로부터 앞으로의 대화 여부에 관한 동의를 얻으면 대화를 시작하실 수 있습니다."
         label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
-        label.textColor = .white
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
+        
         return label
     }()
     
@@ -73,6 +94,24 @@ class ResultController: UIViewController {
         createNewRequest()
     }
     
+    // MARK: 테마 바꼈을 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            // 다크테마
+            self.view.backgroundColor = .spaceGray
+            titleLabel.textColor = .white
+            infoLabel.textColor = .white
+            resultLabel.textColor = .white
+        }else {
+            // 라이트테마
+            self.view.backgroundColor = .white
+            titleLabel.textColor = .black
+            infoLabel.textColor = .black
+            resultLabel.textColor = .black
+        }
+    }
+    
     // MARK: APIs
     
     func createNewRequest(){
@@ -93,7 +132,14 @@ class ResultController: UIViewController {
     // MARK: configures
     func configure(){
         self.view.heightAnchor.constraint(equalToConstant: 300).isActive = true
-        self.view.backgroundColor = .spaceGray
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            self.view.backgroundColor = .spaceGray
+        }else {
+            self.view.backgroundColor = .white
+        }
+        
+        
         configureUI()
     }
     

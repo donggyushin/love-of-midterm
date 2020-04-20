@@ -36,7 +36,7 @@ struct TryService {
                     }
                 }
                 
-                if count > 4 {
+                if count > 100 {
                     completion(nil, false)
                 }else {
                     completion(nil, true)

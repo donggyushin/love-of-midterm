@@ -15,6 +15,10 @@ import GrowingTextView
 private let reuseIdentifierMyMessage = "Cell1"
 private let reuseIdentifierOthersMessage = "Cell2"
 
+protocol ChatControllerDelegate {
+    func userLeave(chatController:ChatController)
+}
+
 class ChatController: UICollectionViewController {
     
     // MARK: properties
@@ -26,6 +30,8 @@ class ChatController: UICollectionViewController {
         }
     }
     
+    var delegate:ChatControllerDelegate?
+    
     var loading = true
     
     let me:User
@@ -34,7 +40,8 @@ class ChatController: UICollectionViewController {
     var chatContainerViewHeightAnchor:NSLayoutConstraint?
     var chatContainerViewConstraint:NSLayoutConstraint?
     var keyboardHeight:CGFloat?
-    
+    var menuViewWidthContraint:NSLayoutConstraint?
+    var menuViewHeightConstraint:NSLayoutConstraint?
     
     // MARK: UIKits
     lazy var backButton:UIButton = {
@@ -52,6 +59,58 @@ class ChatController: UICollectionViewController {
         button.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
     
         return button
+    }()
+    
+    lazy var threeDotsButton:UIButton = {
+        let button = UIButton(type: UIButton.ButtonType.system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        let origImage = #imageLiteral(resourceName: "threedots")
+        let tintedImage = origImage.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        
+        button.setImage(#imageLiteral(resourceName: "threedots"), for: UIControl.State.normal)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            button.tintColor = .white
+        }else {
+            button.tintColor = .black
+        }
+        
+        button.addTarget(self, action: #selector(threeDotsButtonTapped), for: UIControl.Event.touchUpInside)
+        
+        
+        
+        return button
+    }()
+    
+    lazy var exitChatButton:UIButton = {
+        let button = UIButton(type: UIButton.ButtonType.system)
+        button.setTitle("대화방 나가기", for: UIControl.State.normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.bold)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            button.setTitleColor(UIColor.white, for: UIControl.State.normal)
+        }else {
+            button.setTitleColor(UIColor.black, for: UIControl.State.normal)
+        }
+        
+        button.addTarget(self, action: #selector(exitChatButtonTapped), for: UIControl.Event.touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var menuView:UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 8
+        view.backgroundColor = .spaceGray
+        view.addSubview(self.exitChatButton)
+        exitChatButton.translatesAutoresizingMaskIntoConstraints = false
+        exitChatButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        exitChatButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        view.clipsToBounds = true
+        return view
     }()
     
     lazy var chatInputTextView:GrowingTextView = {
@@ -122,6 +181,7 @@ class ChatController: UICollectionViewController {
             self.loading = false
         }
         configure()
+        listenChatDisappear()
         
         if var textAttributes = self.navigationController?.navigationBar.titleTextAttributes {
             textAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy)]
@@ -143,6 +203,9 @@ class ChatController: UICollectionViewController {
                 self.backButton.setTitleColor(UIColor.white, for: UIControl.State.normal)
                 self.collectionView.backgroundColor = .black
                 self.navigationController?.navigationBar.barTintColor = .black
+                threeDotsButton.tintColor = .white
+                menuView.backgroundColor = .spaceGray
+                exitChatButton.setTitleColor(UIColor.white, for: UIControl.State.normal)
                 
                 if var textAttributes = navigationController?.navigationBar.titleTextAttributes {
                     textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.white
@@ -159,6 +222,9 @@ class ChatController: UICollectionViewController {
                 self.backButton.setTitleColor(UIColor.black, for: UIControl.State.normal)
                 self.collectionView.backgroundColor = .white
                 self.navigationController?.navigationBar.barTintColor = .white
+                threeDotsButton.tintColor = .black
+                menuView.backgroundColor = .lightGray
+                exitChatButton.setTitleColor(UIColor.black, for: UIControl.State.normal)
                 
                 if var textAttributes = navigationController?.navigationBar.titleTextAttributes {
                     textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.black
@@ -192,15 +258,14 @@ class ChatController: UICollectionViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         tabBarController?.tabBar.isHidden = false
-//        navigationController?.navigationBar.barTintColor = .white
-//        if var textAttributes = navigationController?.navigationBar.titleTextAttributes {
-//            textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.tinderColor
-//            navigationController?.navigationBar.titleTextAttributes = textAttributes
-//        }
+
         
     }
     
     // MARK: helpers
+    
+    
+    
     func makeSendButtonEnable(){
         
         self.sendButton.setTitleColor(UIColor.white, for: UIControl.State.normal)
@@ -218,6 +283,54 @@ class ChatController: UICollectionViewController {
     }
     
     // MARK: Selectors
+    
+    @objc func exitChatButtonTapped(){
+        
+        
+        guard let user = self.user else { return }
+        
+        
+        let alert = UIAlertController(title: "정말로 \(user.username)님과의 채팅에서 나가시겠습니까?", message: "채팅방에서 나가시면 이전의 대화 기록들은 모두 삭제되어지며 복구되어질 수 없습니다. \(user.username)님과 다시 매칭 될 수 없습니다.", preferredStyle: UIAlertController.Style.alert)
+        let okAction = UIAlertAction(title: "네", style: UIAlertAction.Style.default) { (action) in
+            
+            ChatService.shared.removeChat(chat: self.chat, me: self.me, user: user) { (error) in
+                if let error = error {
+                    self.popupDialog(title: "죄송합니다!", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+                }else {
+                    self.navigationController?.popViewController(animated: true)
+                    
+                }
+            }
+            
+        }
+        
+        let noAction = UIAlertAction(title: "아니오", style: UIAlertAction.Style.cancel) { (action) in
+            print("cancle button tapped")
+        }
+        
+        alert.addAction(okAction)
+        alert.addAction(noAction)
+        
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
+    @objc func myTapMethod(sender:UITapGestureRecognizer) {
+        guard let menuViewHeight = self.menuViewHeightConstraint?.constant else { return }
+        if menuViewHeight != 0 {
+            self.menuViewHeightConstraint?.constant = 0
+        }
+    }
+    
+    @objc func threeDotsButtonTapped(){
+        guard let menuViewHeight = self.menuViewHeightConstraint?.constant else { return }
+        if menuViewHeight != 50 {
+            self.menuViewHeightConstraint?.constant = 50
+        }else {
+            self.menuViewHeightConstraint?.constant = 0
+        }
+        
+    }
     
     @objc func sendButtonTapped(){
         print("send button tapped")
@@ -279,6 +392,23 @@ class ChatController: UICollectionViewController {
     }
     
     // MARK: APIs
+    
+    func listenChatDisappear(){
+        // 채팅방이 사라지는지 계속 주의를 기울이기
+        ChatService.shared.listenChatDisappear(chat: chat) { (error, bool) in
+            if let error = error {
+                self.popupDialog(title: "죄송합니다!", message: error.localizedDescription, image: #imageLiteral(resourceName: "logo"))
+            }else {
+                guard let bool = bool else { return }
+                
+                if bool {
+                    // 채팅창 사라짐. 현재 뷰에서 나가버리기
+                    self.navigationController?.popViewController(animated: true)
+                    self.delegate?.userLeave(chatController: self)
+                }
+            }
+        }
+    }
     
     func fetchMessages(){
         MessageService.shared.listenMessages(chatId: chat.id) { (error, message, updatedMessage) in
@@ -367,6 +497,13 @@ class ChatController: UICollectionViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
+        
+        let singleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(myTapMethod))
+        singleTapRecognizer.numberOfTouchesRequired = 1
+        singleTapRecognizer.isEnabled = true
+        singleTapRecognizer.cancelsTouchesInView = false
+        collectionView.addGestureRecognizer(singleTapRecognizer)
+        
     }
 
     
@@ -399,6 +536,15 @@ class ChatController: UICollectionViewController {
         chatContainerViewHeightAnchor = chatContainerView.heightAnchor.constraint(equalToConstant: 50)
         chatContainerViewHeightAnchor?.isActive = true
         
+        view.addSubview(menuView)
+        menuView.translatesAutoresizingMaskIntoConstraints = false
+        menuView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        menuView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8).isActive = true
+        menuViewWidthContraint = menuView.widthAnchor.constraint(equalToConstant: 100)
+        menuViewWidthContraint?.isActive = true
+        menuViewHeightConstraint = menuView.heightAnchor.constraint(equalToConstant: 0)
+        menuViewHeightConstraint?.isActive = true
+        
         chatContainerView.addSubview(chatInputTextView)
         chatInputTextView.translatesAutoresizingMaskIntoConstraints = false
         chatInputTextView.topAnchor.constraint(equalTo: chatContainerView.topAnchor, constant: 10).isActive = true
@@ -411,6 +557,9 @@ class ChatController: UICollectionViewController {
         sendButton.rightAnchor.constraint(equalTo: chatContainerView.rightAnchor, constant: -6).isActive = true
         sendButton.leftAnchor.constraint(equalTo: chatInputTextView.rightAnchor, constant: 6).isActive = true
         chatInputTextView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        
+        
     }
     
     
@@ -434,6 +583,7 @@ class ChatController: UICollectionViewController {
     
     func configureNavigation(){
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: threeDotsButton)
         
 //        navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.isTranslucent = false

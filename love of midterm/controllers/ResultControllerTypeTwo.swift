@@ -15,7 +15,12 @@ class ResultControllerTypeTwo: UIViewController {
         let label = UILabel()
         label.text = "아쉽네요 ㅠ_ㅠ"
         label.font = UIFont(name: "BMJUAOTF", size: 16)
-        label.textColor = .white
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
@@ -25,7 +30,12 @@ class ResultControllerTypeTwo: UIViewController {
         label.font = UIFont(name: "BMJUAOTF", size: 15)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
-        label.textColor = .white
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
         return label
     }()
     
@@ -35,7 +45,14 @@ class ResultControllerTypeTwo: UIViewController {
         label.font = UIFont(name: "BMJUAOTF", size: 15)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
-        label.textColor = .white
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
+        
         return label
     }()
     
@@ -54,6 +71,25 @@ class ResultControllerTypeTwo: UIViewController {
         configure()
     }
     
+    // MARK: 테마 바꼈을 때
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard let previousTraitCollection = previousTraitCollection else { return }
+        if previousTraitCollection.userInterfaceStyle == .light {
+            
+            // 다크테마
+            view.backgroundColor = .spaceGray
+            titleLabel.textColor = .white
+            infoLabel.textColor = .white
+            resultLabel.textColor = .white
+        }else {
+            // 라이트테마
+            view.backgroundColor = .white
+            titleLabel.textColor = .black
+            infoLabel.textColor = .black
+            resultLabel.textColor = .black
+        }
+    }
+    
     // MARK: Selectors
     @objc func okayButtonTapped(){
         self.dismiss(animated: true, completion: nil)
@@ -66,7 +102,7 @@ class ResultControllerTypeTwo: UIViewController {
     }
     
     func configureUI(){
-        view.backgroundColor = .spaceGray
+        
         view.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true

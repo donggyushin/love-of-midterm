@@ -149,7 +149,12 @@ extension UIViewController {
     
     func dialogRedirectsToPostTestController(goToPostTestController:@escaping() -> Void){
         let pcv = PopupDialogContainerView.appearance()
-        pcv.backgroundColor = UIColor(red:0.23, green:0.23, blue:0.27, alpha:1.00)
+        if self.traitCollection.userInterfaceStyle == .dark {
+            pcv.backgroundColor = UIColor(red:0.23, green:0.23, blue:0.27, alpha:1.00)
+        }else {
+            pcv.backgroundColor = .white
+        }
+        
         pcv.cornerRadius    = 2
         pcv.shadowEnabled   = true
         pcv.shadowColor     = .black
@@ -161,22 +166,42 @@ extension UIViewController {
         ov.blurRadius      = 30
         ov.liveBlurEnabled = true
         ov.opacity         = 0.7
-        ov.color           = .black
+        if self.traitCollection.userInterfaceStyle == .dark {
+            ov.color = .black
+        }else {
+            ov.color = .white
+        }
+        
         
         
         let pv = PopupDialogDefaultView.appearance()
         
         
         
-        pv.titleFont = UIFont(name: "BMJUAOTF", size: 15)!
-        pv.titleColor = .white
+        pv.titleFont = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.bold)
+        if self.traitCollection.userInterfaceStyle == .dark {
+            pv.titleColor = .white
+        }else {
+            pv.titleColor = .black
+        }
         
-        pv.messageFont = UIFont(name: "BMJUAOTF", size: 14)!
-        pv.messageColor = .white
+        
+        pv.messageFont = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
+        if self.traitCollection.userInterfaceStyle == .dark {
+            pv.messageColor = .white
+        }else {
+            pv.messageColor = .black
+        }
+        
         
         let db = DefaultButton.appearance()
-        db.titleFont      = UIFont(name: "BMJUAOTF", size: 14)!
-        db.titleColor     = .white
+        db.titleFont      = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.bold)
+        if self.traitCollection.userInterfaceStyle == .dark {
+            db.titleColor     = .white
+        }else {
+            db.titleColor     = .black
+        }
+        
         db.buttonColor    = UIColor(red:0.25, green:0.25, blue:0.29, alpha:1.00)
         db.separatorColor = UIColor(red:0.20, green:0.20, blue:0.25, alpha:1.00)
         

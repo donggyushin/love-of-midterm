@@ -8,6 +8,7 @@
 
 import UIKit
 import SDWebImage
+import LoadingShimmer
 
 class ChoiceController: UIViewController {
     // MARK: Properties
@@ -238,11 +239,15 @@ class ChoiceController: UIViewController {
     
     @objc func startConversationButtonTapped(){
         
+        self.oLabel.isEnabled = false
+        
+        LoadingShimmer.startCovering(self.view, with: nil)
         
         UserService.shared.matchingUser(userId: self.user.id)
         RequestService.shared.updateRequestCheckedStatus(id: self.request.id)
         ChatService.shared.createNewChat(userId: self.user.id) { (error, chat) in
             RequestService.shared.updateRequestCheckedStatus(id: self.request.id)
+            LoadingShimmer.stopCovering(self.view)
             if let error = error {
                 self.popupDialog(title: "죄송해요", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
             }else {
@@ -250,7 +255,6 @@ class ChoiceController: UIViewController {
                 guard let chat = chat else { return }
                 let chatVC = ChatController(chat: chat, me: self.me)
                 self.navigationController?.pushViewController(chatVC, animated: true)
-                
             }
         }
         

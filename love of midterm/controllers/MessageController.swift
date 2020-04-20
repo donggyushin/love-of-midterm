@@ -135,6 +135,7 @@ class MessageController: UICollectionViewController {
         guard let me = self.me else { return }
         let chat = chats[indexPath.row]
         let chatVC = ChatController(chat: chat, me: me)
+        chatVC.delegate = self
         navigationController?.pushViewController(chatVC, animated: true)
     }
 
@@ -151,4 +152,15 @@ extension MessageController:UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
+}
+
+extension MessageController:ChatControllerDelegate {
+    func userLeave(chatController: ChatController) {
+        print("1")
+        guard let user = chatController.user else { return }
+        print("2")
+        self.popupDialog(title: "\(user.username)님께서 대화방을 나가셨습니다.", message: "\(user.username)님과는 더이상의 매칭이 불가능합니다.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+    }
+    
+    
 }

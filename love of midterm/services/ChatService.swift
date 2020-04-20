@@ -14,6 +14,55 @@ struct ChatService {
     
     let db = Firestore.firestore()
     
+    func removeChat(chat:Chat, me:User, user:User, completion:@escaping(Error?) -> Void) {
+        // 나와 상대방의 chatIds에서 해당 chat id 를 지운다.
+        self.db.collection("users").document(me.id).updateData(["chatIds" : FieldValue.arrayRemove([chat.id]), "matchedUsers": FieldValue.arrayRemove([user.id])])
+        self.db.collection("users").document(user.id).updateData(["chatIds" : FieldValue.arrayRemove([chat.id]), "matchedUsers": FieldValue.arrayRemove([me.id])])
+        
+        self.db.collection("messages").whereField("chatId", isEqualTo: chat.id).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(error)
+            }else {
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    let message = Message(data: data)
+                    self.db.collection("messages").document(message.id).delete()
+                }
+            }
+        }
+        
+        
+        self.db.collection("chats").document(chat.id).delete { (error) in
+            if let error = error {
+                completion(error)
+            }else {
+                completion(nil)
+            }
+        }
+        
+        
+    }
+    
+    func listenChatDisappear(chat:Chat, completion:@escaping(Error?, Bool?) -> Void){
+        guard let myId = Auth.auth().currentUser?.uid else { return }
+        // 본인과 관련된 chat 들에게 주의 기울이기
+        db.collection("chats").whereField("users", arrayContains: myId).addSnapshotListener { (querySnapshot, error) in
+            if let error = error {
+                completion(error, false)
+            }else {
+                querySnapshot!.documentChanges.forEach { (diff) in
+                    if diff.type == .removed {
+                        let data = diff.document.data()
+                        let removedChat = Chat(data: data)
+                        print("removedChat:\(removedChat.lastMessage)")
+                        if removedChat.id == chat.id {
+                            completion(nil, true)
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     
     func listenChats(completion:@escaping(Error?, [Chat]?) -> Void){
