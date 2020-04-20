@@ -98,7 +98,7 @@ class NotificationController: UICollectionViewController {
         
         
         
-        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.isTranslucent = false
         
 //        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
 //        self.navigationController?.navigationBar.shadowImage = UIImage()

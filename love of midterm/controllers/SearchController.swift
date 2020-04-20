@@ -126,7 +126,7 @@ class SearchController: UICollectionViewController {
         
         
         
-        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.isTranslucent = false
 
         
         

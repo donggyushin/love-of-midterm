@@ -16,8 +16,8 @@ struct ChatService {
     
     func removeChat(chat:Chat, me:User, user:User, completion:@escaping(Error?) -> Void) {
         // 나와 상대방의 chatIds에서 해당 chat id 를 지운다.
-        self.db.collection("users").document(me.id).updateData(["chatIds" : FieldValue.arrayRemove([chat.id]), "matchedUsers": FieldValue.arrayRemove([user.id])])
-        self.db.collection("users").document(user.id).updateData(["chatIds" : FieldValue.arrayRemove([chat.id]), "matchedUsers": FieldValue.arrayRemove([me.id])])
+        self.db.collection("users").document(me.id).updateData(["chatIds" : FieldValue.arrayRemove([chat.id])])
+        self.db.collection("users").document(user.id).updateData(["chatIds" : FieldValue.arrayRemove([chat.id])])
         
         self.db.collection("messages").whereField("chatId", isEqualTo: chat.id).getDocuments { (querySnapshot, error) in
             if let error = error {

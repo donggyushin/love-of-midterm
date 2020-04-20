@@ -109,6 +109,10 @@ class TestController: UIViewController {
             iv.tintColor = .black
         }
         
+        iv.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(oneTapped))
+        iv.addGestureRecognizer(tap)
+        
         return iv
     }()
     
@@ -143,6 +147,10 @@ class TestController: UIViewController {
         }else {
             iv.tintColor = .black
         }
+        
+        iv.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(twoTapped))
+        iv.addGestureRecognizer(tap)
         return iv
     }()
     
@@ -179,6 +187,10 @@ class TestController: UIViewController {
         }else {
             iv.tintColor = .black
         }
+        
+        iv.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(threeTapped))
+        iv.addGestureRecognizer(tap)
         return iv
     }()
     
@@ -213,6 +225,10 @@ class TestController: UIViewController {
         }else {
             iv.tintColor = .black
         }
+        
+        iv.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(fourTapped))
+        iv.addGestureRecognizer(tap)
         return iv
     }()
     

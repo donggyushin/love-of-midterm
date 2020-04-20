@@ -77,6 +77,8 @@ class ProfileControllerTypeThree: UIViewController {
         }else {
             button.setTitleColor(UIColor.black, for: UIControl.State.normal)
         }
+        
+        button.addTarget(self, action: #selector(testsButtonTapped), for: UIControl.Event.touchUpInside)
         return button
     }()
     
@@ -180,6 +182,7 @@ class ProfileControllerTypeThree: UIViewController {
             userNameLabel.textColor = .white
             birthdayLabel.textColor = .white
             bioTextLabel.textColor = .white
+            navigationController?.navigationBar.barTintColor = .black
         }else {
             // 라이트
             self.navigationController?.navigationBar.barStyle = .default
@@ -191,6 +194,7 @@ class ProfileControllerTypeThree: UIViewController {
             userNameLabel.textColor = .black
             birthdayLabel.textColor = .black
             bioTextLabel.textColor = .black
+            navigationController?.navigationBar.barTintColor = .white
         }
     }
     
@@ -212,6 +216,11 @@ class ProfileControllerTypeThree: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    @objc func testsButtonTapped(){
+        let testCollectionViewControllerTypeTwo = TestCollectionViewControllerTypeTwo(user: user)
+        navigationController?.pushViewController(testCollectionViewControllerTypeTwo, animated: true)
+    }
+    
     @objc func morePhotosButtonTapped(){
         let moreUserImageController = MoreUserImageController(backgroundImages: user.backgroundImages)
         navigationController?.pushViewController(moreUserImageController, animated: true)
@@ -225,6 +234,12 @@ class ProfileControllerTypeThree: UIViewController {
     
     func configureNavigationBar(){
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        if self.traitCollection.userInterfaceStyle == .dark {
+            navigationController?.navigationBar.barTintColor = .black
+        }else {
+            navigationController?.navigationBar.barTintColor = .white
+        }
+        
     }
     
     func configureUI(){

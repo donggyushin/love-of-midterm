@@ -209,7 +209,7 @@ class MainTabBarController: UITabBarController {
         if self.traitCollection.userInterfaceStyle == .dark {
             
             self.tabBar.tintColor = .white
-            self.tabBar.barTintColor = .spaceGray
+            self.tabBar.barTintColor = .myBlack
         }else {
             self.tabBar.tintColor = .black
             self.tabBar.barTintColor = .veryLightGray

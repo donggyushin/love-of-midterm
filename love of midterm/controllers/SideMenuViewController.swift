@@ -127,18 +127,9 @@ class SideMenuViewController: UIViewController {
         editProfileButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         editProfileButton.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         
-        
-        view.addSubview(seeTests)
-        seeTests.translatesAutoresizingMaskIntoConstraints = false
-        seeTests.topAnchor.constraint(equalTo: editProfileButton.bottomAnchor, constant: 20).isActive = true
-        seeTests.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        seeTests.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        
-        
-        
         view.addSubview(changeTests)
         changeTests.translatesAutoresizingMaskIntoConstraints = false
-        changeTests.topAnchor.constraint(equalTo: seeTests.bottomAnchor, constant: 20).isActive = true
+        changeTests.topAnchor.constraint(equalTo: editProfileButton.bottomAnchor, constant: 20).isActive = true
         changeTests.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         changeTests.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         
@@ -148,12 +139,6 @@ class SideMenuViewController: UIViewController {
         logoutButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         logoutButton.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         
-        
-//        view.addSubview(logoButton)
-//        logoButton.translatesAutoresizingMaskIntoConstraints = false
-//        logoButton.topAnchor.constraint(equalTo: logoutButton.bottomAnchor, constant: 20).isActive = true
-//        logoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        logoButton.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         
         
     }
