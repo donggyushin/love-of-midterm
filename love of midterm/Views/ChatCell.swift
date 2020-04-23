@@ -201,7 +201,7 @@ class ChatCell: UICollectionViewCell {
         
         if let timestampText = timeStamp.text {
             let font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.medium)
-            let estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: timestampText, width: 100, font: font)
+            let estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: timestampText, width: 200, font: font)
             self.timeStamp.widthAnchor.constraint(equalToConstant: estimatedFrame.width + 10).isActive = true
         }
         

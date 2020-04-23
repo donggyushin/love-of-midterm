@@ -405,30 +405,47 @@ class PostTestController: UIViewController {
     // MARK: Selectors
     @objc func submitButtonTapped(){
         
-        guard let title = questionTitleGrowingTextView.text else { return }
-        guard let questionOne = optionOneGrowingLabel.text else { return }
-        guard let questionTwo = optionTwoGrowingLabel.text else { return }
-        guard let questionThree = optionThreeGrowingLabel.text else { return }
-        guard let questionFour = optionFourGrowingLabel.text else { return }
+        LoadingShimmer.startCovering(self.view, with: nil)
+        
+        guard let title = questionTitleGrowingTextView.text else {
+            LoadingShimmer.stopCovering(self.view)
+            return
+        }
+        guard let questionOne = optionOneGrowingLabel.text else {
+            LoadingShimmer.stopCovering(self.view)
+            return }
+        guard let questionTwo = optionTwoGrowingLabel.text else {
+            LoadingShimmer.stopCovering(self.view)
+            return }
+        guard let questionThree = optionThreeGrowingLabel.text else {
+            LoadingShimmer.stopCovering(self.view)
+            return }
+        guard let questionFour = optionFourGrowingLabel.text else {
+            LoadingShimmer.stopCovering(self.view)
+            return }
         guard let answerString = answerTextField.text else {
             self.popupDialog(title: "경고", message: "정답을 제대로 표기하지 않으셨습니다. 정답을 꼭 표기해주세요.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            LoadingShimmer.stopCovering(self.view)
             return }
         guard let answer = Int(answerString) else {
             self.popupDialog(title: "경고", message: "정답을 제대로 표기하지 않으셨습니다. 정답을 꼭 표기해주세요.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            LoadingShimmer.stopCovering(self.view)
             return }
         
         if title == "" || questionOne == "" || questionTwo == "" || questionThree == "" || questionFour == "" {
             self.popupDialog(title: "경고", message: "문제와 정답을 모두 입력해주세요.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            LoadingShimmer.stopCovering(self.view)
             return
         }
         
         if answer < 1 || answer > 4 {
             self.popupDialog(title: "경고", message: "정답은 꼭 1부터 4까지만 입력해주세요.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            LoadingShimmer.stopCovering(self.view)
             return
         }
         
         
-        LoadingShimmer.startCovering(self.view, with: nil)
+        
         
         TestService.shared.postNewTest(num: self.currentIndex, title: title, questionOne: questionOne, questionTwo: questionTwo, questionThree: questionThree, questionFour: questionFour, answer: answer) { (error) in
             if let error = error {

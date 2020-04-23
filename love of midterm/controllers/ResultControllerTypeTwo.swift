@@ -9,6 +9,11 @@
 import UIKit
 
 class ResultControllerTypeTwo: UIViewController {
+    
+    // MARK: Properties
+    
+    let correctCount:Int
+    let user:User
 
     // MARK: UIKits
     lazy var titleLabel:UILabel = {
@@ -41,7 +46,7 @@ class ResultControllerTypeTwo: UIViewController {
     
     lazy var resultLabel:UILabel = {
         let label = UILabel()
-        label.text = "이제 신동규님께 다시 말을 거시려면 하루를 기다리신 후 다시 도전해보세요!"
+        label.text = "다시 한 번 도전해보세요!"
         label.font = UIFont(name: "BMJUAOTF", size: 15)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
@@ -66,6 +71,18 @@ class ResultControllerTypeTwo: UIViewController {
     }()
 
     // MARK: Life cycle
+    
+    init(user:User, correctCount:Int) {
+        self.user = user
+        self.correctCount = correctCount
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()

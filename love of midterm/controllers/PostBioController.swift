@@ -121,7 +121,7 @@ class PostBioController: UIViewController {
     // MARK: 테마 바뀔 때
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         guard let previousTraitCollection = previousTraitCollection else { return }
-        if previousTraitCollection.userInterfaceStyle == .light {
+        if previousTraitCollection.userInterfaceStyle == .dark {
             // 어두울 때
             view.backgroundColor = .black
             bioGrowingTextView.backgroundColor = .black

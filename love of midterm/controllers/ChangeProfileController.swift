@@ -287,7 +287,7 @@ class ChangeProfileController: UIViewController {
                 
                 if self.view.frame.origin.y == 0.0 {
                     
-                    self.view.frame.origin.y -= keyboardSize.height / 2
+                    self.view.frame.origin.y -= keyboardSize.height / 1.2
                 }
             }
         }

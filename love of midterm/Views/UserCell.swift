@@ -88,7 +88,7 @@ class UserCell: UICollectionViewCell {
         label.text = ""
         label.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
         label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 2
+        label.numberOfLines = 1
         
         if self.traitCollection.userInterfaceStyle == .dark {
             label.textColor = .white

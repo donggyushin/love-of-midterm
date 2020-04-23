@@ -475,7 +475,10 @@ class ProfileControllerTypeTwo: UIViewController {
 
 extension ProfileControllerTypeTwo:TestControllerDelegate {
     func popupResultControllerTypeTwo(view: TestController) {
-        let resultVC = ResultControllerTypeTwo()
+        let user = view.user
+        let correctCount = view.correctCount
+        
+        let resultVC = ResultControllerTypeTwo(user: user, correctCount: correctCount)
         let popup = PopupDialog(viewController: resultVC)
         
         self.present(popup, animated: true, completion: nil)

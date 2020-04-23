@@ -183,8 +183,7 @@ class ChatController: UICollectionViewController {
         configure()
         listenChatDisappear()
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        collectionView.addGestureRecognizer(tap)
+
         
         if var textAttributes = self.navigationController?.navigationBar.titleTextAttributes {
             textAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy)]
@@ -192,11 +191,11 @@ class ChatController: UICollectionViewController {
         }
     }
     
-    @objc func hideKeyboard(){
-        if chatInputTextView.isFirstResponder {
-            self.view.endEditing(true)
-        }
-    }
+//    @objc func hideKeyboard(){
+//        if chatInputTextView.isFirstResponder {
+//            self.view.endEditing(true)
+//        }
+//    }
     
     // MARK: 테마가 변경될때
     
@@ -325,9 +324,15 @@ class ChatController: UICollectionViewController {
     }
     
     @objc func myTapMethod(sender:UITapGestureRecognizer) {
+        
         guard let menuViewHeight = self.menuViewHeightConstraint?.constant else { return }
+        
+        
         if menuViewHeight != 0 {
+            
             self.menuViewHeightConstraint?.constant = 0
+        } else if chatInputTextView.isFirstResponder == true {
+            self.chatInputTextView.resignFirstResponder()
         }
     }
     
@@ -499,9 +504,6 @@ class ChatController: UICollectionViewController {
         fetchUser()
         configureUI()
         fetchMessages()
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissIMessageeKeyboard))
-        collectionView.addGestureRecognizer(tap)
-        
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)

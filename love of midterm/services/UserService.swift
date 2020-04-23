@@ -17,7 +17,7 @@ struct UserService {
     static let shared = UserService()
     
     func fetchDeveloper(completion:@escaping(Error?, User?) -> Void){
-        db.collection("users").whereField("email", isEqualTo: "donggyu@gmail.com").getDocuments { (querySnapshot, error) in
+        db.collection("users").whereField("email", isEqualTo: "donggyu9410@gmail.com").getDocuments { (querySnapshot, error) in
             if let error = error {
                 completion(error, nil)
             }else {

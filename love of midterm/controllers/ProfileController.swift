@@ -140,6 +140,20 @@ class ProfileController: UIViewController {
         return label
     }()
     
+    lazy var userEmailLabel:UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.medium)
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            label.textColor = .white
+        }else {
+            label.textColor = .black
+        }
+        
+        return label
+    }()
+    
     lazy var genderMarker:UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
@@ -169,7 +183,7 @@ class ProfileController: UIViewController {
     
     lazy var bioTextLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
+        label.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 5
         
@@ -212,11 +226,13 @@ class ProfileController: UIViewController {
             view.backgroundColor = .black
             usernameLabel.textColor = .white
             bioTextLabel.textColor = .white
+            userEmailLabel.textColor = .white
         }else {
             // 밝은 테마
             view.backgroundColor = .white
             usernameLabel.textColor = .black
             bioTextLabel.textColor = .black
+            userEmailLabel.textColor = .black
         }
     }
     
@@ -341,6 +357,8 @@ class ProfileController: UIViewController {
             profileImageView.sd_setImage(with: url, completed: nil)
         }
         
+        userEmailLabel.text = user.email
+        
         if user.gender == "female" {
             
             self.genderMarker.image = #imageLiteral(resourceName: "female")
@@ -368,23 +386,27 @@ class ProfileController: UIViewController {
         usernameLabel.text = user.username
         
         
-        let attributedString = NSMutableAttributedString(string: user.bio)
-        // *** Create instance of `NSMutableParagraphStyle`
-        let paragraphStyle = NSMutableParagraphStyle()
-        // *** set LineSpacing property in points ***
-        paragraphStyle.lineSpacing = 8 // Whatever line spacing you want in points
-        // *** Apply attribute to string ***
-        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
-        // *** Set Attributed String to your label ***
-        bioTextLabel.attributedText = attributedString
+//        let attributedString = NSMutableAttributedString(string: user.bio)
+//        // *** Create instance of `NSMutableParagraphStyle`
+//        let paragraphStyle = NSMutableParagraphStyle()
+//        // *** set LineSpacing property in points ***
+//        paragraphStyle.lineSpacing = 8 // Whatever line spacing you want in points
+//        // *** Apply attribute to string ***
+//        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+//        // *** Set Attributed String to your label ***
+//        bioTextLabel.attributedText = attributedString
+        
+        
+        bioTextLabel.text = user.bio
+        
         configureScrollViewHeight()
         
     }
     
     func configureScrollViewHeight(){
-        let attributedStringHeight = bioTextLabel.attributedText?.height(containerWidth: view.frame.width * 0.9)
-        guard attributedStringHeight != nil else { return }
-        self.scrollView.contentSize = CGSize(width: view.frame.width, height: 653 + attributedStringHeight! + 20)
+        guard let user = user else { return }
+        let estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: user.bio, width: Int(view.frame.width * 0.9), font: UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium))
+        self.scrollView.contentSize = CGSize(width: view.frame.width, height: 653 + estimatedFrame.height + 50 )
     }
     
     func configure(){
@@ -464,22 +486,28 @@ class ProfileController: UIViewController {
         plusButton.rightAnchor.constraint(equalTo: pagerView.rightAnchor, constant: -20).isActive = true
         plusButton.bottomAnchor.constraint(equalTo: pagerView.bottomAnchor, constant: -20).isActive = true
 
-
+        
         scrollView.addSubview(usernameLabel)
         usernameLabel.translatesAutoresizingMaskIntoConstraints = false
         usernameLabel.topAnchor.constraint(equalTo: pagerView.bottomAnchor, constant: 10).isActive = true
         usernameLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 20).isActive = true
-
-
+        
+        
         scrollView.addSubview(genderMarker)
         genderMarker.translatesAutoresizingMaskIntoConstraints = false
         genderMarker.topAnchor.constraint(equalTo: pagerView.bottomAnchor, constant: 10).isActive = true
         genderMarker.leftAnchor.constraint(equalTo: usernameLabel.rightAnchor, constant: 8).isActive = true
+        
+        scrollView.addSubview(userEmailLabel)
+        userEmailLabel.translatesAutoresizingMaskIntoConstraints = false
+        userEmailLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 10).isActive = true
+        userEmailLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        userEmailLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
 
         scrollView.addSubview(birthdayLabel)
         birthdayLabel.translatesAutoresizingMaskIntoConstraints = false
         birthdayLabel.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 20).isActive = true
-        birthdayLabel.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 10).isActive = true
+        birthdayLabel.topAnchor.constraint(equalTo: userEmailLabel.bottomAnchor, constant: 10).isActive = true
 
 
         scrollView.addSubview(addressLabel)
