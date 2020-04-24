@@ -60,6 +60,15 @@ class SideMenuViewController: UIViewController {
         return button
     }()
     
+    lazy var alertConfigureButton:UIButton = {
+        let button = UIButton(type: UIButton.ButtonType.system)
+        button.setTitle("알림 설정", for: UIControl.State.normal)
+        button.setTitleColor(UIColor.white, for: UIControl.State.normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.bold)
+        button.addTarget(self, action: #selector(alertConfigureButtonTapped), for: UIControl.Event.touchUpInside)
+        return button
+    }()
+    
     lazy var developerButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle("개발자 소개", for: UIControl.State.normal)
@@ -79,6 +88,11 @@ class SideMenuViewController: UIViewController {
     }
     
     // MARK: Selectors
+    
+    @objc func alertConfigureButtonTapped(){
+        let alertConfigureController = NotificationController()
+        navigationController?.pushViewController(alertConfigureController, animated: true)
+    }
     
     @objc func developerButtonTapped(){
         let developerViewController = DeveloperViewController()
@@ -147,6 +161,13 @@ class SideMenuViewController: UIViewController {
         changeTests.topAnchor.constraint(equalTo: editProfileButton.bottomAnchor, constant: 20).isActive = true
         changeTests.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         changeTests.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        
+        
+//        view.addSubview(alertConfigureButton)
+//        alertConfigureButton.translatesAutoresizingMaskIntoConstraints = false
+//        alertConfigureButton.topAnchor.constraint(equalTo: changeTests.bottomAnchor, constant: 20).isActive = true
+//        alertConfigureButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+//        alertConfigureButton.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         
         view.addSubview(developerButton)
         developerButton.translatesAutoresizingMaskIntoConstraints = false

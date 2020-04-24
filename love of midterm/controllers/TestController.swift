@@ -38,7 +38,7 @@ class TestController: UIViewController {
     
     lazy var closeButton:UIButton = {
         let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("포기할래요", for: .normal)
+        button.setTitle("그만두기", for: .normal)
         button.setTitleColor(UIColor.tinderColor, for: .normal)
         button.titleLabel?.font = UIFont(name: "BMJUAOTF", size: 15)
         button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
@@ -375,7 +375,22 @@ class TestController: UIViewController {
     }
     
     @objc func closeButtonTapped(){
-        dismiss(animated: true, completion: nil)
+        
+        let alert = UIAlertController(title: "그만두시겠습니까?", message: "이용자의 시험문제는 하루에 총 4번입니다. 한번의 기회가 사라질 수 있습니다. 정말로 그만두시겠습니까?", preferredStyle: UIAlertController.Style.actionSheet)
+        
+        let defaultAction = UIAlertAction(title: "그만둘래요", style: UIAlertAction.Style.default) { (action) in
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+        let denyButton = UIAlertAction(title: "다시 생각해볼게요", style: UIAlertAction.Style.cancel) { (action) in
+            print("denied")
+        }
+        
+        alert.addAction(defaultAction)
+        alert.addAction(denyButton)
+        
+        self.present(alert, animated: true, completion: nil)
+        
     }
     
     @objc func oneTapped(){
@@ -663,7 +678,7 @@ class TestController: UIViewController {
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 8).isActive = true
         closeButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8).isActive = true
-        closeButton.isHidden = true 
+        closeButton.isHidden = false
         
         
         view.addSubview(indexLabel)

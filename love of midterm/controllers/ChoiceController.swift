@@ -269,11 +269,12 @@ class ChoiceController: UIViewController {
             
             self.disableButtons()
             
-            RequestService.shared.createDenyRequest(to: self.user.id) { (error) in
+            RequestService.shared.createDenyRequest(user: self.user, me: self.me) { (error) in
                 if let error = error {
                     print(error.localizedDescription)
                 }
             }
+            
         }
         
         let defaultAction = UIAlertAction(title: "다시 생각해볼게요", style: UIAlertAction.Style.default, handler: nil)

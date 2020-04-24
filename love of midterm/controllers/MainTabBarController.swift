@@ -49,6 +49,7 @@ class MainTabBarController: UITabBarController {
     var requests = [Request]()
     var unreadMessagesCount = 0
     
+    
     var chats:[Chat]? {
         didSet {
             let messageNavigationController = self.viewControllers?[3] as? UINavigationController

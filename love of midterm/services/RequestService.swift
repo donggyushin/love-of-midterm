@@ -17,6 +17,21 @@ struct RequestService {
     
     
     
+    func checkRequestIsExisting(me:User, user:User, completion:@escaping(Error?, Bool?) -> Void){
+        db.collection("requests").whereField("from", isEqualTo: me.id).whereField("to", isEqualTo: user.id).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(error, nil)
+            }else {
+                let documents = querySnapshot!.documents
+                if documents.count != 0 {
+                    completion(nil, false)
+                }else {
+                    completion(nil, true)
+                }
+            }
+        }
+    }
+    
     
     func updateRequestCheckedStatus(id:String){
         db.collection("requests").document(id).updateData(["checked" : true])
@@ -64,13 +79,13 @@ struct RequestService {
         }
     }
     
-    func createDenyRequest(to:String, completion:@escaping(Error?) -> Void){
-        guard let myId = Auth.auth().currentUser?.uid else { return }
+    func createDenyRequest(user:User, me:User, completion:@escaping(Error?) -> Void){
+        let myId = me.id
         var requestReference:DocumentReference?
         
         requestReference = db.collection("requests").addDocument(data: [
             "from":myId,
-            "to":to,
+            "to":user.id,
             "tryCount":0,
             "checked":false,
             "date":FieldValue.serverTimestamp(),
@@ -85,12 +100,35 @@ struct RequestService {
                     if let error = error {
                         completion(error)
                     }else {
+                        
+                        if user.playerId != "" {
+                            
+                            RequestService.shared.getRequestsCount(userId: user.id) { (error, requestsCount) in
+                                if let error = error {
+                                    completion(error)
+                                }else {
+                                    MessageService.shared.getUnreadMessagesCount(userId: user.id) { (error, messagesCount) in
+                                        if let error = error {
+                                            completion(error)
+                                        }else {
+                                            OneSignal.postNotification([
+                                                "contents" : ["en": "\(me.username)님이 요청을 거절하셨습니다.", "kr" : "\(me.username)님이 요청을 거절하셨습니다."],
+                                                "subtitle": ["en": "죄송합니다!", "kr" : "죄송합니다!"],
+                                                "include_player_ids": [user.playerId],
+                                                "ios_badgeType" : "SetTo",
+                                                "ios_badgeCount" : requestsCount! + messagesCount!
+                                            ])
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         completion(nil)
                     }
                 }
                 self.db.collection("users").document(myId).updateData(["requestsISend" : FieldValue.arrayUnion([requestId])])
                 
-                self.db.collection("users").document(to).updateData(["requestsIReceived" : FieldValue.arrayUnion([requestId])])
+                self.db.collection("users").document(user.id).updateData(["requestsIReceived" : FieldValue.arrayUnion([requestId])])
                 
                 
             }

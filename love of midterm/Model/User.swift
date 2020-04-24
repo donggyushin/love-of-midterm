@@ -30,6 +30,7 @@ struct User {
     let unreadMessages:[String]
     let matchedUsers:[String]
     let playerId:String
+    let allowNotification:Bool
     
     init(data:[String:Any]) {
         let email = data["email"] as? String ?? ""
@@ -51,6 +52,7 @@ struct User {
         let unreadMessages = data["unreadMessages"] as? [String] ?? []
         let matchedUsers = data["matchedUsers"] as? [String] ?? []
         let playerId = data["playerId"] as? String ?? ""
+        let allowNotification = data["allowNotification"] as? Bool ?? true
         
         
         self.email = email
@@ -72,6 +74,7 @@ struct User {
         self.unreadMessages = unreadMessages
         self.matchedUsers = matchedUsers
         self.playerId = playerId
+        self.allowNotification = allowNotification
         
     }
     

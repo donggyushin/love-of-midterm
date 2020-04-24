@@ -29,6 +29,7 @@
 		7051020B241EA34800C2ADFF /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051020A241EA34800C2ADFF /* Secrets.swift */; };
 		7053106C2440402E005DA85D /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7053106B2440402E005DA85D /* TestViewController.swift */; };
 		705395562429872D00126726 /* DenyRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705395552429872D00126726 /* DenyRequestCell.swift */; };
+		705ED3D724527EC2004C6F60 /* NotificationConfigureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705ED3D624527EC2004C6F60 /* NotificationConfigureController.swift */; };
 		705FBFEA24434679004FFBB9 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705FBFE924434679004FFBB9 /* NotificationService.swift */; };
 		705FBFEE24434679004FFBB9 /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 705FBFE724434679004FFBB9 /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		706B59B7241E600B00117106 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706B59B6241E600B00117106 /* Address.swift */; };
@@ -130,6 +131,7 @@
 		7051020A241EA34800C2ADFF /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		7053106B2440402E005DA85D /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		705395552429872D00126726 /* DenyRequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DenyRequestCell.swift; sourceTree = "<group>"; };
+		705ED3D624527EC2004C6F60 /* NotificationConfigureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationConfigureController.swift; sourceTree = "<group>"; };
 		705FBFE724434679004FFBB9 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		705FBFE924434679004FFBB9 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		705FBFEB24434679004FFBB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 				70DA91BE244D34EB00BFA33B /* SeeTestViewController.swift */,
 				70E461CC244E347A00A1DF9E /* DeveloperViewController.swift */,
 				70E461CE244E4A2F00A1DF9E /* WebViewController.swift */,
+				705ED3D624527EC2004C6F60 /* NotificationConfigureController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -629,6 +632,7 @@
 				709FA0002424FFE500F46C12 /* SearchAddressController.swift in Sources */,
 				70DA91BF244D34EB00BFA33B /* SeeTestViewController.swift in Sources */,
 				705395562429872D00126726 /* DenyRequestCell.swift in Sources */,
+				705ED3D724527EC2004C6F60 /* NotificationConfigureController.swift in Sources */,
 				70790FCC2428283300B08D40 /* ResultControllerTypeTwo.swift in Sources */,
 				70DB0B6024221F57004AF0C5 /* TestService.swift in Sources */,
 				70202E90242AEFB3009A6E9A /* ChatController.swift in Sources */,
