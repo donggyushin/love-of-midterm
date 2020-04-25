@@ -225,13 +225,35 @@ extension UIViewController {
         
         
         let pcv = PopupDialogContainerView.appearance()
-        pcv.backgroundColor = UIColor(red:0.23, green:0.23, blue:0.27, alpha:1.00)
+        let pv = PopupDialogDefaultView.appearance()
+        let ov = PopupDialogOverlayView.appearance()
+        let db = DefaultButton.appearance()
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            pcv.backgroundColor = UIColor(red:0.23, green:0.23, blue:0.27, alpha:1.00)
+            pcv.shadowColor     = .white
+            pv.titleColor = .white
+            pv.messageColor = .white
+            db.titleColor     = .white
+            db.buttonColor    = UIColor(red:0.25, green:0.25, blue:0.29, alpha:1.00)
+            db.separatorColor = UIColor(red:0.20, green:0.20, blue:0.25, alpha:1.00)
+        }else {
+            pcv.backgroundColor = .white
+            pcv.shadowColor     = .black
+            pv.titleColor = .black
+            pv.messageColor = .black
+            db.titleColor     = .black
+            db.buttonColor    = .white
+            db.separatorColor = .white
+        }
+        
+        
         pcv.cornerRadius    = 2
         pcv.shadowEnabled   = true
-        pcv.shadowColor     = .black
         
         
-        let ov = PopupDialogOverlayView.appearance()
+        
+        
         ov.blurEnabled     = true
         ov.blurRadius      = 30
         ov.liveBlurEnabled = true
@@ -239,20 +261,18 @@ extension UIViewController {
         ov.color           = .black
         
         
-        let pv = PopupDialogDefaultView.appearance()
+        
         
         
         pv.titleFont = UIFont(name: "BMJUAOTF", size: 15)!
-        pv.titleColor = .white
+        
         
         pv.messageFont = UIFont(name: "BMJUAOTF", size: 14)!
-        pv.messageColor = .white
         
-        let db = DefaultButton.appearance()
+        
+        
         db.titleFont      = UIFont(name: "BMJUAOTF", size: 14)!
-        db.titleColor     = .white
-        db.buttonColor    = UIColor(red:0.25, green:0.25, blue:0.29, alpha:1.00)
-        db.separatorColor = UIColor(red:0.20, green:0.20, blue:0.25, alpha:1.00)
+        
         
         
         let popup = PopupDialog(title: title, message: message, image: image)

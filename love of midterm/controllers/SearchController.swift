@@ -48,10 +48,13 @@ class SearchController: UICollectionViewController {
             // 어두울 때
             navigationController?.navigationBar.barStyle = .black
             navigationController?.navigationBar.tintColor = .black
+            collectionView.backgroundColor = .black
         }else {
             // 밝을 때
             navigationController?.navigationBar.barStyle = .default
+            navigationController?.navigationBar.tintColor = .white
             collectionView.backgroundColor = .white
+            
         }
     }
     
@@ -111,7 +114,6 @@ class SearchController: UICollectionViewController {
     
     func configureNavigationBar(){
         
-        print("here")
         if self.traitCollection.userInterfaceStyle == .dark {
             self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.heavy),
                                                                             NSAttributedString.Key.foregroundColor:UIColor.white

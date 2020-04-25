@@ -443,6 +443,7 @@ class SignUpController: UIViewController {
     @objc func signUpButtonTapped(){
         
         signUpButton.isEnabled = false
+        backButton.isHidden = true
         LoadingShimmer.startCovering(self.view, with: nil)
         
         guard let profileImage = profileImage,
@@ -455,6 +456,7 @@ class SignUpController: UIViewController {
             self.popupDialog(title: "입력에 빠진 부분이 있습니다!", message: "회원가입에 필요한 양식중 입력하지 않은 사항이 있지 않나요?", image: #imageLiteral(resourceName: "loveOfMidterm"))
             self.signUpButton.isEnabled = true
             LoadingShimmer.stopCovering(self.view)
+            backButton.isHidden = false
             return
         }
         
@@ -462,6 +464,7 @@ class SignUpController: UIViewController {
             self.popupDialog(title: "입력에 빠진 부분이 있습니다!", message: "회원가입에 필요한 양식중 입력하지 않은 사항이 있지 않나요?", image: #imageLiteral(resourceName: "loveOfMidterm"))
             self.signUpButton.isEnabled = true
             LoadingShimmer.stopCovering(self.view)
+            backButton.isHidden = false
             return
         }
         
@@ -469,6 +472,7 @@ class SignUpController: UIViewController {
             popupDialog(title: "비밀번호가 서로 다릅니다!", message: "비밀번호를 다시 한 번 확인해보세요", image: #imageLiteral(resourceName: "loveOfMidterm"))
             self.signUpButton.isEnabled = true
             LoadingShimmer.stopCovering(self.view)
+            backButton.isHidden = false
             return
         }
         
@@ -476,28 +480,38 @@ class SignUpController: UIViewController {
         
         guard gender != "" else {
             popupDialog(title: "성별이 선택되어져 있지 않습니다. ", message: "성별을 선택해주세요.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            self.signUpButton.isEnabled = true
             LoadingShimmer.stopCovering(self.view)
+            backButton.isHidden = false
             return
         }
         guard let birthdayDateValue = birthdayDateValue else {
             popupDialog(title: "생년월일이 선택되어져 있지 않습니다. ", message: "생년월일을 선택해주세요.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            self.signUpButton.isEnabled = true
             LoadingShimmer.stopCovering(self.view)
+            backButton.isHidden = false
             return }
         guard let addressValue = self.addressValue else {
             popupDialog(title: "주소가 선택되어져 있지 않습니다. ", message: "주소를 선택해주세요.", image: #imageLiteral(resourceName: "loveOfMidterm"))
+            self.signUpButton.isEnabled = true
             LoadingShimmer.stopCovering(self.view)
+            backButton.isHidden = false
             return
         }
         
         UserService.shared.requestToNewUser(email: email, password: password2, profileImage: profileImage, username: username, gender: gender, birthdayDateValue: birthdayDateValue, addressValue: addressValue) { (error, errorString) in
             if let error = error {
                 self.popupDialog(title: "이용에 불편을 끼쳐드려 죄송합니다", message: error.localizedDescription, image: #imageLiteral(resourceName: "loveOfMidterm"))
+                self.signUpButton.isEnabled = true
                 LoadingShimmer.stopCovering(self.view)
+                self.backButton.isHidden = false
                 return
             }
             if let errorString = errorString {
                 self.popupDialog(title: "이용에 불편을 끼쳐드려 죄송합니다", message: errorString, image: #imageLiteral(resourceName: "loveOfMidterm"))
+                self.signUpButton.isEnabled = true
                 LoadingShimmer.stopCovering(self.view)
+                self.backButton.isHidden = false
                 return
             }
             
