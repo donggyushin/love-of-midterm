@@ -104,12 +104,20 @@ class ChatController: UICollectionViewController {
     lazy var menuView:UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
-        view.backgroundColor = .spaceGray
+        
         view.addSubview(self.exitChatButton)
         exitChatButton.translatesAutoresizingMaskIntoConstraints = false
         exitChatButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
         exitChatButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         view.clipsToBounds = true
+        
+        if self.traitCollection.userInterfaceStyle == .dark {
+            view.backgroundColor = .spaceGray
+        }else {
+            view.backgroundColor = .lightGray
+        }
+        
+        
         return view
     }()
     
@@ -214,6 +222,7 @@ class ChatController: UICollectionViewController {
                 threeDotsButton.tintColor = .white
                 menuView.backgroundColor = .spaceGray
                 exitChatButton.setTitleColor(UIColor.white, for: UIControl.State.normal)
+
                 
                 if var textAttributes = navigationController?.navigationBar.titleTextAttributes {
                     textAttributes[NSAttributedString.Key.foregroundColor] = UIColor.white
@@ -318,7 +327,11 @@ class ChatController: UICollectionViewController {
         
         alert.addAction(okAction)
         alert.addAction(noAction)
-        
+        if let popoverController = alert.popoverPresentationController {
+          popoverController.sourceView = self.view
+          popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+          popoverController.permittedArrowDirections = []
+        }
         present(alert, animated: true, completion: nil)
         
     }
