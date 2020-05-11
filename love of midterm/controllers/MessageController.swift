@@ -123,9 +123,43 @@ class MessageController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ChatCell
-    
+        let chat = chats[indexPath.row]
         // Configure the cell
-        cell.chat = chats[indexPath.row]
+//        cell.profileImageView.image = nil
+//        cell.usernameLabel.text = ""
+//        cell.genderMarker.image = nil
+//        cell.lastMessageLabel.text = ""
+//        cell.timeStamp.text = ""
+//        cell.unreadNumberLabel.text = ""
+        cell.unreadNumberView.isHidden = true
+        cell.unreadNumberLabel.isHidden = true
+//        cell.unreadNumberWidthAnchor?.constant = 0
+        
+        
+        
+//        MessageService.shared.listenUnreadMessagesWithChat(chat: chat) { (error, unreadMessageCount) in
+//            if let error = error {
+//                print(error.localizedDescription)
+//            }else {
+//                guard let unreadMessageCount = unreadMessageCount else { return }
+//                if unreadMessageCount == 0 {
+//                    cell.unreadNumberView.isHidden = true
+//                    cell.unreadNumberLabel.isHidden = true
+//                }else {
+//                    let unreadMessageCountString = String(unreadMessageCount)
+//                    let font = UIFont.systemFont(ofSize: 13)
+//                    let estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: unreadMessageCountString, width: 100, font: font)
+//                    cell.unreadNumberWidthAnchor?.constant = estimatedFrame.width + 7
+//                    cell.unreadNumberLabel.text = unreadMessageCountString
+//                    cell.unreadNumberView.isHidden = false
+//                    cell.unreadNumberLabel.isHidden = false
+//                }
+//            }
+//        }
+        
+        
+        cell.chat = chat
+        
     
         return cell
     }

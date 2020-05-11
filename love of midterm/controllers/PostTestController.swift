@@ -17,6 +17,11 @@ protocol PostTestControllerDelegate:class {
 
 class PostTestController: UIViewController {
     
+    
+    
+    
+    
+    
     // MARK: properties
     
     weak var delegate:PostTestControllerDelegate?
@@ -24,6 +29,8 @@ class PostTestController: UIViewController {
     var currentIndex = 1
     
     var doNotShowPostBioController:Bool?
+    
+    var placeholders = PlaceholderService.shared.placeholders
     
     // MARK: UIKits
     
@@ -67,6 +74,25 @@ class PostTestController: UIViewController {
         
         return label
     }()
+    
+    lazy var recycleImageButton:UIButton = {
+        let button = UIButton(type: UIButton.ButtonType.system)
+        let originImage = #imageLiteral(resourceName: "retweet")
+        let tintedImage = originImage.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        button.setImage(tintedImage, for: UIControl.State.normal)
+        if self.traitCollection.userInterfaceStyle == .dark {
+            // 다크 테마일때
+            button.tintColor = .white
+        }else {
+            // 화이트 테마일때
+            button.tintColor = .black
+        }
+        
+        button.addTarget(self, action: #selector(refreshButtonTapped), for: UIControl.Event.touchUpInside)
+        
+        return button
+    }()
+    
     
     lazy var pencilIconImageView:UIImageView = {
         let iv = UIImageView()
@@ -361,6 +387,7 @@ class PostTestController: UIViewController {
             answerLabel.textColor = .white
             answerTextField.backgroundColor = .spaceGray
             answerTextField.textColor = .white
+            recycleImageButton.tintColor = .white
         }else {
             // 밝을 때
             view.backgroundColor = .white
@@ -380,6 +407,7 @@ class PostTestController: UIViewController {
             answerLabel.textColor = .black
             answerTextField.backgroundColor = .veryLightGray
             answerTextField.textColor = .black
+            recycleImageButton.tintColor = .black
         }
     }
     
@@ -403,6 +431,19 @@ class PostTestController: UIViewController {
     }
     
     // MARK: Selectors
+    @objc func refreshButtonTapped(){
+        // 0~19 까지의 랜덤 정수 생성
+        let randomNumber = Int(arc4random_uniform(20))
+        let placeholder = self.placeholders[randomNumber]
+        self.questionTitleGrowingTextView.placeholder = placeholder.title
+        self.optionOneGrowingLabel.placeholder = placeholder.questionOne
+        self.optionTwoGrowingLabel.placeholder = placeholder.questionTwo
+        self.optionThreeGrowingLabel.placeholder = placeholder.questionThree
+        self.optionFourGrowingLabel.placeholder = placeholder.questionFour
+        
+    }
+    
+    
     @objc func submitButtonTapped(){
         
         LoadingShimmer.startCovering(self.view, with: nil)
@@ -530,6 +571,12 @@ class PostTestController: UIViewController {
         indexLabel.translatesAutoresizingMaskIntoConstraints = false
         indexLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 50).isActive = true
         indexLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        
+        scrollView.addSubview(recycleImageButton)
+        recycleImageButton.translatesAutoresizingMaskIntoConstraints = false
+        recycleImageButton.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 47).isActive = true
+        recycleImageButton.leftAnchor.constraint(equalTo: indexLabel.rightAnchor, constant: 20).isActive = true
+        
         
         scrollView.addSubview(pencilIconImageView)
         pencilIconImageView.translatesAutoresizingMaskIntoConstraints = false

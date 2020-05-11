@@ -28,6 +28,7 @@ class ChatCell: UICollectionViewCell {
     }
     
     var unreadNumberWidthAnchor:NSLayoutConstraint?
+    var timestampWidthAnchor:NSLayoutConstraint?
     
     // MARK: UIKits
     
@@ -99,6 +100,8 @@ class ChatCell: UICollectionViewCell {
         return label
     }()
     
+    
+    
     // MARK: Life cycles
     override init(frame:CGRect) {
         super.init(frame: frame)
@@ -152,6 +155,9 @@ class ChatCell: UICollectionViewCell {
     
     func checkUnreadNumber(){
         guard let chat = self.chat else { return }
+        self.unreadNumberLabel.isHidden = true
+        self.unreadNumberView.isHidden = true
+        self.unreadNumberWidthAnchor?.constant = 0
         MessageService.shared.listenUnreadMessagesWithChat(chat: chat) { (error, unreadMessageCount) in
             if let error = error {
                 print(error.localizedDescription)
@@ -162,7 +168,7 @@ class ChatCell: UICollectionViewCell {
                     self.unreadNumberLabel.isHidden = true
                 }else {
                     let unreadMessageCountString = String(unreadMessageCount)
-                    guard let font = UIFont(name: "BMJUAOTF", size: 12) else { return }
+                    let font = UIFont.systemFont(ofSize: 13)
                     let estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: unreadMessageCountString, width: 100, font: font)
                     
                     self.unreadNumberWidthAnchor?.constant = estimatedFrame.width + 7
@@ -202,7 +208,7 @@ class ChatCell: UICollectionViewCell {
         if let timestampText = timeStamp.text {
             let font = UIFont.systemFont(ofSize: 13, weight: UIFont.Weight.medium)
             let estimatedFrame = EstimatedFrame.shared.getEstimatedFrame(messageText: timestampText, width: 200, font: font)
-            self.timeStamp.widthAnchor.constraint(equalToConstant: estimatedFrame.width + 10).isActive = true
+            timestampWidthAnchor?.constant = estimatedFrame.width + 10
         }
         
     }
@@ -256,7 +262,8 @@ class ChatCell: UICollectionViewCell {
         timeStamp.translatesAutoresizingMaskIntoConstraints = false
         timeStamp.topAnchor.constraint(equalTo: topAnchor, constant: 25).isActive = true
         timeStamp.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
-        
+        timestampWidthAnchor = timeStamp.widthAnchor.constraint(equalToConstant: 0)
+        timestampWidthAnchor?.isActive = true
         
         
         addSubview(lastMessageLabel)
@@ -274,11 +281,13 @@ class ChatCell: UICollectionViewCell {
         unreadNumberView.heightAnchor.constraint(equalToConstant: 17).isActive = true
         unreadNumberWidthAnchor = unreadNumberView.widthAnchor.constraint(equalToConstant: 0)
         unreadNumberWidthAnchor?.isActive = true
+        unreadNumberView.isHidden = true
         
         addSubview(unreadNumberLabel)
         unreadNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         unreadNumberLabel.centerXAnchor.constraint(equalTo: unreadNumberView.centerXAnchor).isActive = true
         unreadNumberLabel.centerYAnchor.constraint(equalTo: unreadNumberView.centerYAnchor).isActive = true
+        unreadNumberLabel.isHidden = true
         
     }
 }

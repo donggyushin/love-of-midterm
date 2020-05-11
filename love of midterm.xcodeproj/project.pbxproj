@@ -27,6 +27,8 @@
 		703851DB24252E11005ABE28 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703851DA24252E11005ABE28 /* TestController.swift */; };
 		70510208241E980B00C2ADFF /* AddressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510207241E980B00C2ADFF /* AddressCell.swift */; };
 		7051020B241EA34800C2ADFF /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051020A241EA34800C2ADFF /* Secrets.swift */; };
+		7051CA5E246929A500D9C4CA /* Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051CA5D246929A500D9C4CA /* Placeholder.swift */; };
+		7051CA60246929F100D9C4CA /* PlaceholderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7051CA5F246929F100D9C4CA /* PlaceholderService.swift */; };
 		7053106C2440402E005DA85D /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7053106B2440402E005DA85D /* TestViewController.swift */; };
 		705395562429872D00126726 /* DenyRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705395552429872D00126726 /* DenyRequestCell.swift */; };
 		705ED3D724527EC2004C6F60 /* NotificationConfigureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705ED3D624527EC2004C6F60 /* NotificationConfigureController.swift */; };
@@ -129,6 +131,8 @@
 		703851DA24252E11005ABE28 /* TestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
 		70510207241E980B00C2ADFF /* AddressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCell.swift; sourceTree = "<group>"; };
 		7051020A241EA34800C2ADFF /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		7051CA5D246929A500D9C4CA /* Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Placeholder.swift; sourceTree = "<group>"; };
+		7051CA5F246929F100D9C4CA /* PlaceholderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderService.swift; sourceTree = "<group>"; };
 		7053106B2440402E005DA85D /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		705395552429872D00126726 /* DenyRequestCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DenyRequestCell.swift; sourceTree = "<group>"; };
 		705ED3D624527EC2004C6F60 /* NotificationConfigureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationConfigureController.swift; sourceTree = "<group>"; };
@@ -253,6 +257,7 @@
 				700EC93624284F77008BBC73 /* Request.swift */,
 				70202E93242AF174009A6E9A /* Chat.swift */,
 				70D1B34E242C6F0C001EFD64 /* Message.swift */,
+				7051CA5D246929A500D9C4CA /* Placeholder.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -386,6 +391,7 @@
 				700EC93424284BFA008BBC73 /* RequestService.swift */,
 				70202E91242AF052009A6E9A /* ChatService.swift */,
 				70D1B34C242C6CD3001EFD64 /* MessageService.swift */,
+				7051CA5F246929F100D9C4CA /* PlaceholderService.swift */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -634,6 +640,7 @@
 				705395562429872D00126726 /* DenyRequestCell.swift in Sources */,
 				705ED3D724527EC2004C6F60 /* NotificationConfigureController.swift in Sources */,
 				70790FCC2428283300B08D40 /* ResultControllerTypeTwo.swift in Sources */,
+				7051CA60246929F100D9C4CA /* PlaceholderService.swift in Sources */,
 				70DB0B6024221F57004AF0C5 /* TestService.swift in Sources */,
 				70202E90242AEFB3009A6E9A /* ChatController.swift in Sources */,
 				706B59B7241E600B00117106 /* Address.swift in Sources */,
@@ -661,6 +668,7 @@
 				70D0948124408D69003CEB6E /* TestCell.swift in Sources */,
 				709FA0082424FFE500F46C12 /* SideMenuViewController.swift in Sources */,
 				70D6D628241B3A8A0092BD99 /* AppDelegate.swift in Sources */,
+				7051CA5E246929A500D9C4CA /* Placeholder.swift in Sources */,
 				70E51DA9241BAA6F00631E25 /* UserService.swift in Sources */,
 				7086B82E241C290000E81084 /* BackgroundImageService.swift in Sources */,
 				70DB0B5E24221DDC004AF0C5 /* Test.swift in Sources */,
@@ -897,7 +905,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.21;
+				MARKETING_VERSION = 1.23;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.maccircle.love-of-midterm";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -920,7 +928,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.21;
+				MARKETING_VERSION = 1.23;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.maccircle.love-of-midterm";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

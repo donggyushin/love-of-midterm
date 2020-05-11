@@ -199,12 +199,15 @@ extension UIViewController {
         db.titleFont      = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.bold)
         if self.traitCollection.userInterfaceStyle == .dark {
             db.titleColor     = .white
+            db.buttonColor    = UIColor(red:0.25, green:0.25, blue:0.29, alpha:1.00)
+            db.separatorColor = UIColor(red:0.20, green:0.20, blue:0.25, alpha:1.00)
         }else {
             db.titleColor     = .black
+            db.buttonColor    = .white
+            db.separatorColor = .veryLightGray
         }
         
-        db.buttonColor    = UIColor(red:0.25, green:0.25, blue:0.29, alpha:1.00)
-        db.separatorColor = UIColor(red:0.20, green:0.20, blue:0.25, alpha:1.00)
+        
         
         
         let popup = PopupDialog(title: "반갑습니다 '중간의 연애'입니다", message: "'중간의 연애'는 상대방에게 말을 걸기 전에 상대방이 출제한 시험 문제를 모두 풀어야 상대방에게 말을 걸 수 있습니다. 본인에 대한 문제를 출제해주세요!", image: #imageLiteral(resourceName: "loveOfMidterm"), tapGestureDismissal: false, panGestureDismissal: false)
