@@ -31,7 +31,7 @@ class ResultControllerTypeTwo: UIViewController {
     
     lazy var infoLabel:UILabel = {
         let label = UILabel()
-        label.text = "총 10문제중 3문제를 맞추셨습니다."
+        label.text = "총 10문제중 \(self.correctCount)문제를 맞추셨습니다."
         label.font = UIFont(name: "BMJUAOTF", size: 15)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0

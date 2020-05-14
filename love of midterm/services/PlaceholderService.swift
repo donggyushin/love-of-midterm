@@ -41,9 +41,9 @@ struct PlaceholderService {
         
         let placeHolderTwelve = Placeholder(title: "내가 가장 좋아하는 음악 장르는?", questionOne: "R&B", questionTwo: "발라드", questionThree: "힙합", questionFour: "POP")
         
-        let placeHolderThirteen = Placeholder(title: "저는 다음과 같은 언어를 할 수 있어요. 다음중 무엇일까요?", questionOne: "영어", questionTwo: "네덜란드어", questionThree: "광동어", questionFour: "아랍어")
+        let placeHolderThirteen = Placeholder(title: "내가 할수있는 말!", questionOne: "영어", questionTwo: "네덜란드어", questionThree: "광동어", questionFour: "아랍어")
         
-        let placeHolderFourteen = Placeholder(title: "저는 다음과 같은 언어를 할 수 있어요. 다음중 무엇일까요?", questionOne: "javascript", questionTwo: "java", questionThree: "python", questionFour: "ruby")
+        let placeHolderFourteen = Placeholder(title: "내가 할수있는 언어!", questionOne: "javascript", questionTwo: "java", questionThree: "python", questionFour: "ruby")
         
         let placeHolderFifteen = Placeholder(title: "다음중 내가 가장 좋아하는 스포츠는?", questionOne: "스카이다이빙", questionTwo: "서핑", questionThree: "테니스", questionFour: "농구")
         

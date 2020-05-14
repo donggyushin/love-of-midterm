@@ -356,9 +356,12 @@ class TestController: UIViewController {
             if self.currentIndex == 11 {
                 print("맞춘 정답 수: ", self.correctCount)
                 if self.correctCount > 6 {
+                    // 성공했을때
                     self.dismiss(animated: true, completion: nil)
                     self.delegate?.popupResultController(view: self)
                 }else {
+                    
+                    // 실패했을때
                     self.dismiss(animated: true, completion: nil)
                     self.delegate?.popupResultControllerTypeTwo(view: self)
                 }
